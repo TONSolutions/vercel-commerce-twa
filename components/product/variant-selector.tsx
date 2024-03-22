@@ -1,9 +1,10 @@
 'use client';
 
 import clsx from 'clsx';
-import { ProductOption, ProductVariant } from 'lib/shopify/types';
 import { createUrl } from 'lib/utils';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
+import type { ProductOption, ProductVariant } from 'lib/shopify/types';
 
 type Combination = {
   id: string;
@@ -41,6 +42,7 @@ export function VariantSelector({
   return options.map((option) => (
     <dl className="mb-8" key={option.id}>
       <dt className="mb-4 text-sm uppercase tracking-wide">{option.name}</dt>
+
       <dd className="flex flex-wrap gap-3">
         {option.values.map((value) => {
           const optionNameLowerCase = option.name.toLowerCase();
@@ -67,6 +69,7 @@ export function VariantSelector({
               (option) => option.name.toLowerCase() === key && option.values.includes(value)
             )
           );
+
           const isAvailableForSale = combinations.find((combination) =>
             filtered.every(
               ([key, value]) => combination[key] === value && combination.availableForSale
@@ -84,7 +87,7 @@ export function VariantSelector({
               onClick={() => {
                 router.replace(optionUrl, { scroll: false });
               }}
-              title={`${option.name} ${value}${!isAvailableForSale ? ' (Out of Stock)' : ''}`}
+              title={`${option.name} ${value}${isAvailableForSale ? '' : ' (Out of Stock)'}`}
               className={clsx(
                 'flex min-w-[48px] items-center justify-center rounded-full border bg-neutral-100 px-2 py-1 text-sm dark:border-neutral-800 dark:bg-neutral-900',
                 {

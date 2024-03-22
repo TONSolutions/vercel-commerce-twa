@@ -1,8 +1,10 @@
 import { GridTileImage } from 'components/grid/tile';
-import { getCollectionProducts } from 'lib/shopify';
-import type { Product } from 'lib/shopify/types';
+import { getProducts } from 'lib/shopify';
 import Link from 'next/link';
 
+import type { Product } from 'lib/shopify/types';
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function ThreeItemGridItem({
   item,
   size,
@@ -16,7 +18,7 @@ function ThreeItemGridItem({
     <div
       className={size === 'full' ? 'md:col-span-4 md:row-span-2' : 'md:col-span-2 md:row-span-1'}
     >
-      <Link className="relative block aspect-square h-full w-full" href={`/product/${item.handle}`}>
+      <Link className="relative block aspect-square h-full w-full" href={`/product/${item.id}`}>
         <GridTileImage
           src={item.featuredImage.url}
           fill
@@ -39,19 +41,16 @@ function ThreeItemGridItem({
 
 export async function ThreeItemGrid() {
   // Collections that start with `hidden-*` are hidden from the search page.
-  const homepageItems = await getCollectionProducts({
-    collection: 'hidden-homepage-featured-items'
-  });
+  const homepageItems = await getProducts({});
 
-  if (!homepageItems[0] || !homepageItems[1] || !homepageItems[2]) return null;
+  if (!homepageItems.length) {
+    return null;
+  }
 
-  const [firstProduct, secondProduct, thirdProduct] = homepageItems;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [firstProduct] = homepageItems;
 
   return (
-    <section className="mx-auto grid max-w-screen-2xl gap-4 px-4 pb-4 md:grid-cols-6 md:grid-rows-2">
-      <ThreeItemGridItem size="full" item={firstProduct} priority={true} />
-      <ThreeItemGridItem size="half" item={secondProduct} priority={true} />
-      <ThreeItemGridItem size="half" item={thirdProduct} />
-    </section>
+    <section className="mx-auto grid max-w-screen-2xl gap-4 px-4 pb-4 md:grid-cols-6 md:grid-rows-2"></section>
   );
 }

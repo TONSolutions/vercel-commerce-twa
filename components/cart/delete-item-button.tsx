@@ -4,8 +4,9 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { removeItem } from 'components/cart/actions';
 import LoadingDots from 'components/loading-dots';
-import type { CartItem } from 'lib/shopify/types';
 import { useFormState, useFormStatus } from 'react-dom';
+
+import type { CartItem } from 'lib/shopify/types';
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -14,7 +15,9 @@ function SubmitButton() {
     <button
       type="submit"
       onClick={(e: React.FormEvent<HTMLButtonElement>) => {
-        if (pending) e.preventDefault();
+        if (pending) {
+          e.preventDefault();
+        }
       }}
       aria-label="Remove cart item"
       aria-disabled={pending}
@@ -42,6 +45,7 @@ export function DeleteItemButton({ item }: { item: CartItem }) {
   return (
     <form action={actionWithVariant}>
       <SubmitButton />
+
       <p aria-live="polite" className="sr-only" role="status">
         {message}
       </p>

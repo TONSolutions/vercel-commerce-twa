@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use server';
 
 import { TAGS } from 'lib/constants';
@@ -66,6 +67,7 @@ export async function updateItemQuantity(
     if (quantity === 0) {
       await removeFromCart(cartId, [lineId]);
       revalidateTag(TAGS.cart);
+
       return;
     }
 

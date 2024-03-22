@@ -1,13 +1,12 @@
 'use client';
 
 import { Dialog, Transition } from '@headlessui/react';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
 
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Menu } from 'lib/shopify/types';
-import Search from './search';
+import type { Menu } from 'lib/shopify/types';
 
 export default function MobileMenu({ menu }: { menu: Menu[] }) {
   const pathname = usePathname();
@@ -22,7 +21,9 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
         setIsOpen(false);
       }
     };
+
     window.addEventListener('resize', handleResize);
+
     return () => window.removeEventListener('resize', handleResize);
   }, [isOpen]);
 
@@ -35,10 +36,11 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
       <button
         onClick={openMobileMenu}
         aria-label="Open mobile menu"
-        className="flex h-11 w-11 items-center justify-center rounded-md border border-neutral-200 text-black transition-colors dark:border-neutral-700 dark:text-white md:hidden"
+        className="flex h-11 w-11 items-center justify-center rounded-md border border-neutral-200 text-black transition-colors md:hidden dark:border-neutral-700 dark:text-white"
       >
         <Bars3Icon className="h-4" />
       </button>
+
       <Transition show={isOpen}>
         <Dialog onClose={closeMobileMenu} className="relative z-50">
           <Transition.Child
@@ -52,6 +54,7 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
           >
             <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
           </Transition.Child>
+
           <Transition.Child
             as={Fragment}
             enter="transition-all ease-in-out duration-300"
@@ -71,9 +74,6 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
                   <XMarkIcon className="h-6" />
                 </button>
 
-                <div className="mb-4 w-full">
-                  <Search />
-                </div>
                 {menu.length ? (
                   <ul className="flex w-full flex-col">
                     {menu.map((item: Menu) => (

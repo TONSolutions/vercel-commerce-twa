@@ -1,4 +1,4 @@
-import productFragment from './product';
+import productFragment from 'lib/shopify/fragments/product';
 
 const cartFragment = /* GraphQL */ `
   fragment cart on Cart {

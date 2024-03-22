@@ -1,29 +1,32 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-console */
 import { HIDDEN_PRODUCT_TAG, SHOPIFY_GRAPHQL_API_ENDPOINT, TAGS } from 'lib/constants';
-import { isShopifyError } from 'lib/type-guards';
-import { ensureStartsWith } from 'lib/utils';
-import { revalidateTag } from 'next/cache';
-import { headers } from 'next/headers';
-import { NextRequest, NextResponse } from 'next/server';
 import {
   addToCartMutation,
   createCartMutation,
   editCartItemsMutation,
   removeFromCartMutation
-} from './mutations/cart';
-import { getCartQuery } from './queries/cart';
+} from 'lib/shopify/mutations/cart';
+import { getCartQuery } from 'lib/shopify/queries/cart';
 import {
   getCollectionProductsQuery,
   getCollectionQuery,
   getCollectionsQuery
-} from './queries/collection';
-import { getMenuQuery } from './queries/menu';
-import { getPageQuery, getPagesQuery } from './queries/page';
+} from 'lib/shopify/queries/collection';
+import { getMenuQuery } from 'lib/shopify/queries/menu';
+import { getPageQuery, getPagesQuery } from 'lib/shopify/queries/page';
 import {
   getProductQuery,
   getProductRecommendationsQuery,
   getProductsQuery
-} from './queries/product';
-import {
+} from 'lib/shopify/queries/product';
+import { isShopifyError } from 'lib/type-guards';
+import { ensureStartsWith } from 'lib/utils';
+import { revalidateTag } from 'next/cache';
+import { headers } from 'next/headers';
+import { NextResponse } from 'next/server';
+
+import type {
   Cart,
   Collection,
   Connection,
@@ -48,11 +51,13 @@ import {
   ShopifyProductsOperation,
   ShopifyRemoveFromCartOperation,
   ShopifyUpdateCartOperation
-} from './types';
+} from 'lib/shopify/types';
+import type { NextRequest } from 'next/server';
 
 const domain = process.env.SHOPIFY_STORE_DOMAIN
   ? ensureStartsWith(process.env.SHOPIFY_STORE_DOMAIN, 'https://')
   : '';
+
 const endpoint = `${domain}${SHOPIFY_GRAPHQL_API_ENDPOINT}`;
 const key = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN!;
 
@@ -65,8 +70,8 @@ export async function shopifyFetch<T>({
   tags,
   variables
 }: {
-  cache?: RequestCache;
-  headers?: HeadersInit;
+  cache?: any;
+  headers?: any;
   query: string;
   tags?: string[];
   variables?: ExtractVariables<T>;
@@ -114,9 +119,7 @@ export async function shopifyFetch<T>({
   }
 }
 
-const removeEdgesAndNodes = (array: Connection<any>) => {
-  return array.edges.map((edge) => edge?.node);
-};
+const removeEdgesAndNodes = (array: Connection<any>) => array.edges.map((edge) => edge?.node);
 
 const reshapeCart = (cart: ShopifyCart): Cart => {
   if (!cart.cost?.totalTaxAmount) {
@@ -164,6 +167,7 @@ const reshapeImages = (images: Connection<Image>, productTitle: string) => {
 
   return flattened.map((image) => {
     const filename = image.url.match(/.*\/(.*)\..*/)[1];
+
     return {
       ...image,
       altText: image.altText || `${productTitle} - ${filename}`
@@ -222,6 +226,7 @@ export async function addToCart(
     },
     cache: 'no-store'
   });
+
   return reshapeCart(res.body.data.cartLinesAdd.cart);
 }
 
@@ -303,6 +308,7 @@ export async function getCollectionProducts({
 
   if (!res.body.data.collection) {
     console.log(`No collection found for \`${collection}\``);
+
     return [];
   }
 
@@ -314,6 +320,7 @@ export async function getCollections(): Promise<Collection[]> {
     query: getCollectionsQuery,
     tags: [TAGS.collections]
   });
+
   const shopifyCollections = removeEdgesAndNodes(res.body?.data?.collections);
   const collections = [
     {
@@ -430,6 +437,7 @@ export async function revalidate(req: NextRequest): Promise<NextResponse> {
 
   if (!secret || secret !== process.env.SHOPIFY_REVALIDATION_SECRET) {
     console.error('Invalid revalidation secret.');
+
     return NextResponse.json({ status: 200 });
   }
 

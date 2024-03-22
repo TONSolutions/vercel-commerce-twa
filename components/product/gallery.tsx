@@ -36,7 +36,7 @@ export function Gallery({ images }: { images: { src: string; altText: string }[]
             sizes="(min-width: 1024px) 66vw, 100vw"
             alt={images[imageIndex]?.altText as string}
             src={images[imageIndex]?.src as string}
-            priority={true}
+            priority
           />
         )}
 
@@ -51,7 +51,9 @@ export function Gallery({ images }: { images: { src: string; altText: string }[]
               >
                 <ArrowLeftIcon className="h-5" />
               </Link>
+
               <div className="mx-1 h-6 w-px bg-neutral-500"></div>
+
               <Link
                 aria-label="Next product image"
                 href={nextUrl}

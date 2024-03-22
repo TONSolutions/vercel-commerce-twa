@@ -1,0 +1,208 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "plugins": ["import"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "ignorePatterns": ["global.d.ts"],
+  "rules": {
+    "no-console": [
+      "error",
+      {
+        "allow": ["error"]
+      }
+    ],
+    "no-negated-condition": "error",
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": ["../*", "./*"],
+        "paths": [
+          {
+            "name": "react",
+            "importNames": ["default"],
+            "message": "Please don't use the default import from 'react'. Read more: https://bit.ly/3wTRLZT"
+          }
+        ]
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "external",
+          "internal",
+          "builtin",
+          "parent",
+          "sibling",
+          "index",
+          "object",
+          "type"
+        ],
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        },
+        "newlines-between": "always",
+        "pathGroupsExcludedImportTypes": ["type"],
+        "warnOnUnassignedImports": true
+      }
+    ],
+    "no-duplicate-imports": "off",
+    "import/no-duplicates": ["error"],
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/consistent-type-imports": "error",
+    "react/prop-types": "off",
+    "react/jsx-newline": "error",
+    "react-hooks/exhaustive-deps": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ],
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/no-array-index-key": "off",
+    "react/jsx-curly-brace-presence": [
+      "error",
+      {
+        "props": "never",
+        "children": "never"
+      }
+    ],
+    "arrow-body-style": ["error", "as-needed"],
+    "import/no-namespace": "error",
+    "react/jsx-handler-names": "error",
+    "react/jsx-boolean-value": ["error", "never"],
+    "react/jsx-curly-spacing": "off",
+    "curly": "error",
+    "no-nested-ternary": "off",
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "enumMember",
+        "format": ["StrictPascalCase"]
+      },
+      {
+        "selector": "enum",
+        "format": ["StrictPascalCase"],
+        "custom": {
+          "regex": "Enum$",
+          "match": false
+        }
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["components/**/*.jsx", "components/**/*.tsx"],
+      "rules": {
+        "max-lines": ["error", 150]
+      }
+    },
+    {
+      "files": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
+      "rules": {
+        "prettier/prettier": [
+          "error",
+          {
+            "singleQuote": false
+          }
+        ],
+        "padding-line-between-statements": [
+          "error",
+          {
+            "blankLine": "always",
+            "prev": "*",
+            "next": "return"
+          },
+          {
+            "blankLine": "always",
+            "prev": "*",
+            "next": "if"
+          },
+          {
+            "blankLine": "always",
+            "prev": "*",
+            "next": "try"
+          },
+          {
+            "blankLine": "always",
+            "prev": ["multiline-const", "multiline-let", "multiline-var"],
+            "next": "*"
+          },
+          {
+            "blankLine": "always",
+            "prev": ["const", "let", "var"],
+            "next": ["block-like"]
+          },
+          {
+            "blankLine": "always",
+            "prev": ["block-like"],
+            "next": "*"
+          }
+        ]
+      }
+    },
+    {
+      "files": ["**/*.spec.js", "**/*.spec.jsx", "**/*.spec.ts", "**/*.spec.tsx"],
+      "env": {
+        "jest": true
+      },
+      "extends": ["plugin:jest/all"],
+      "rules": {
+        "import/no-namespace": "off",
+        "jest/no-hooks": "off",
+        "jest/require-top-level-describe": "off",
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": ["../*", "./*"]
+          }
+        ],
+        "@typescript-eslint/no-explicit-any": "off",
+        "jest/prefer-expect-assertions": "off",
+        "jest/lowercase-name": "off",
+        "jest/expect-expect": "off",
+        "jest/require-hook": "off",
+        "jest/max-nested-describe": "off",
+        "jest/prefer-lowercase-title": "off",
+        "@typescript-eslint/no-var-requires": "off",
+        "@typescript-eslint/ban-ts-comment": [
+          "off",
+          {
+            "ts-expect-error": "allow-with-description",
+            "ts-ignore": "allow-with-description",
+            "ts-nocheck": "allow-with-description",
+            "ts-check": "allow-with-description"
+          }
+        ],
+        "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/no-empty-function": "off",
+        "max-lines": ["error", 10000]
+      }
+    }
+  ]
+}
