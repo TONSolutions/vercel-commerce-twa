@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { PlusIcon } from '@heroicons/react/24/outline';
-import clsx from 'clsx';
-import { addItem } from 'components/cart/actions';
-import LoadingDots from 'components/loading-dots';
-import { useSearchParams } from 'next/navigation';
-import { useFormState, useFormStatus } from 'react-dom';
+import { PlusIcon } from "@heroicons/react/24/outline";
+import clsx from "clsx";
+import { addItem } from "components/cart/actions";
+import LoadingDots from "components/loading-dots";
+import { useSearchParams } from "next/navigation";
+import { useFormState, useFormStatus } from "react-dom";
 
-import type { ProductVariant } from 'lib/shopify/types';
+import type { ProductVariant } from "lib/shopify/types";
 
 function SubmitButton({
   availableForSale,
@@ -18,9 +18,9 @@ function SubmitButton({
 }) {
   const { pending } = useFormStatus();
   const buttonClasses =
-    'relative flex w-full items-center justify-center rounded-full bg-blue-600 p-4 tracking-wide text-white';
+    "relative flex w-full items-center justify-center rounded-full bg-blue-600 p-4 tracking-wide text-white";
 
-  const disabledClasses = 'cursor-not-allowed opacity-60 hover:opacity-60';
+  const disabledClasses = "cursor-not-allowed opacity-60 hover:opacity-60";
 
   if (!availableForSale) {
     return (
@@ -55,7 +55,7 @@ function SubmitButton({
       aria-label="Add to cart"
       aria-disabled={pending}
       className={clsx(buttonClasses, {
-        'hover:opacity-90': true,
+        "hover:opacity-90": true,
         disabledClasses: pending
       })}
     >

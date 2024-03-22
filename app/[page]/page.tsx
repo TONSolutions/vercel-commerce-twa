@@ -1,10 +1,10 @@
-import Prose from 'components/prose';
-import { getPage } from 'lib/shopify';
-import { notFound } from 'next/navigation';
+import Prose from "components/prose";
+import { getPage } from "lib/shopify";
+import { notFound } from "next/navigation";
 
-import type { Metadata } from 'next';
+import type { Metadata } from "next";
 
-export const runtime = 'edge';
+export const runtime = "edge";
 
 export const revalidate = 43200; // 12 hours in seconds
 
@@ -25,7 +25,7 @@ export async function generateMetadata({
     openGraph: {
       publishedTime: page.createdAt,
       modifiedTime: page.updatedAt,
-      type: 'article'
+      type: "article"
     }
   };
 }
@@ -45,9 +45,9 @@ export default async function Page({ params }: { params: { page: string } }) {
 
       <p className="text-sm italic">
         {`This document was last updated on ${new Intl.DateTimeFormat(undefined, {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
+          year: "numeric",
+          month: "long",
+          day: "numeric"
         }).format(new Date(page.updatedAt))}.`}
       </p>
     </>

@@ -1,8 +1,8 @@
-import { GridTileImage } from 'components/grid/tile';
-import { getProducts } from 'lib/shopify';
-import Link from 'next/link';
+import { GridTileImage } from "components/grid/tile";
+import { getProducts } from "lib/shopify";
+import Link from "next/link";
 
-import type { Product } from 'lib/shopify/types';
+import type { Product } from "lib/shopify/types";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function ThreeItemGridItem({
@@ -11,24 +11,24 @@ function ThreeItemGridItem({
   priority
 }: {
   item: Product;
-  size: 'full' | 'half';
+  size: "full" | "half";
   priority?: boolean;
 }) {
   return (
     <div
-      className={size === 'full' ? 'md:col-span-4 md:row-span-2' : 'md:col-span-2 md:row-span-1'}
+      className={size === "full" ? "md:col-span-4 md:row-span-2" : "md:col-span-2 md:row-span-1"}
     >
       <Link className="relative block aspect-square h-full w-full" href={`/product/${item.id}`}>
         <GridTileImage
           src={item.featuredImage.url}
           fill
           sizes={
-            size === 'full' ? '(min-width: 768px) 66vw, 100vw' : '(min-width: 768px) 33vw, 100vw'
+            size === "full" ? "(min-width: 768px) 66vw, 100vw" : "(min-width: 768px) 33vw, 100vw"
           }
           priority={priority}
           alt={item.title}
           label={{
-            position: size === 'full' ? 'center' : 'bottom',
+            position: size === "full" ? "center" : "bottom",
             title: item.title as string,
             amount: item.priceRange.maxVariantPrice.amount,
             currencyCode: item.priceRange.maxVariantPrice.currencyCode

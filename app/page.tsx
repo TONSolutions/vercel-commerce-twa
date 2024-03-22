@@ -1,11 +1,11 @@
-import { Suspense } from 'react';
+import { Suspense } from "react";
 
-export const runtime = 'edge';
+export const runtime = "edge";
 
 export const metadata = {
-  description: 'High-performance ecommerce store built with Next.js, Vercel, and Shopify.',
+  description: "High-performance ecommerce store built with Next.js, Vercel, and Shopify.",
   openGraph: {
-    type: 'website'
+    type: "website"
   }
 };
 

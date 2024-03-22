@@ -1,7 +1,7 @@
-import Footer from 'components/layout/footer';
-import { Suspense } from 'react';
+import Footer from "components/layout/footer";
+import { Suspense } from "react";
 
-import type { FunctionComponent, ReactNode } from 'react';
+import type { FunctionComponent, ReactNode } from "react";
 
 type Props = {
   children: ReactNode;

@@ -1,5 +1,5 @@
-import productFragment from 'lib/shopify/fragments/product';
-import seoFragment from 'lib/shopify/fragments/seo';
+import productFragment from "lib/shopify/fragments/product";
+import seoFragment from "lib/shopify/fragments/seo";
 
 const collectionFragment = /* GraphQL */ `
   fragment collection on Collection {

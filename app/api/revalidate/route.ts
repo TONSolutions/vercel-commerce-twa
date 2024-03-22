@@ -1,8 +1,8 @@
-import { revalidate } from 'lib/shopify';
+import { revalidate } from "lib/shopify";
 
-import type { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest, NextResponse } from "next/server";
 
-export const runtime = 'edge';
+export const runtime = "edge";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   return revalidate(req);

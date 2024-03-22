@@ -1,20 +1,20 @@
 /* eslint-disable max-lines */
-'use client';
+"use client";
 
-import { Dialog, Transition } from '@headlessui/react';
-import { ShoppingCartIcon } from '@heroicons/react/24/outline';
-import CloseCart from 'components/cart/close-cart';
-import { DeleteItemButton } from 'components/cart/delete-item-button';
-import { EditItemQuantityButton } from 'components/cart/edit-item-quantity-button';
-import OpenCart from 'components/cart/open-cart';
-import Price from 'components/price';
-import { DEFAULT_OPTION } from 'lib/constants';
-import { createUrl } from 'lib/utils';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Dialog, Transition } from "@headlessui/react";
+import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import CloseCart from "components/cart/close-cart";
+import { DeleteItemButton } from "components/cart/delete-item-button";
+import { EditItemQuantityButton } from "components/cart/edit-item-quantity-button";
+import OpenCart from "components/cart/open-cart";
+import Price from "components/price";
+import { DEFAULT_OPTION } from "lib/constants";
+import { createUrl } from "lib/utils";
+import Image from "next/image";
+import Link from "next/link";
+import { Fragment, useEffect, useRef, useState } from "react";
 
-import type { Cart } from 'lib/shopify/types';
+import type { Cart } from "lib/shopify/types";
 
 type MerchandiseSearchParams = {
   [key: string]: string;

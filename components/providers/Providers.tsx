@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { WebAppProvider } from 'components/providers/WebAppProvider';
+import { WebAppProvider } from "components/providers/WebAppProvider";
 
-import type { FunctionComponent, ReactNode } from 'react';
+import type { FunctionComponent, ReactNode } from "react";
 
 type Props = {
   children: ReactNode;

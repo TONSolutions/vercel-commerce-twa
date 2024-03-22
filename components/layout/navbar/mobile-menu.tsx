@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { Dialog, Transition } from '@headlessui/react';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { Fragment, useEffect, useState } from 'react';
+import { Dialog, Transition } from "@headlessui/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
+import { Fragment, useEffect, useState } from "react";
 
-import type { Menu } from 'lib/shopify/types';
+import type { Menu } from "lib/shopify/types";
 
 export default function MobileMenu({ menu }: { menu: Menu[] }) {
   const pathname = usePathname();
@@ -22,9 +22,9 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
       }
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, [isOpen]);
 
   useEffect(() => {
