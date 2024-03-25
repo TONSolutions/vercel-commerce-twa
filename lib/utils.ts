@@ -37,3 +37,11 @@ export const validateEnvironmentVariables = () => {
     );
   }
 };
+
+export const isIos = () => {
+  const userAgent = window.navigator.userAgent.toLowerCase();
+
+  return (
+    userAgent.includes("iphone") || userAgent.includes("ipad") || userAgent.includes("macintosh")
+  );
+};
