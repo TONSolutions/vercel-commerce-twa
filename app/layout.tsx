@@ -36,14 +36,16 @@ export const metadata = {
     })
 };
 
-const LazyProviders = dynamic(() => import("../components/providers/Providers"), { ssr: false });
+const LazyProviders = dynamic(() => import("./providers/Providers"), { ssr: false });
+
+const Loading = () => <h2>🌀 Loading...</h2>;
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body className=" text-black">
+      <body className="bg-bg_color text-black">
         <main>
-          <Suspense>
+          <Suspense fallback={<Loading />}>
             <LazyProviders>{children}</LazyProviders>
           </Suspense>
         </main>

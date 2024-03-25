@@ -1,19 +1,19 @@
 //TODO add metadata
 
-// import { getProduct } from "lib/shopify";
+import { ProductPage } from "components/product/product-page";
+import { getProduct } from "lib/shopify";
+import { notFound } from "next/navigation";
 
 export const runtime = "edge";
 
 export const revalidate = 43200; // 12 hours in seconds
 
 export default async function Page({ params }: { params: { page: string } }) {
-  // const product = await getProduct(params.page);
+  const product = await getProduct(params.page);
 
-  // console.log("PAGE", product);
+  if (!product) {
+    return notFound();
+  }
 
-  return (
-    <>
-      <h1>{`HELLO! ${params.page}`}</h1>
-    </>
-  );
+  return <ProductPage product={product} />;
 }

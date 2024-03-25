@@ -1,6 +1,7 @@
 "use client";
 
 import WebApp from "@twa-dev/sdk";
+import { WebAppDataConductorProvider } from "contexts/WebAppContext";
 import { useEffect } from "react";
 
 import type { FunctionComponent, ReactNode } from "react";
@@ -14,5 +15,5 @@ export const WebAppProvider: FunctionComponent<Props> = ({ children }) => {
     WebApp.ready();
   }, []);
 
-  return <div>{children}</div>;
+  return <WebAppDataConductorProvider value={WebApp}>{children}</WebAppDataConductorProvider>;
 };

@@ -1,54 +1,35 @@
-const plugin = require('tailwindcss/plugin');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const konstaConfig = require("konsta/config");
 
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ['./app/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+
+module.exports = konstaConfig({
+  content: ["./app/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
-      fontFamily: {
-        sans: ['var(--font-geist-sans)']
-      },
-      keyframes: {
-        fadeIn: {
-          from: { opacity: 0 },
-          to: { opacity: 1 }
-        },
-        marquee: {
-          '0%': { transform: 'translateX(0%)' },
-          '100%': { transform: 'translateX(-100%)' }
-        },
-        blink: {
-          '0%': { opacity: 0.2 },
-          '20%': { opacity: 1 },
-          '100% ': { opacity: 0.2 }
-        }
-      },
-      animation: {
-        fadeIn: 'fadeIn .3s ease-in-out',
-        carousel: 'marquee 60s linear infinite',
-        blink: 'blink 1.4s both infinite'
+      colors: {
+        bg_color: "#ffffff",
+
+        header_bg_color: "#ffffff",
+        secondary_bg_color: "#f4f4f5",
+
+        section_bg_color: "#ffffff",
+        section_header_text_color: "#3390ec",
+
+        accent_text_color: "#3390ec",
+        destructive_text_color: "#df3f40",
+        subtitle_text_color: "#707579",
+        text_color: "#000000",
+        hint_color: "#707579",
+
+        button_color: "#3390ec",
+        button_text_color: "#ffffff",
+        link_color: "#00488f"
       }
     }
   },
   future: {
     hoverOnlyWhenSupported: true
   },
-  plugins: [
-    require('@tailwindcss/container-queries'),
-    require('@tailwindcss/typography'),
-    plugin(({ matchUtilities, theme }) => {
-      matchUtilities(
-        {
-          'animation-delay': (value) => {
-            return {
-              'animation-delay': value
-            };
-          }
-        },
-        {
-          values: theme('transitionDelay')
-        }
-      );
-    })
-  ]
-};
+  plugins: [require("@tailwindcss/container-queries"), require("@tailwindcss/typography")]
+});

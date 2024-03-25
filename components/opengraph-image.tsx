@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unknown-property */
-import LogoIcon from "components/icons/logo";
+import LogoIcon from "components/icons/TonIcon";
 import { ImageResponse } from "next/og";
 
 export type Props = {

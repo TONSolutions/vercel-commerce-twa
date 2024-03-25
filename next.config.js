@@ -5,20 +5,30 @@ module.exports = {
     ignoreDuringBuilds: true
   },
   images: {
-    formats: ['image/avif', 'image/webp'],
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'cdn.shopify.com',
-        pathname: '/s/files/**'
+        protocol: "https",
+        hostname: "cdn.shopify.com",
+        pathname: "/s/files/**"
+      },
+      {
+        protocol: "https",
+        hostname: "img.ltwebstatic.com",
+        pathname: "**"
+      },
+      {
+        protocol: "https",
+        hostname: "media.sketchfab.com",
+        pathname: "**"
       }
     ]
   },
   async redirects() {
     return [
       {
-        source: '/password',
-        destination: '/',
+        source: "/password",
+        destination: "/",
         permanent: true
       }
     ];

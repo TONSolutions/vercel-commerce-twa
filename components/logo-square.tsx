@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import LogoIcon from "components/icons/logo";
+import LogoIcon from "components/icons/TonIcon";
 
 export default function LogoSquare({ size }: { size?: "sm" | undefined }) {
   return (
