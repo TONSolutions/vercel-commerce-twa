@@ -4,10 +4,10 @@ import { CardTitleBlock } from "components/product/components/CardTitleBlock";
 import { ColorsBlock } from "components/product/components/ColorsBlock";
 import { SizesBlock } from "components/product/components/SizesBlock";
 import { mapColorsToHexCodex } from "components/product/utils";
-import { Button } from "components/ui/Button";
 import { Card } from "components/ui/Card";
+import { useWebAppDataConductor } from "contexts/WebAppContext";
 import data from "data/tonRates.json"; //TODO replace on fetched;
-import { useState, type FunctionComponent } from "react";
+import { useEffect, useState, type FunctionComponent } from "react";
 
 import type { MappedColor } from "components/product/types";
 import type { Money, ProductVariant } from "lib/shopify/types";
@@ -28,6 +28,7 @@ export const ProductCard: FunctionComponent<Props> = ({
   description,
   price
 }) => {
+  const { MainButton } = useWebAppDataConductor();
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
   const [selectedColor, setSelectedColor] = useState(colors[0]);
 
@@ -41,6 +42,11 @@ export const ProductCard: FunctionComponent<Props> = ({
 
   const showMappedColors = mappedColors.length > 0;
   const showSizes = sizes.length > 0;
+
+  useEffect(() => {
+    MainButton.show();
+    MainButton.setText("Add to Cart");
+  }, []);
 
   return (
     <Card className="h-[60vh]">
@@ -60,10 +66,6 @@ export const ProductCard: FunctionComponent<Props> = ({
             setSelectedColor={setSelectedColor}
           />
         ) : null}
-      </div>
-
-      <div className="p-4">
-        <Button className="font-bold">Add to card</Button>
       </div>
     </Card>
   );
