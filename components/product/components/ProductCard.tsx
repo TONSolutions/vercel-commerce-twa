@@ -5,6 +5,7 @@ import { ColorsBlock } from "components/product/components/ColorsBlock";
 import { SizesBlock } from "components/product/components/SizesBlock";
 import { mapColorsToHexCodex } from "components/product/utils";
 import { Button } from "components/ui/Button";
+import { Card } from "components/ui/Card";
 import data from "data/tonRates.json"; //TODO replace on fetched;
 import { useState, type FunctionComponent } from "react";
 
@@ -20,7 +21,13 @@ type Props = {
   colors: string[];
 };
 
-export const Card: FunctionComponent<Props> = ({ title, sizes, colors, description, price }) => {
+export const ProductCard: FunctionComponent<Props> = ({
+  title,
+  sizes,
+  colors,
+  description,
+  price
+}) => {
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
   const [selectedColor, setSelectedColor] = useState(colors[0]);
 
@@ -36,8 +43,8 @@ export const Card: FunctionComponent<Props> = ({ title, sizes, colors, descripti
   const showSizes = sizes.length > 0;
 
   return (
-    <div className="absolute bottom-0 left-0 z-10 flex h-[55vh] w-full flex-col justify-between rounded-t-xl bg-bg_color">
-      <div className="flex flex-col justify-between gap-4 p-4">
+    <Card className="h-[60vh]">
+      <div className="flex flex-col justify-between gap-4 px-4 pb-4">
         <CardPriceBlock priceInTon={priceInTon} priceInUsd={priceInUsd} />
 
         <CardTitleBlock title={title} description={description} />
@@ -58,6 +65,6 @@ export const Card: FunctionComponent<Props> = ({ title, sizes, colors, descripti
       <div className="p-4">
         <Button className="font-bold">Add to card</Button>
       </div>
-    </div>
+    </Card>
   );
 };

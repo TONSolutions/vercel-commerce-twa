@@ -43,8 +43,8 @@ const Loading = () => <h2>🌀 Loading...</h2>;
 export default async function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body className="bg-bg_color text-black">
-        <main className="mx-auto max-w-[430px] ">
+      <body className="text-black">
+        <main className="mx-auto max-w-[430px] bg-[#EFEFF4]">
           <Suspense fallback={<Loading />}>
             <LazyProviders>{children}</LazyProviders>
           </Suspense>
