@@ -29,7 +29,7 @@ export const ImageSection: FunctionComponent<Props> = ({ images }) => (
     indicatorContainerProps={{
       style: {
         position: "absolute",
-        bottom: "15px",
+        bottom: "1.25rem",
         left: "50%",
         transform: "translate(-50%, 0)",
         padding: "8px 12px",

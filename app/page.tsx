@@ -1,5 +1,5 @@
+import { MainPage } from "components/main-page/MainPage";
 import { getProducts } from "lib/shopify";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
@@ -13,22 +13,18 @@ export const metadata = {
 };
 
 export default async function HomePage() {
-  const products = await getProducts({}); //TODO типизация
+  const products = await getProducts({});
 
   if (!products) {
     return notFound();
   }
 
+  //TODO add Fallback
+
   return (
     <>
       <Suspense>
-        <div className="m-auto grid max-w-[1200px] grid-cols-2 gap-2">
-          {products.map((product, index) => (
-            <Link key={index} href={`/${product.handle}`}>
-              <div className="rounded-xl border">{product.title}</div>
-            </Link>
-          ))}
-        </div>
+        <MainPage products={products} />
       </Suspense>
     </>
   );
