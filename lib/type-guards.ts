@@ -15,6 +15,8 @@ export const isShopifyError = (error: unknown): error is ShopifyErrorLike => {
   if (error instanceof Error) {
     return findError(error);
   }
+
+  return false;
 };
 
 function findError<T extends object>(error: T): boolean {

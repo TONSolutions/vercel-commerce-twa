@@ -1,16 +1,11 @@
 import { Suspense } from "react";
 
-import type { FunctionComponent, ReactNode } from "react";
+import type { ReactNode } from "react";
 
-type Props = {
-  children: ReactNode;
-  type: string;
-};
-
-const Layout: FunctionComponent<Props> = ({ children }) => (
-  <div className="w-full">
-    <Suspense>{children}</Suspense>
-  </div>
-);
-
-export default Layout;
+export default async function Layout({ children }: { children: ReactNode }) {
+  return (
+    <div className="w-full">
+      <Suspense>{children}</Suspense>
+    </div>
+  );
+}
