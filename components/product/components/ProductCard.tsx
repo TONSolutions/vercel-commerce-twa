@@ -4,7 +4,6 @@ import { CardTitleBlock } from "components/product/components/CardTitleBlock";
 import { ColorsBlock } from "components/product/components/ColorsBlock";
 import { SizesBlock } from "components/product/components/SizesBlock";
 import { mapColorsToHexCodex } from "components/product/utils";
-import { Button } from "components/ui/Button";
 import { Card } from "components/ui/Card";
 import data from "data/tonRates.json"; //TODO replace on fetched;
 import { useState, type FunctionComponent } from "react";
@@ -60,10 +59,6 @@ export const ProductCard: FunctionComponent<Props> = ({
             setSelectedColor={setSelectedColor}
           />
         ) : null}
-      </div>
-
-      <div className="p-4">
-        <Button className="font-bold">Add to card</Button>
       </div>
     </Card>
   );
