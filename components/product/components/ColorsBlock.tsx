@@ -26,14 +26,17 @@ export const ColorsBlock: FunctionComponent<Props> = ({
         <span
           key={index}
           onClick={() => setSelectedColor(color)}
-          className={classNames(`h-[38px] w-[38px] rounded-full p-1 bg-[${hex}] outline-offset-2`, {
-            [`outline-[${hex}] outline outline-2`]:
-              color === selectedColor && color.toLowerCase() !== Colors.White,
-            ["border-1 border border-[#C8C7CB]"]:
-              color !== selectedColor && color.toLowerCase() === Colors.White,
-            ["border-1 border border-[#C8C7CB] outline outline-2 outline-[#C8C7CB]"]:
-              color === selectedColor && color.toLowerCase() === Colors.White
-          })}
+          className={classNames(
+            `h-[38px] w-[38px] rounded-full p-1 bg-[${hex}] cursor-pointer outline-offset-2`,
+            {
+              [`outline-[${hex}] outline outline-2`]:
+                color === selectedColor && color.toLowerCase() !== Colors.White,
+              ["border-1 border border-[#C8C7CB]"]:
+                color !== selectedColor && color.toLowerCase() === Colors.White,
+              ["border-1 border border-[#C8C7CB] outline outline-2 outline-[#C8C7CB]"]:
+                color === selectedColor && color.toLowerCase() === Colors.White
+            }
+          )}
         />
       ))}
     </ScrollContainer>

@@ -30,9 +30,12 @@ export const SizesBlock: FunctionComponent<Props> = ({ sizes, selectedSize, setS
       <ScrollContainer>
         {sizes.map((size, index) => (
           <span
-            className={classNames("rounded-xl bg-[#74748014] px-4 py-3 text-base font-bold", {
-              "outline outline-2 outline-[#007AFF]": size === selectedSize
-            })}
+            className={classNames(
+              "cursor-pointer rounded-xl bg-[#74748014] px-4 py-3 text-base font-bold",
+              {
+                "outline outline-2 outline-[#007AFF]": size === selectedSize
+              }
+            )}
             key={index}
             onClick={() => setSelectedSize(size)}
           >
