@@ -4,6 +4,7 @@ import { CardTitleBlock } from "components/product/components/CardTitleBlock";
 import { ColorsBlock } from "components/product/components/ColorsBlock";
 import { SizesBlock } from "components/product/components/SizesBlock";
 import { mapColorsToHexCodex } from "components/product/utils";
+import { Card } from "components/ui/Card";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
 import data from "data/tonRates.json"; //TODO replace on fetched;
 import { useEffect, useState, type FunctionComponent } from "react";
@@ -20,7 +21,13 @@ type Props = {
   colors: string[];
 };
 
-export const Card: FunctionComponent<Props> = ({ title, sizes, colors, description, price }) => {
+export const ProductCard: FunctionComponent<Props> = ({
+  title,
+  sizes,
+  colors,
+  description,
+  price
+}) => {
   const { MainButton } = useWebAppDataConductor();
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
   const [selectedColor, setSelectedColor] = useState(colors[0]);
@@ -42,8 +49,8 @@ export const Card: FunctionComponent<Props> = ({ title, sizes, colors, descripti
   }, []);
 
   return (
-    <div className="absolute bottom-0 left-0 z-10 flex h-[55vh] w-full flex-col justify-between rounded-t-xl bg-bg_color">
-      <div className="flex flex-col justify-between gap-4 p-4">
+    <Card className="h-[60vh]">
+      <div className="flex flex-col justify-between gap-4 px-4 pb-4">
         <CardPriceBlock priceInTon={priceInTon} priceInUsd={priceInUsd} />
 
         <CardTitleBlock title={title} description={description} />
@@ -60,6 +67,6 @@ export const Card: FunctionComponent<Props> = ({ title, sizes, colors, descripti
           />
         ) : null}
       </div>
-    </div>
+    </Card>
   );
 };

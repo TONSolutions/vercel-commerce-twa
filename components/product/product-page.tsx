@@ -1,7 +1,7 @@
 "use client";
 
-import { Card } from "components/product/components/Card";
 import { ImageSection } from "components/product/components/ImageSection";
+import { ProductCard } from "components/product/components/ProductCard";
 import { type FunctionComponent } from "react";
 
 import type { Product } from "lib/shopify/types";
@@ -22,7 +22,7 @@ export const ProductPage: FunctionComponent<Props> = ({ product }) => {
     <>
       <ImageSection images={images} />
 
-      <Card
+      <ProductCard
         title={title}
         variants={variants}
         description={description}
