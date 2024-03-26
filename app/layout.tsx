@@ -44,7 +44,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   return (
     <html lang="en">
       <body className="bg-bg_color text-black">
-        <main>
+        <main className="mx-auto max-w-[430px] ">
           <Suspense fallback={<Loading />}>
             <LazyProviders>{children}</LazyProviders>
           </Suspense>
