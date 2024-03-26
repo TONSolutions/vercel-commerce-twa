@@ -60,10 +60,6 @@ export const Card: FunctionComponent<Props> = ({ title, sizes, colors, descripti
           />
         ) : null}
       </div>
-
-      {/* <div className="p-4">
-        <Button className="font-bold">Add to card</Button>
-      </div> */}
     </div>
   );
 };
