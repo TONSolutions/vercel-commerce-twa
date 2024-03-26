@@ -4,8 +4,8 @@ import { CardTitleBlock } from "components/product/components/CardTitleBlock";
 import { ColorsBlock } from "components/product/components/ColorsBlock";
 import { SizesBlock } from "components/product/components/SizesBlock";
 import { mapColorsToHexCodex } from "components/product/utils";
+import { Button } from "components/ui/Button";
 import data from "data/tonRates.json"; //TODO replace on fetched;
-import { Button } from "konsta/react";
 import { useState, type FunctionComponent } from "react";
 
 import type { MappedColor } from "components/product/types";
@@ -56,7 +56,7 @@ export const Card: FunctionComponent<Props> = ({ title, sizes, colors, descripti
       </div>
 
       <div className="p-4">
-        <Button className="h-[50px] rounded-xl align-middle font-bold">Add to cart</Button>
+        <Button className="font-bold">Add to card</Button>
       </div>
     </div>
   );

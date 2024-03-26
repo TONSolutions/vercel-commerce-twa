@@ -5,12 +5,11 @@ import type { FunctionComponent } from "react";
 
 type Props = {
   images: ImageType[];
-  title: string;
 };
 
 export const ImageSection: FunctionComponent<Props> = ({ images }) => (
   <Carousel
-    height={390}
+    height="40vh"
     autoPlay={false}
     swipe
     animation="fade"

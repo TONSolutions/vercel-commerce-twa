@@ -6,6 +6,8 @@ export type Props = {
   title?: string;
 };
 
+//TODO add correct OG image
+
 export default async function OpengraphImage(props?: Props): Promise<ImageResponse> {
   const { title } = {
     ...{

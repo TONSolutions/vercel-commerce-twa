@@ -1,6 +1,6 @@
 import { SizesHeaderTableCell } from "components/product/components/SizesHeaderTableCell";
 import { SizesTableBodyCell } from "components/product/components/SizesTableBodyCell";
-import { Table, TableBody, TableHeader, TableRow } from "components/ui/Table/Table";
+import { Table, TableBody, TableHeader, TableRow } from "components/ui/Table";
 
 export const SizesTable = () => (
   <Table>

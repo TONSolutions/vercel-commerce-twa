@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { TableHead } from "components/ui/Table/Table";
+import { TableHead } from "components/ui/Table";
 
 import type { FunctionComponent, ReactNode } from "react";
 

@@ -8,11 +8,9 @@ type Props = {
 };
 
 const Layout: FunctionComponent<Props> = ({ children }) => (
-  <Suspense>
-    <div className="w-full">
-      <Suspense>{children}</Suspense>
-    </div>
-  </Suspense>
+  <div className="w-full">
+    <Suspense>{children}</Suspense>
+  </div>
 );
 
 export default Layout;

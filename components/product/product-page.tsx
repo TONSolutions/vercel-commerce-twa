@@ -20,7 +20,7 @@ export const ProductPage: FunctionComponent<Props> = ({ product }) => {
 
   return (
     <>
-      <ImageSection title={title} images={images} />
+      <ImageSection images={images} />
 
       <Card
         title={title}
