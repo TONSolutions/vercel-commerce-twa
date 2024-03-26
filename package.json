@@ -4,7 +4,8 @@
     "node": ">=18"
   },
   "scripts": {
-    "dev": "sudo next dev -p 443 -H twa-merch-store.local --experimental-https",
+    "dev:custom-server": "sudo next dev -p 443 -H twa-merch-store.local --experimental-https",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
