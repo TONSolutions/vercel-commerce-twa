@@ -3,12 +3,11 @@ import { CardPriceBlock } from "components/product/components/CardPriceBlock";
 import { CardTitleBlock } from "components/product/components/CardTitleBlock";
 import { ColorsBlock } from "components/product/components/ColorsBlock";
 import { SizesBlock } from "components/product/components/SizesBlock";
-import { HEX_CODE_HASH } from "components/product/constants";
+import { mapColorsToHexCodex } from "components/product/utils";
 import data from "data/tonRates.json"; //TODO replace on fetched;
 import { Button } from "konsta/react";
 import { useState, type FunctionComponent } from "react";
 
-import type { Colors } from "components/product/constants";
 import type { MappedColor } from "components/product/types";
 import type { Money, ProductVariant } from "lib/shopify/types";
 
@@ -20,12 +19,6 @@ type Props = {
   sizes: string[];
   colors: string[];
 };
-
-const mapColorsToHexCodex = (colors: string[]) =>
-  colors.map((color) => ({
-    color,
-    hex: HEX_CODE_HASH[color.toLowerCase() as Colors]
-  }));
 
 export const Card: FunctionComponent<Props> = ({ title, sizes, colors, description, price }) => {
   const [selectedSize, setSelectedSize] = useState(sizes[0]);

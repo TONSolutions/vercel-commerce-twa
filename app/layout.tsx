@@ -48,6 +48,8 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           <Suspense fallback={<Loading />}>
             <LazyProviders>{children}</LazyProviders>
           </Suspense>
+
+          <div id="popover-root"></div>
         </main>
       </body>
     </html>

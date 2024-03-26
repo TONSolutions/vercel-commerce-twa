@@ -2,9 +2,9 @@
 
 import { Card } from "components/product/components/Card";
 import { ImageSection } from "components/product/components/ImageSection";
+import { type FunctionComponent } from "react";
 
 import type { Product } from "lib/shopify/types";
-import type { FunctionComponent } from "react";
 
 type Props = {
   product: Product;

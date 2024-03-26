@@ -34,7 +34,7 @@ export const ImageSection: FunctionComponent<Props> = ({ images }) => (
         left: "50%",
         transform: "translate(-50%, 0)",
         padding: "8px 12px",
-        zIndex: "100",
+        zIndex: "40",
         borderRadius: "12px",
         backgroundColor: "rgba(255, 255, 255, 0.20)",
         margin: 0,
