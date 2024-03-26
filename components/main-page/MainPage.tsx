@@ -1,4 +1,7 @@
+"use client";
+
 import { Card } from "components/ui/Card";
+import { useWebAppDataConductor } from "contexts/WebAppContext";
 import Link from "next/link";
 
 import type { Product } from "lib/shopify/types";
@@ -8,22 +11,28 @@ type Props = {
   products: Product[];
 };
 
-export const MainPage: FunctionComponent<Props> = ({ products }) => (
-  <>
-    <h1>This page is WIP. Just preview</h1>
+export const MainPage: FunctionComponent<Props> = ({ products }) => {
+  const {
+    initDataUnsafe: { user }
+  } = useWebAppDataConductor();
 
-    <Card className="h-[70vh]">
-      <div className="grid grid-cols-2 gap-2 px-4 pb-4">
-        {products.map((product, index) => (
-          <Link key={index} href={`/${product.handle}`}>
-            <div className="min-h-[279px] rounded-xl border">
-              <img src={product.images[0].url} />
+  return (
+    <>
+      <h1 className="p-4">{`Hello ${user?.username ?? "User"}! This page is WIP. Just preview`}</h1>
 
-              <p className="px-2 py-4">{product.title}</p>
-            </div>
-          </Link>
-        ))}
-      </div>
-    </Card>
-  </>
-);
+      <Card className="h-[70vh]">
+        <div className="grid grid-cols-2 gap-2 px-4 pb-4">
+          {products.map((product, index) => (
+            <Link key={index} href={`/${product.handle}`}>
+              <div className="min-h-[279px] rounded-xl border">
+                <img src={product.images[0].url} />
+
+                <p className="px-2 py-4">{product.title}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </Card>
+    </>
+  );
+};
