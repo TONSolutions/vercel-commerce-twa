@@ -1,15 +1,16 @@
-"use client";
-import { CardPriceBlock } from "components/product/components/CardPriceBlock";
-import { CardTitleBlock } from "components/product/components/CardTitleBlock";
-import { ColorsBlock } from "components/product/components/ColorsBlock";
-import { SizesBlock } from "components/product/components/SizesBlock";
-import { mapColorsToHexCodex } from "components/product/utils";
-import { Card } from "components/ui/Card";
-import data from "data/tonRates.json"; //TODO replace on fetched;
-import { useState, type FunctionComponent } from "react";
+'use client';
+import { CardPriceBlock } from 'components/product/components/CardPriceBlock';
+import { CardTitleBlock } from 'components/product/components/CardTitleBlock';
+import { ColorsBlock } from 'components/product/components/ColorsBlock';
+import { SizesBlock } from 'components/product/components/SizesBlock';
+import { mapColorsToHexCodex } from 'components/product/utils';
+import { Card } from 'components/ui/Card';
+import data from 'data/tonRates.json'; //TODO replace on fetched;
+import { motion } from 'framer-motion';
+import { useState, type FunctionComponent } from 'react';
 
-import type { MappedColor } from "components/product/types";
-import type { Money, ProductVariant } from "lib/shopify/types";
+import type { MappedColor } from 'components/product/types';
+import type { Money, ProductVariant } from 'lib/shopify/types';
 
 type Props = {
   title: string;
@@ -42,24 +43,34 @@ export const ProductCard: FunctionComponent<Props> = ({
   const showSizes = sizes.length > 0;
 
   return (
-    <Card>
-      <div className="flex flex-col justify-between gap-4 px-4 pb-4">
-        <CardPriceBlock priceInTon={priceInTon} priceInUsd={priceInUsd} />
+    <motion.div
+      initial={{ opacity: 0.6, y: 150 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.2 }}
+    >
+      <Card>
+        <div className="flex flex-col justify-between gap-4 px-4 pb-4">
+          <CardPriceBlock priceInTon={priceInTon} priceInUsd={priceInUsd} />
 
-        <CardTitleBlock title={title} description={description} />
+          <CardTitleBlock title={title} description={description} />
 
-        {showSizes ? (
-          <SizesBlock sizes={sizes} selectedSize={selectedSize} setSelectedSize={setSelectedSize} />
-        ) : null}
+          {showSizes ? (
+            <SizesBlock
+              sizes={sizes}
+              selectedSize={selectedSize}
+              setSelectedSize={setSelectedSize}
+            />
+          ) : null}
 
-        {showMappedColors ? (
-          <ColorsBlock
-            mappedColors={mappedColors}
-            selectedColor={selectedColor}
-            setSelectedColor={setSelectedColor}
-          />
-        ) : null}
-      </div>
-    </Card>
+          {showMappedColors ? (
+            <ColorsBlock
+              mappedColors={mappedColors}
+              selectedColor={selectedColor}
+              setSelectedColor={setSelectedColor}
+            />
+          ) : null}
+        </div>
+      </Card>
+    </motion.div>
   );
 };

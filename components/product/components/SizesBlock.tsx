@@ -1,10 +1,11 @@
-import classNames from "classnames";
-import DismissIcon from "components/icons/DismissIcon";
-import { Popover } from "components/product/components/Popover";
-import { ScrollContainer } from "components/product/components/ScrollContainer";
-import { SizesTable } from "components/product/components/SizesTable";
-import { Link } from "konsta/react";
-import { useState, type FunctionComponent } from "react";
+import classNames from 'classnames';
+import DismissIcon from 'components/icons/DismissIcon';
+import { Popover } from 'components/product/components/Popover';
+import { ScrollContainer } from 'components/product/components/ScrollContainer';
+import { SizesTable } from 'components/product/components/SizesTable';
+import { motion } from 'framer-motion';
+import { Link } from 'konsta/react';
+import { useState, type FunctionComponent } from 'react';
 
 type Props = {
   sizes: string[];
@@ -31,15 +32,23 @@ export const SizesBlock: FunctionComponent<Props> = ({ sizes, selectedSize, setS
         {sizes.map((size, index) => (
           <span
             className={classNames(
-              "cursor-pointer rounded-xl bg-[#74748014] px-4 py-3 text-base font-bold",
+              'ani cursor-pointer rounded-xl bg-[#74748014] text-base font-bold',
               {
-                "outline outline-2 outline-[#007AFF]": size === selectedSize
+                'outline outline-2 outline-[#007AFF]': size === selectedSize
               }
             )}
             key={index}
             onClick={() => setSelectedSize(size)}
           >
-            {size}
+            <motion.div
+              className="px-4 py-3"
+              whileHover={{}}
+              whileTap={{ scale: 1.4 }}
+              // whileFocus={{ scale: 0.3 }}
+              transition={{ duration: 0.1 }}
+            >
+              {size}
+            </motion.div>
           </span>
         ))}
       </ScrollContainer>
