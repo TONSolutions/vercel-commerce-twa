@@ -9,7 +9,7 @@ type Props = {
 
 export const ImageSection: FunctionComponent<Props> = ({ images }) => (
   <Carousel
-    height="40vh"
+    height="55vh"
     autoPlay={false}
     swipe
     animation="fade"
