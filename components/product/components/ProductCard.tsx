@@ -49,7 +49,7 @@ export const ProductCard: FunctionComponent<Props> = ({
   }, []);
 
   return (
-    <Card className="h-[60vh]">
+    <Card className="h-[45vh]">
       <div className="flex flex-col justify-between gap-4 px-4 pb-4">
         <CardPriceBlock priceInTon={priceInTon} priceInUsd={priceInUsd} />
 
