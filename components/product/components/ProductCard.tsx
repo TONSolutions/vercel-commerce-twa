@@ -42,7 +42,7 @@ export const ProductCard: FunctionComponent<Props> = ({
   const showSizes = sizes.length > 0;
 
   return (
-    <Card className="h-[45vh]">
+    <Card>
       <div className="flex flex-col justify-between gap-4 px-4 pb-4">
         <CardPriceBlock priceInTon={priceInTon} priceInUsd={priceInUsd} />
 
