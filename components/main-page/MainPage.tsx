@@ -17,10 +17,12 @@ export const MainPage: FunctionComponent<Props> = ({ products }) => {
   } = useWebAppDataConductor();
 
   return (
-    <>
-      <h1 className="p-4">{`Hello ${user?.username ?? "User"}! This page is WIP. Just preview`}</h1>
+    <div className="flex min-h-screen flex-col justify-between">
+      <div>
+        <h1 className="p-4">{`Hello ${user?.username ?? "User"}! This page is WIP. Just preview`}</h1>
+      </div>
 
-      <Card className="h-[70vh]">
+      <Card>
         <div className="grid grid-cols-2 gap-2 px-4 pb-4">
           {products.map((product, index) => (
             <Link key={index} href={`/${product.handle}`}>
@@ -33,6 +35,6 @@ export const MainPage: FunctionComponent<Props> = ({ products }) => {
           ))}
         </div>
       </Card>
-    </>
+    </div>
   );
 };
