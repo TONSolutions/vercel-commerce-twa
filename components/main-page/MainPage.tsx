@@ -2,24 +2,50 @@
 
 import { Card } from "components/ui/Card";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
+import { getValueFromTelegramCloudStorage, prepareCartIdForUrl } from "lib/utils";
 import Link from "next/link";
+import { useEffect, useState, type FunctionComponent } from "react";
 
 import type { Product } from "lib/shopify/types";
-import type { FunctionComponent } from "react";
 
 type Props = {
   products: Product[];
 };
 
 export const MainPage: FunctionComponent<Props> = ({ products }) => {
+  const [cartId, setCartId] = useState<null | string>(null);
   const {
-    initDataUnsafe: { user }
+    initDataUnsafe: { user },
+    MainButton
   } = useWebAppDataConductor();
+
+  useEffect(() => {
+    //TODO transition;
+    const handleCartId = async () => {
+      const cartId = (await getValueFromTelegramCloudStorage("cartId")) as string;
+
+      if (cartId) {
+        setCartId(prepareCartIdForUrl(cartId));
+      }
+    };
+
+    handleCartId();
+  }, []);
+
+  useEffect(() => {
+    MainButton.hide();
+  }, []);
 
   return (
     <div className="flex min-h-screen flex-col justify-between">
       <div>
         <h1 className="p-4">{`Hello ${user?.username ?? "User"}! This page is WIP. Just preview`}</h1>
+
+        {cartId ? (
+          <Link href={`cart${cartId}`}>
+            <span className="ml-4 mt-2 rounded-xl bg-[#007AFF] px-4 py-2 text-white">Cart</span>
+          </Link>
+        ) : null}
       </div>
 
       <Card>

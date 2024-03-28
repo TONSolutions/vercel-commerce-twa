@@ -1,6 +1,6 @@
 //TODO add metadata
 
-import { ProductPage } from "components/product/product-page";
+import { ProductPage } from "components/product/product";
 import { getProduct } from "lib/shopify";
 import { notFound } from "next/navigation";
 

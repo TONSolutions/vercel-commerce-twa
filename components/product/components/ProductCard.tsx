@@ -6,7 +6,7 @@ import { SizesBlock } from "components/product/components/SizesBlock";
 import { mapColorsToHexCodex } from "components/product/utils";
 import { Card } from "components/ui/Card";
 import data from "data/tonRates.json"; //TODO replace on fetched;
-import { useState, type FunctionComponent } from "react";
+import { type FunctionComponent } from "react";
 
 import type { MappedColor } from "components/product/types";
 import type { Money, ProductVariant } from "lib/shopify/types";
@@ -18,6 +18,10 @@ type Props = {
   price: Money;
   sizes: string[];
   colors: string[];
+  selectedSize: string;
+  selectedColor: string;
+  handleSizeChange: (size: string) => void;
+  handleColorChange: (color: string) => void;
 };
 
 export const ProductCard: FunctionComponent<Props> = ({
@@ -25,11 +29,12 @@ export const ProductCard: FunctionComponent<Props> = ({
   sizes,
   colors,
   description,
-  price
+  price,
+  selectedSize,
+  selectedColor,
+  handleSizeChange,
+  handleColorChange
 }) => {
-  const [selectedSize, setSelectedSize] = useState(sizes[0]);
-  const [selectedColor, setSelectedColor] = useState(colors[0]);
-
   const tonUsdPrice = data.usd;
 
   const { amount: priceInTon } = price;
@@ -42,21 +47,25 @@ export const ProductCard: FunctionComponent<Props> = ({
   const showSizes = sizes.length > 0;
 
   return (
-    <Card>
+    <Card className="min-h-[45vh]">
       <div className="flex flex-col justify-between gap-4 px-4 pb-4">
         <CardPriceBlock priceInTon={priceInTon} priceInUsd={priceInUsd} />
 
         <CardTitleBlock title={title} description={description} />
 
         {showSizes ? (
-          <SizesBlock sizes={sizes} selectedSize={selectedSize} setSelectedSize={setSelectedSize} />
+          <SizesBlock
+            sizes={sizes}
+            selectedSize={selectedSize}
+            setSelectedSize={handleSizeChange}
+          />
         ) : null}
 
         {showMappedColors ? (
           <ColorsBlock
             mappedColors={mappedColors}
             selectedColor={selectedColor}
-            setSelectedColor={setSelectedColor}
+            setSelectedColor={handleColorChange}
           />
         ) : null}
       </div>
