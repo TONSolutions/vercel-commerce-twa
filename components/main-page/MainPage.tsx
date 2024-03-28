@@ -2,7 +2,7 @@
 
 import { Card } from "components/ui/Card";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
-import { getValueFromTelegramCloudStorage, prepareCartIdForUrl } from "lib/utils";
+import { prepareCartIdForUrl } from "lib/utils";
 import Link from "next/link";
 import { useEffect, useState, type FunctionComponent } from "react";
 
@@ -11,6 +11,8 @@ import type { Product } from "lib/shopify/types";
 type Props = {
   products: Product[];
 };
+
+//TODO replace cart
 
 export const MainPage: FunctionComponent<Props> = ({ products }) => {
   const [cartId, setCartId] = useState<null | string>(null);
@@ -23,7 +25,8 @@ export const MainPage: FunctionComponent<Props> = ({ products }) => {
   useEffect(() => {
     //TODO transition;
     const handleCartId = async () => {
-      const cartId = (await getValueFromTelegramCloudStorage("cartId")) as string;
+      // const cartId = (await getValueFromTelegramCloudStorage("cartId")) as string;
+      const cartId = "/1";
 
       if (cartId) {
         setCartId(prepareCartIdForUrl(cartId));
