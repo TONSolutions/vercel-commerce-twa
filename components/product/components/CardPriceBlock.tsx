@@ -1,4 +1,4 @@
-import TonIcon from "components/icons/TonIcon";
+import TonIcon from "components/assets/icons/TonIcon";
 
 import type { FunctionComponent } from "react";
 

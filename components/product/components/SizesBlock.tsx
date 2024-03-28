@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import DismissIcon from "components/icons/DismissIcon";
+import DismissIcon from "components/assets/icons/DismissIcon";
 import { Popover } from "components/product/components/Popover";
 import { ScrollContainer } from "components/product/components/ScrollContainer";
 import { SizesTable } from "components/product/components/SizesTable";
