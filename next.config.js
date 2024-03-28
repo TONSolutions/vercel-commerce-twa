@@ -11,16 +11,6 @@ module.exports = {
         protocol: "https",
         hostname: "cdn.shopify.com",
         pathname: "/s/files/**"
-      },
-      {
-        protocol: "https",
-        hostname: "img.ltwebstatic.com",
-        pathname: "**"
-      },
-      {
-        protocol: "https",
-        hostname: "media.sketchfab.com",
-        pathname: "**"
       }
     ]
   },
