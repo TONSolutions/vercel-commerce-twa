@@ -6,6 +6,7 @@ import { SizesBlock } from "components/product/components/SizesBlock";
 import { mapColorsToHexCodex } from "components/product/utils";
 import { Card } from "components/ui/Card";
 import data from "data/tonRates.json"; //TODO replace on fetched;
+import { motion } from "framer-motion";
 import { type FunctionComponent } from "react";
 
 import type { MappedColor } from "components/product/types";
@@ -47,28 +48,34 @@ export const ProductCard: FunctionComponent<Props> = ({
   const showSizes = sizes.length > 0;
 
   return (
-    <Card className="min-h-[45vh]">
-      <div className="flex flex-col justify-between gap-4 px-4 pb-4">
-        <CardPriceBlock priceInTon={priceInTon} priceInUsd={priceInUsd} />
+    <motion.div
+      initial={{ opacity: 0.6, y: 150 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.2 }}
+    >
+      <Card className="min-h-[45vh]">
+        <div className="flex flex-col justify-between gap-4 px-4 pb-4">
+          <CardPriceBlock priceInTon={priceInTon} priceInUsd={priceInUsd} />
 
-        <CardTitleBlock title={title} description={description} />
+          <CardTitleBlock title={title} description={description} />
 
-        {showSizes ? (
-          <SizesBlock
-            sizes={sizes}
-            selectedSize={selectedSize}
-            setSelectedSize={handleSizeChange}
-          />
-        ) : null}
+          {showSizes ? (
+            <SizesBlock
+              sizes={sizes}
+              selectedSize={selectedSize}
+              setSelectedSize={handleSizeChange}
+            />
+          ) : null}
 
-        {showMappedColors ? (
-          <ColorsBlock
-            mappedColors={mappedColors}
-            selectedColor={selectedColor}
-            setSelectedColor={handleColorChange}
-          />
-        ) : null}
-      </div>
-    </Card>
+          {showMappedColors ? (
+            <ColorsBlock
+              mappedColors={mappedColors}
+              selectedColor={selectedColor}
+              setSelectedColor={handleColorChange}
+            />
+          ) : null}
+        </div>
+      </Card>
+    </motion.div>
   );
 };

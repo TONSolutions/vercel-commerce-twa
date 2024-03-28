@@ -3,8 +3,6 @@ import { getProducts } from "lib/shopify";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
-export const runtime = "edge";
-
 export const metadata = {
   description: "High-performance ecommerce store built with Next.js, Vercel, and Shopify.", //TODO remove
   openGraph: {

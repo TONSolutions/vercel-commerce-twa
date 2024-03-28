@@ -1,6 +1,7 @@
-import TonIcon from "components/icons/TonIcon";
+import TonIcon from 'components/icons/TonIcon';
 
-import type { FunctionComponent } from "react";
+import { motion } from 'framer-motion';
+import type { FunctionComponent } from 'react';
 
 type Props = {
   priceInTon: string;
@@ -8,13 +9,15 @@ type Props = {
 };
 
 export const CardPriceBlock: FunctionComponent<Props> = ({ priceInTon, priceInUsd }) => (
-  <div className="flex gap-2">
-    <div className="flex">
-      <TonIcon />
+  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>
+    <div className="flex gap-2">
+      <div className="flex">
+        <TonIcon />
 
-      <span className="text-2xl font-bold">{priceInTon}</span>
+        <span className="text-2xl font-bold">{priceInTon}</span>
+      </div>
+
+      <span className="self-end p-1 text-sm text-hint_color">~${priceInUsd}</span>
     </div>
-
-    <span className="self-end p-1 text-sm text-hint_color">~${priceInUsd}</span>
-  </div>
+  </motion.div>
 );
