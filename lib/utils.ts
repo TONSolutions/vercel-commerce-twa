@@ -45,3 +45,32 @@ export const isIos = () => {
     userAgent.includes("iphone") || userAgent.includes("ipad") || userAgent.includes("macintosh")
   );
 };
+
+export async function getValueFromTelegramCloudStorage(key: string) {
+  return new Promise((resolve, reject) => {
+    window.Telegram.WebApp.CloudStorage.getItem(key, (error, value) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(value);
+      }
+    });
+  });
+}
+
+export function setValueFromTelegramCloudStorage(key: string, value: string) {
+  return new Promise((resolve, reject) => {
+    window.Telegram.WebApp.CloudStorage.setItem(key, value, (error) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(key);
+      }
+    });
+  });
+}
+
+export const prepareCartIdForUrl = (cartId: string) => cartId.replace("gid://shopify/Cart/", "/");
+
+export const prepareCartIdForRequest = (cartId: string) =>
+  cartId.replace("/", "gid://shopify/Cart/");

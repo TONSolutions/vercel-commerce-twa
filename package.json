@@ -8,7 +8,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint --no-cache",
     "lint-fix": "next lint -- --fix",
     "lint-staged": "lint-staged",
     "prettier": "prettier --write --ignore-unknown .",
