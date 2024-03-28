@@ -4,8 +4,6 @@ import { getCart } from "lib/shopify";
 import { prepareCartIdForRequest } from "lib/utils";
 import { redirect } from "next/navigation";
 
-export const runtime = "edge";
-
 export const revalidate = 43200; // 12 hours in seconds
 
 export default async function Page({ params }: { params: { cartId: string } }) {

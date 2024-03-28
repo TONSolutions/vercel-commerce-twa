@@ -16,7 +16,8 @@ export const MainPage: FunctionComponent<Props> = ({ products }) => {
   const [cartId, setCartId] = useState<null | string>(null);
   const {
     initDataUnsafe: { user },
-    MainButton
+    MainButton,
+    expand
   } = useWebAppDataConductor();
 
   const cartLink = cartId ? `cart${cartId}` : "/cart";
@@ -36,6 +37,7 @@ export const MainPage: FunctionComponent<Props> = ({ products }) => {
 
   useEffect(() => {
     MainButton.hide();
+    expand();
   }, []);
 
   return (
