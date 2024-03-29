@@ -16,8 +16,11 @@ export const MainPage: FunctionComponent<Props> = ({ products }) => {
   const [cartId, setCartId] = useState<null | string>(null);
   const {
     initDataUnsafe: { user },
-    MainButton
+    MainButton,
+    expand
   } = useWebAppDataConductor();
+
+  const cartLink = cartId ? `cart${cartId}` : "/cart";
 
   useEffect(() => {
     //TODO transition;
@@ -34,6 +37,7 @@ export const MainPage: FunctionComponent<Props> = ({ products }) => {
 
   useEffect(() => {
     MainButton.hide();
+    expand();
   }, []);
 
   return (
@@ -41,11 +45,9 @@ export const MainPage: FunctionComponent<Props> = ({ products }) => {
       <div>
         <h1 className="p-4">{`Hello ${user?.username ?? "User"}! This page is WIP. Just preview`}</h1>
 
-        {cartId ? (
-          <Link href={`cart${cartId}`}>
-            <span className="ml-4 mt-2 rounded-xl bg-[#007AFF] px-4 py-2 text-white">Cart</span>
-          </Link>
-        ) : null}
+        <Link href={cartLink}>
+          <span className="ml-4 mt-2 rounded-xl bg-[#007AFF] px-4 py-2 text-white">Cart</span>
+        </Link>
       </div>
 
       <Card>
