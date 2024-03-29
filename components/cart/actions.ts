@@ -1,8 +1,10 @@
 "use server";
 
 import { TAGS } from "lib/constants";
-import { addToCart, createCart, removeFromCart, updateCart } from "lib/shopify";
+import { addToCart, createCart, removeItems, updateCart } from "lib/shopify";
 import { revalidateTag } from "next/cache";
+
+import type { Line } from "lib/shopify/types";
 
 export const addItem = async (selectedVariantId: string, cartId: string | undefined) => {
   if (cartId) {
@@ -35,51 +37,55 @@ export const addItem = async (selectedVariantId: string, cartId: string | undefi
   }
 };
 
-export const removeItem = async (lineId: string) => {
-  const cartId = ""; //TODO прокидывать снаружи
-
+export const clearCart = async (cartId: string, lineIds: string[]) => {
   if (!cartId) {
-    return "Missing cart ID";
+    throw new Error("No cart id provided");
   }
 
   try {
-    await removeFromCart(cartId, [lineId]);
+    const cart = await removeItems(cartId, lineIds);
     revalidateTag(TAGS.cart);
-  } catch (e) {
-    return "Error removing item from cart";
+
+    return { data: cart, success: "Items successfully deleted" };
+  } catch (error) {
+    console.error(error);
+
+    return {
+      error: "Error updating item quantity"
+    };
   }
 };
 
-export const updateItemQuantity = async (payload: {
-  lineId: string;
-  variantId: string;
-  quantity: number;
-}) => {
-  const cartId = ""; //TODO прокидывать снаружи
-
+export const updateItemQuantity = async (cartId: string, line: Line) => {
   if (!cartId) {
-    return "Missing cart ID";
+    throw new Error("No cart id provided");
   }
 
-  const { lineId, variantId, quantity } = payload;
+  const { id, quantity } = line;
 
   try {
     if (quantity === 0) {
-      await removeFromCart(cartId, [lineId]);
+      const cart = await removeItems(cartId, [id]);
       revalidateTag(TAGS.cart);
 
-      return;
+      return { data: cart, success: "Item successfully deleted" };
     }
 
-    await updateCart(cartId, [
+    const cart = await updateCart(cartId, [
       {
-        id: lineId,
-        merchandiseId: variantId,
+        id,
         quantity
       }
     ]);
+
     revalidateTag(TAGS.cart);
-  } catch (e) {
-    return "Error updating item quantity";
+
+    return { data: cart, success: "Item successfully updated" };
+  } catch (error) {
+    console.error(error);
+
+    return {
+      error: "Error updating item quantity"
+    };
   }
 };

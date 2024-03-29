@@ -168,6 +168,11 @@ export type ShopifyRemoveFromCartOperation = {
   };
 };
 
+export type Line = {
+  id: string;
+  quantity: number;
+};
+
 export type ShopifyUpdateCartOperation = {
   data: {
     cartLinesUpdate: {
@@ -176,11 +181,7 @@ export type ShopifyUpdateCartOperation = {
   };
   variables: {
     cartId: string;
-    lines: {
-      id: string;
-      merchandiseId: string;
-      quantity: number;
-    }[];
+    lines: Line[];
   };
 };
 

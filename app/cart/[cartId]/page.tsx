@@ -9,7 +9,7 @@ export const revalidate = 43200; // 12 hours in seconds
 export default async function Page({ params }: { params: { cartId: string } }) {
   const cart = await getCart(prepareCartIdForRequest(`/${params.cartId}`));
 
-  if (!cart) {
+  if (!cart || cart.totalQuantity === 0) {
     return redirect("/cart");
   }
 
