@@ -264,3 +264,29 @@ export type ShopifyProductsOperation = {
     sortKey?: string;
   };
 };
+
+type Address = {
+  address1: string;
+  address2: string;
+  city: string;
+  country: string;
+  countryCode: string;
+  formatted: string[];
+  province: string;
+  provinceCode: string;
+};
+
+export type Location = {
+  id: string;
+  name: string;
+  address: Address;
+};
+
+export type ShopifyLocationsOperation = {
+  data: {
+    locations: Connection<Location>;
+  };
+  variables: {
+    first?: number;
+  };
+};

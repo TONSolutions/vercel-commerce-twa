@@ -74,3 +74,12 @@ export const prepareCartIdForUrl = (cartId: string) => cartId.replace("gid://sho
 
 export const prepareCartIdForRequest = (cartId: string) =>
   cartId.replace("/", "gid://shopify/Cart/");
+
+export const truncateMiddle = (input: string) => {
+  const middleLength = input.length - 10;
+
+  const modifiedString =
+    input.slice(0, 5) + "...".repeat(middleLength > 0 ? 1 : 0) + input.slice(-5);
+
+  return modifiedString;
+};

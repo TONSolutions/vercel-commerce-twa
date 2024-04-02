@@ -13,11 +13,11 @@ import {
   getCollectionQuery,
   getCollectionsQuery
 } from "lib/shopify/queries/collection";
+import { getLocationsQuery } from "lib/shopify/queries/locations";
 import { getMenuQuery } from "lib/shopify/queries/menu";
 import { getPageQuery, getPagesQuery } from "lib/shopify/queries/page";
 import {
   getProductQuery,
-  getProductRecommendationsQuery,
   getProductsQuery
 } from "lib/shopify/queries/product";
 import { isShopifyError } from "lib/type-guards";
@@ -42,12 +42,12 @@ import type {
   ShopifyCollectionProductsOperation,
   ShopifyCollectionsOperation,
   ShopifyCreateCartOperation,
+  ShopifyLocationsOperation,
   ShopifyMenuOperation,
   ShopifyPageOperation,
   ShopifyPagesOperation,
   ShopifyProduct,
   ShopifyProductOperation,
-  ShopifyProductRecommendationsOperation,
   ShopifyProductsOperation,
   ShopifyRemoveFromCartOperation,
   ShopifyUpdateCartOperation
@@ -390,18 +390,6 @@ export async function getProduct(handle: string): Promise<Product | undefined> {
   return reshapeProduct(res.body.data.product, false);
 }
 
-export async function getProductRecommendations(productId: string): Promise<Product[]> {
-  const res = await shopifyFetch<ShopifyProductRecommendationsOperation>({
-    query: getProductRecommendationsQuery,
-    tags: [TAGS.products],
-    variables: {
-      productId
-    }
-  });
-
-  return reshapeProducts(res.body.data.productRecommendations);
-}
-
 export async function getProducts({
   query,
   reverse,
@@ -455,4 +443,15 @@ export async function revalidate(req: NextRequest): Promise<NextResponse> {
   }
 
   return NextResponse.json({ status: 200, revalidated: true, now: Date.now() });
+}
+
+export async function getCompanyLocations({ first }: { first?: number }): Promise<Location[]> {
+  const res = await shopifyFetch<ShopifyLocationsOperation>({
+    query: getLocationsQuery,
+    variables: {
+      first
+    }
+  });
+
+  return removeEdgesAndNodes(res.body.data.locations);
 }
