@@ -5,8 +5,8 @@ import { addToCart } from "components/product/actions";
 import { ImageSection } from "components/product/components/ImageSection";
 import { ProductCard } from "components/product/components/ProductCard";
 import { getSelectedVariantId } from "components/product/utils";
+import { useCartDataConductor } from "contexts/CartContext";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
-import { getValueFromTelegramCloudStorage, prepareCartIdForUrl } from "lib/utils";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition, type FunctionComponent } from "react";
 
@@ -24,6 +24,7 @@ export const ProductPage: FunctionComponent<Props> = ({ product }) => {
   const colors = options.find((item) => item.name === "Color")?.values ?? [];
 
   const { MainButton } = useWebAppDataConductor();
+  const { setCart } = useCartDataConductor();
 
   const [isAdded, setIsAdded] = useState(false);
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
@@ -41,22 +42,22 @@ export const ProductPage: FunctionComponent<Props> = ({ product }) => {
         color: selectedColor
       });
 
-      addToCart({ selectedVariantId }).then(({ success, error }) => {
+      addToCart({ selectedVariantId }).then(({ success, error, data }) => {
         if (success) {
+          setCart(data);
           setIsAdded(true);
         }
 
         if (error) {
+          console.error(error);
           // TODO error handling
         }
       });
     });
   };
 
-  const handleGoToCheckout = async () => {
-    const cartId = (await getValueFromTelegramCloudStorage("cartId")) as string;
-
-    router.push(`/cart/${prepareCartIdForUrl(cartId)}`);
+  const handleGoToCheckout = () => {
+    router.push(`/cart/items`);
   };
 
   useEffect(() => {

@@ -10,14 +10,14 @@ export const addItem = async (selectedVariantId: string, cartId: string | undefi
   if (cartId) {
     //User try to add item to existing cart;
     try {
-      await addToCart(cartId, [{ merchandiseId: selectedVariantId, quantity: 1 }]);
+      const cart = await addToCart(cartId, [{ merchandiseId: selectedVariantId, quantity: 1 }]);
       revalidateTag(TAGS.cart);
 
-      return null;
+      return { createdCartId: null, cart };
     } catch (error) {
       console.error(error);
 
-      return null;
+      return { createdCartId: null, cart: null };
     }
   } else {
     //User try to add item first time
@@ -25,14 +25,14 @@ export const addItem = async (selectedVariantId: string, cartId: string | undefi
     const cartId = cart.id;
 
     try {
-      await addToCart(cartId, [{ merchandiseId: selectedVariantId, quantity: 1 }]);
+      const cart = await addToCart(cartId, [{ merchandiseId: selectedVariantId, quantity: 1 }]);
       revalidateTag(TAGS.cart);
 
-      return cartId;
+      return { createdCartId: cartId, cart };
     } catch (error) {
       console.error(error);
 
-      return null;
+      return { createdCartId: null, cart: null };
     }
   }
 };

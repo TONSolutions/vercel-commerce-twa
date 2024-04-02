@@ -13,13 +13,13 @@ export const addToCart = async ({
 
     const cartId = (await getValueFromTelegramCloudStorage("cartId")) as string;
 
-    const createdCartId = await addItem(selectedVariantId, cartId);
+    const { cart, createdCartId } = await addItem(selectedVariantId, cartId);
 
     if (createdCartId) {
       setValueFromTelegramCloudStorage("cartId", createdCartId);
     }
 
-    return { success: "Product successfully added" };
+    return { success: "Product successfully added", data: cart };
   } catch (error) {
     console.error("Unable to add product", error);
 

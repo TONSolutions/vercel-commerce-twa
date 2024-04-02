@@ -2,9 +2,13 @@ import { CartItem } from "components/cart/components/CartItem";
 import { useCartDataConductor } from "contexts/CartContext";
 
 export const CartList = () => {
-  const {
-    cart: { lines }
-  } = useCartDataConductor();
+  const { cart } = useCartDataConductor();
+
+  if (!cart) {
+    return null;
+  }
+
+  const { lines } = cart;
 
   return (
     <div className="flex flex-col gap-4">
