@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import Carousel from "react-material-ui-carousel";
 
-import type { Image as ImageType } from "lib/shopify/types";
+import type { Image as ImageType } from "lib/shopify/storefront/types";
 import type { FunctionComponent } from "react";
 
 type Props = {

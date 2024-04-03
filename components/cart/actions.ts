@@ -1,10 +1,12 @@
 "use server";
 
 import { TAGS } from "lib/constants";
-import { addToCart, createCart, removeItems, updateCart } from "lib/shopify";
+import { createDraftOrder } from "lib/shopify/admin";
+import { addToCart, createCart, removeItems, updateCart } from "lib/shopify/storefront";
 import { revalidateTag } from "next/cache";
 
-import type { Line } from "lib/shopify/types";
+import type { DraftOrderInput } from "lib/shopify/admin/types";
+import type { Line } from "lib/shopify/storefront/types";
 
 export const addItem = async (selectedVariantId: string, cartId: string | undefined) => {
   if (cartId) {
@@ -87,5 +89,21 @@ export const updateItemQuantity = async (cartId: string, line: Line) => {
     return {
       error: "Error updating item quantity"
     };
+  }
+};
+
+export const checkoutCart = async (input: DraftOrderInput, draftOrderId: string) => {
+  if (draftOrderId) {
+    return { error: "No implemented yet" };
+  } else {
+    try {
+      const draftOrder = await createDraftOrder(input);
+
+      return { data: draftOrder, success: "Draft order successfully created" };
+    } catch (error) {
+      console.error(error);
+
+      return { error };
+    }
   }
 };

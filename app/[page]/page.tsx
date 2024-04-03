@@ -1,7 +1,7 @@
 //TODO add metadata
 
 import { ProductPage } from "components/product/product";
-import { getProduct } from "lib/shopify";
+import { getProduct } from "lib/shopify/storefront";
 import { notFound } from "next/navigation";
 
 export const revalidate = 43200; // 12 hours in seconds

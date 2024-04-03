@@ -13,7 +13,7 @@ import {
   type ReactNode
 } from "react";
 
-import type { Cart, Line } from "lib/shopify/types";
+import type { Cart, Line } from "lib/shopify/storefront/types";
 
 type Props = {
   children: ReactNode;

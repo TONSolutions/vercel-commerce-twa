@@ -83,3 +83,13 @@ export const truncateMiddle = (input: string) => {
 
   return modifiedString;
 };
+
+export const createReserveTimestamp = (minutes: number) => {
+  const currentDate: Date = new Date();
+
+  const futureDate: Date = new Date(currentDate.getTime() + minutes * 60000);
+
+  const iso8601DateTime: string = futureDate.toISOString();
+
+  return iso8601DateTime;
+};

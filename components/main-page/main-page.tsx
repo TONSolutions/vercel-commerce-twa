@@ -7,7 +7,7 @@ import { useWebAppDataConductor } from "contexts/WebAppContext";
 import Link from "next/link";
 import { useEffect, type FunctionComponent } from "react";
 
-import type { Product } from "lib/shopify/types";
+import type { Product } from "lib/shopify/storefront/types";
 
 type Props = {
   products: Product[];

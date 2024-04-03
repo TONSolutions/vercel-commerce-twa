@@ -10,7 +10,7 @@ import { useWebAppDataConductor } from "contexts/WebAppContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition, type FunctionComponent } from "react";
 
-import type { Product } from "lib/shopify/types";
+import type { Product } from "lib/shopify/storefront/types";
 
 type Props = {
   product: Product;
@@ -18,6 +18,7 @@ type Props = {
 
 export const ProductPage: FunctionComponent<Props> = ({ product }) => {
   //TODO useTransition for button disable
+  //TODO show colors or sizes if available
   const [isPending, startTransition] = useTransition();
   const { title, images, variants, priceRange, description, options } = product;
   const sizes = options.find((item) => item.name === "Size")?.values ?? [];

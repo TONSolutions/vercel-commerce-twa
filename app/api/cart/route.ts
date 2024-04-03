@@ -1,4 +1,4 @@
-import { getCart } from "lib/shopify";
+import { getCart } from "lib/shopify/storefront";
 import { NextResponse } from "next/server";
 
 import type { NextRequest } from "next/server";

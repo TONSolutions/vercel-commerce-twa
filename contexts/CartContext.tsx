@@ -1,6 +1,6 @@
 import { createDataConductor } from "lib/createDataConductor";
 
-import type { Cart, Line } from "lib/shopify/types";
+import type { Cart, Line } from "lib/shopify/storefront/types";
 
 type CartConductorProvider = {
   cart: Cart | null;
