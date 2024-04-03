@@ -1,5 +1,6 @@
 import { isShopifyError } from "lib/type-guards";
 
+import type { Connection } from "lib/shopify/storefront/types";
 import type { ExtractVariables } from "lib/shopify/types";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -60,3 +61,6 @@ export async function shopifyFetch<T>({
     };
   }
 }
+
+export const removeEdgesAndNodes = (array: Connection<any>) =>
+  array.edges.map((edge) => edge?.node);

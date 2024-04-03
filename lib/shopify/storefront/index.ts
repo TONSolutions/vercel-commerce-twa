@@ -12,7 +12,7 @@ import { getCartQuery } from "lib/shopify/storefront/queries/cart";
 import { getLocationsQuery } from "lib/shopify/storefront/queries/locations";
 import { getPageQuery, getPagesQuery } from "lib/shopify/storefront/queries/page";
 import { getProductQuery, getProductsQuery } from "lib/shopify/storefront/queries/product";
-import { shopifyFetch } from "lib/shopify/utils";
+import { removeEdgesAndNodes, shopifyFetch } from "lib/shopify/utils";
 import { revalidateTag } from "next/cache";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
@@ -64,8 +64,6 @@ const storefrontFetch = async <T>({
     variables,
     endpoint
   });
-
-const removeEdgesAndNodes = (array: Connection<any>) => array.edges.map((edge) => edge?.node);
 
 const reshapeCart = (cart: ShopifyCart): Cart => {
   if (!cart.cost?.totalTaxAmount) {

@@ -1,4 +1,8 @@
-import type { CartItem, Connection } from "lib/shopify/storefront/types";
+import type { Connection, Image } from "lib/shopify/storefront/types";
+
+type Product = {
+  featuredImage: Image;
+};
 
 export type DraftOrderInput = {
   customAttributes?: CustomAttribute[];
@@ -7,10 +11,12 @@ export type DraftOrderInput = {
   reserveInventoryUntil?: string;
 };
 
-type DraftOrderLineItem = {
+export type DraftOrderLineItem = {
   quantity: number;
   variantId: string;
-  title: string;
+  name: string;
+  originalTotal?: string;
+  product?: Product;
 };
 
 type CustomAttribute = {
@@ -23,7 +29,7 @@ type VariantPrice = {
   currencyCode: string;
 };
 
-export type DraftOrder = {
+export type ShopifyDraftOrder = {
   id: string;
   createdAt: string;
   completedAt: string;
@@ -35,16 +41,29 @@ export type DraftOrder = {
   name: string;
   reserveInventoryUntil: string;
   status: string;
-  lineItems: Connection<CartItem>;
+  lineItems: Connection<DraftOrderLineItem>;
+};
+
+export type DraftOrder = Omit<ShopifyDraftOrder, "lineItems"> & {
+  lineItems: DraftOrderLineItem[];
 };
 
 export type ShopifyCreateDraftOrderOperation = {
   data: {
     draftOrderCreate: {
-      draftOrder: DraftOrder;
+      draftOrder: ShopifyDraftOrder;
     };
   };
   variables: {
     input: DraftOrderInput;
+  };
+};
+
+export type ShopifyGetDraftOrderOperation = {
+  data: {
+    draftOrder: ShopifyDraftOrder;
+  };
+  variables: {
+    id: string;
   };
 };

@@ -1,40 +1,41 @@
 "use client";
 
-import { useTonAddress } from "@tonconnect/ui-react";
 import { BackButton } from "@twa-dev/sdk/react";
 import { CheckoutItems } from "components/checkout/components/CheckoutItems";
 import { Option } from "components/checkout/components/Option";
 import { TotalSection } from "components/checkout/components/TotalSection";
 import { useCartDataConductor } from "contexts/CartContext";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
-import { truncateMiddle } from "lib/utils";
+import { request } from "lib/requets";
+import { getValueFromTelegramCloudStorage } from "lib/utils";
 import Link from "next/link";
-import { useEffect, type FunctionComponent } from "react";
+import { useEffect, useState, useTransition, type FunctionComponent } from "react";
 
-/*
-When opened, create a draft order. 
- Set there location, user wallet, name.
- Add delivery info to Draft object in custom field
+import type { DraftOrder } from "lib/shopify/admin/types";
 
-*/
+//TODO use components from Konsta UI
 
 export const CheckoutPage: FunctionComponent = () => {
-  const { cart, total } = useCartDataConductor();
-  const {
-    initDataUnsafe: { user },
-    MainButton
-  } = useWebAppDataConductor();
+  const { total } = useCartDataConductor();
+  const [isPending, startTransition] = useTransition();
+  const [draftOrder, setDraftOrder] = useState<DraftOrder | null>(null);
 
-  const address = useTonAddress();
-  const truncatedAddress = truncateMiddle(address);
-  const userName = `${user?.first_name} ${user?.last_name}`;
+  const { MainButton } = useWebAppDataConductor();
 
   const handleCheckout = () => {
     //TODO add
     console.log("triggered");
   };
 
-  console.log(cart);
+  useEffect(() => {
+    startTransition(async () => {
+      const draftOrderId = (await getValueFromTelegramCloudStorage("draftOrderId")) as string;
+
+      const draftOrder = await request<DraftOrder>("/api/draft-order", { body: { draftOrderId } });
+
+      setDraftOrder(draftOrder);
+    });
+  }, []);
 
   useEffect(() => {
     MainButton.setText(`Pay ${total} TON`);
@@ -43,9 +44,19 @@ export const CheckoutPage: FunctionComponent = () => {
     return () => MainButton.offClick(handleCheckout);
   }, []);
 
-  if (!cart) {
-    return null;
+  if (isPending) {
+    return <h1>Loading...</h1>;
   }
+
+  if (!draftOrder) {
+    return <h1>Loading</h1>;
+  }
+
+  const { lineItems, customAttributes } = draftOrder ?? {};
+
+  const address = customAttributes.find((item) => item.key === "shippingInformation");
+  const name = customAttributes.find((item) => item.key === "name");
+  const paymentMethod = customAttributes.find((item) => item.key === "paymentMethod");
 
   return (
     <div className="px-4 pt-6">
@@ -55,7 +66,7 @@ export const CheckoutPage: FunctionComponent = () => {
         <h1 className="mb-3 text-xl font-bold">Checkout</h1>
 
         <div className="divide-y divide-[#C8C7CB] rounded-xl bg-bg_color px-4 py-3">
-          <CheckoutItems />
+          <CheckoutItems items={lineItems} />
 
           <TotalSection />
         </div>
@@ -63,11 +74,11 @@ export const CheckoutPage: FunctionComponent = () => {
 
       <div className="rounded-xl bg-bg_color px-4 py-3">
         <Link href="/checkout/edit" className="divide-y divide-[#C8C7CB]">
-          <Option title="Payment Method" option={truncatedAddress} />
+          <Option title="Payment Method" option={paymentMethod?.value ?? ""} />
 
-          <Option title="Shipping information" option="ADDRESS" clickable />
+          <Option title="Shipping information" option={address?.value ?? ""} clickable />
 
-          <Option title="Name" option={userName} clickable />
+          <Option title="Name" option={name?.value ?? ""} clickable />
 
           <Option title="Phone" option="" clickable />
         </Link>

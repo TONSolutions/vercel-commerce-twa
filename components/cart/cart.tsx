@@ -55,7 +55,7 @@ export const CartPage: FunctionComponent<Props> = ({ locations }) => {
       const lineItems = cart?.lines.map(({ quantity, merchandise }) => ({
         variantId: merchandise.id,
         quantity,
-        title: merchandise.product.title
+        name: merchandise.product.title
       }));
 
       const input: DraftOrderInput = {
@@ -68,7 +68,6 @@ export const CartPage: FunctionComponent<Props> = ({ locations }) => {
 
       checkoutCart(input, draftOrderId).then(({ data, error, success }) => {
         if (success) {
-          console.log("data", data);
           const { id } = data;
           setValueFromTelegramCloudStorage("draftOrderId", id);
           router.push("/checkout");

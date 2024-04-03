@@ -93,3 +93,14 @@ export const createReserveTimestamp = (minutes: number) => {
 
   return iso8601DateTime;
 };
+
+export const isReserveValid = (reservedUntil: string) => {
+  const reservedUntilDate = new Date(reservedUntil);
+  const currentDate = new Date();
+
+  if (reservedUntilDate < currentDate) {
+    return false;
+  } else {
+    return true;
+  }
+};

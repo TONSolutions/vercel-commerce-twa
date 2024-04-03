@@ -1,8 +1,10 @@
 "use server";
 
 import { TAGS } from "lib/constants";
-import { createDraftOrder } from "lib/shopify/admin";
+import { isCartsEqual } from "lib/isCartsEqual";
+import { createDraftOrder, getDraftOrderById } from "lib/shopify/admin";
 import { addToCart, createCart, removeItems, updateCart } from "lib/shopify/storefront";
+import { isReserveValid } from "lib/utils";
 import { revalidateTag } from "next/cache";
 
 import type { DraftOrderInput } from "lib/shopify/admin/types";
@@ -94,7 +96,21 @@ export const updateItemQuantity = async (cartId: string, line: Line) => {
 
 export const checkoutCart = async (input: DraftOrderInput, draftOrderId: string) => {
   if (draftOrderId) {
-    return { error: "No implemented yet" };
+    const draftOrder = await getDraftOrderById(draftOrderId);
+
+    const { reserveInventoryUntil, lineItems } = draftOrder;
+
+    if (isReserveValid(reserveInventoryUntil)) {
+      const { lineItems: newLineItems } = input;
+
+      if (isCartsEqual(newLineItems, lineItems)) {
+        return { data: draftOrder, success: "Draft order successfully created" };
+      } else {
+        return { error: "No implemented yet" }; //TODO IMPLEMENT;
+      }
+    } else {
+      return { data: draftOrder, success: "Draft order successfully created" }; //TODO IMPLEMENT NORMALLY;
+    }
   } else {
     try {
       const draftOrder = await createDraftOrder(input);

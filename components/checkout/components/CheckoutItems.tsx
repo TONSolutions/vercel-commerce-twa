@@ -1,29 +1,23 @@
 import { CheckoutItem } from "components/checkout/components/CheckoutItem";
-import { useCartDataConductor } from "contexts/CartContext";
 
-export const CheckoutItems = () => {
-  const { cart } = useCartDataConductor();
+import type { DraftOrderLineItem } from "lib/shopify/admin/types";
+import type { FunctionComponent } from "react";
 
-  if (!cart) {
+type Props = {
+  items: DraftOrderLineItem[];
+};
+
+export const CheckoutItems: FunctionComponent<Props> = ({ items }) => {
+  if (!items.length) {
     return null;
   }
 
-  const { lines } = cart;
-
   return (
     <div className="flex flex-col">
-      {lines.map(({ merchandise, quantity, cost }, index) => {
-        const {
-          totalAmount: { amount: price }
-        } = cost;
+      {items.map(({ quantity, name: combinedTitle, product, originalTotal }, index) => {
+        const [title, sizeColorTitle] = combinedTitle.split(" - ");
 
-        const {
-          product: {
-            featuredImage: { url },
-            title
-          },
-          title: sizeColorTitle
-        } = merchandise;
+        const url = product?.featuredImage?.url ?? "";
 
         const options = (sizeColorTitle + ` / x${quantity}`).replaceAll(
           "/",
@@ -31,7 +25,13 @@ export const CheckoutItems = () => {
         );
 
         return (
-          <CheckoutItem key={index} imageUrl={url} title={title} options={options} price={price} />
+          <CheckoutItem
+            key={index}
+            imageUrl={url}
+            title={title}
+            options={options}
+            price={originalTotal ?? ""}
+          />
         );
       })}
     </div>
