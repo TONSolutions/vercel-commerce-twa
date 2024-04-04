@@ -7,8 +7,6 @@ import type { AxiosError, Method } from "axios";
 
 export const isExternal = (url: string): boolean => /^(http:\/\/|https:\/\/)/.test(url);
 
-const isDev = process.env.NODE_ENV === "development";
-
 export class RequestError extends Error {
   constructor(message: string, options: unknown = {}) {
     super(message);
