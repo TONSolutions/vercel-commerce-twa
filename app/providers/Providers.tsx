@@ -13,7 +13,9 @@ type Props = {
   children: ReactNode;
 };
 
-const MANIFEST_URL = "https://twa-merch-store.local/tonconnect-manifest.json";
+const url = process.env.WEBSITE_URL;
+
+const MANIFEST_URL = `${url}/tonconnect-manifest.json`;
 
 const Providers: FunctionComponent<Props> = ({ children }) => {
   const theme = isIos() ? "ios" : "material";

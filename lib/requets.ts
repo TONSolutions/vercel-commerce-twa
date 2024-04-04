@@ -30,9 +30,7 @@ export interface Options {
 export const request = async <Data>(pathname: string, options?: Options) => {
   const { method = "GET", body, headers = {}, signal } = options || {};
 
-  const APP_URL = isDev
-    ? "https://twa-merch-store.local"
-    : "https://vercel-commerce-twa-gilt.vercel.app";
+  const APP_URL = process.env.WEBSITE_URL ?? "";
 
   const external = isExternal(pathname);
   const url = pathResolver(external ? "" : APP_URL, pathname);
