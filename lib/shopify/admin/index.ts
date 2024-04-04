@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { SHOPIFY_GRAPHQL_ADMIN_API_ENDPOINT } from "lib/constants";
-import { createDraftOrderMutation } from "lib/shopify/admin/mutations/draft-order";
+import { completeDraftOrderMutation, createDraftOrderMutation, updateDraftOrderMutation } from "lib/shopify/admin/mutations/draft-order";
 import { getDraftOrderQuery } from "lib/shopify/admin/queries/draft-order";
 import { domain } from "lib/shopify/constants";
 import { removeEdgesAndNodes, shopifyFetch } from "lib/shopify/utils";
@@ -11,9 +11,11 @@ import { removeEdgesAndNodes, shopifyFetch } from "lib/shopify/utils";
 import type {
   DraftOrder,
   DraftOrderInput,
+  ShopifyCompleteDraftOrderOperation,
   ShopifyCreateDraftOrderOperation,
   ShopifyDraftOrder,
-  ShopifyGetDraftOrderOperation
+  ShopifyGetDraftOrderOperation,
+  ShopifyUpdateDraftOrderOperation
 } from "lib/shopify/admin/types";
 import type { ExtractVariables } from "lib/shopify/types";
 
@@ -47,6 +49,31 @@ export async function createDraftOrder(input: DraftOrderInput): Promise<DraftOrd
   });
 
   return reshapeDraftOrder(res.body.data.draftOrderCreate.draftOrder);
+}
+
+export async function updateDraftOrder(id: string, input: DraftOrderInput): Promise<DraftOrder> {
+  const res = await adminFetch<ShopifyUpdateDraftOrderOperation>({
+    query: updateDraftOrderMutation,
+    variables: {
+      input,
+      id
+    },
+    cache: "no-store"
+  });
+
+  return reshapeDraftOrder(res.body.data.draftOrderUpdate.draftOrder);
+}
+
+export async function completeDraftOrder(id: string): Promise<string> {
+  const res = await adminFetch<ShopifyCompleteDraftOrderOperation>({
+    query: completeDraftOrderMutation,
+    variables: {
+      id
+    },
+    cache: "no-store"
+  });
+
+  return res.body.data.draftOrderComplete.draftOrder.order.name;
 }
 
 export async function getDraftOrderById(draftOrderId: string): Promise<DraftOrder> {

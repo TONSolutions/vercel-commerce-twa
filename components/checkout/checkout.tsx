@@ -1,16 +1,20 @@
 "use client";
 
+import { useTonConnectUI } from "@tonconnect/ui-react";
 import { BackButton } from "@twa-dev/sdk/react";
 import { CheckoutItems } from "components/checkout/components/CheckoutItems";
 import { Option } from "components/checkout/components/Option";
 import { TotalSection } from "components/checkout/components/TotalSection";
+import { FEE, NANOTONS_IN_TON, Routes } from "components/constants";
 import { useCartDataConductor } from "contexts/CartContext";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
 import { request } from "lib/requets";
 import { getValueFromTelegramCloudStorage } from "lib/utils";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition, type FunctionComponent } from "react";
 
+import type { SendTransactionRequest } from "@tonconnect/ui-react";
 import type { DraftOrder } from "lib/shopify/admin/types";
 
 //TODO use components from Konsta UI
@@ -19,12 +23,35 @@ export const CheckoutPage: FunctionComponent = () => {
   const { total } = useCartDataConductor();
   const [isPending, startTransition] = useTransition();
   const [draftOrder, setDraftOrder] = useState<DraftOrder | null>(null);
+  const router = useRouter();
 
   const { MainButton } = useWebAppDataConductor();
+  const [tonConnectUI] = useTonConnectUI();
 
   const handleCheckout = () => {
-    //TODO add
-    console.log("triggered");
+    startTransition(() => {
+      MainButton.hide();
+      const amount = String(NANOTONS_IN_TON * (Number(total) + FEE));
+
+      const TRANSACTION: SendTransactionRequest = {
+        validUntil: Math.floor(Number(new Date()) / 1000),
+        messages: [
+          {
+            address: "0:9bf8d856ecbadfdf472438f59a79d346928a51a08920061a573e720be16bbb3a", //TODO put to ENV
+            amount
+          }
+        ]
+      };
+
+      tonConnectUI
+        .sendTransaction(TRANSACTION)
+        .then(() => {
+          router.push(Routes.CheckoutProcessing);
+        })
+        .finally(() => {
+          MainButton.show();
+        });
+    });
   };
 
   useEffect(() => {
@@ -38,7 +65,10 @@ export const CheckoutPage: FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
+    MainButton.show();
     MainButton.setText(`Pay ${total} TON`);
+    MainButton.color = "#007AFF";
+    MainButton.textColor = "#FFF";
     MainButton.onClick(handleCheckout);
 
     return () => MainButton.offClick(handleCheckout);

@@ -1,4 +1,5 @@
 import { address as typeAddress } from "@ton/ton";
+import { NANOTONS_IN_TON } from "components/constants";
 import { useTonClient } from "components/hooks/useGetTonClient";
 import { useEffect, useState } from "react";
 
@@ -17,7 +18,7 @@ export const useGetUserBalance = ({ address }: Options) => {
       const balance = await client?.getBalance(typedAddress);
 
       if (balance) {
-        setBalance((Number(balance.toString()) / 1000000000).toFixed(2));
+        setBalance((Number(balance.toString()) / NANOTONS_IN_TON).toFixed(2));
       }
     };
 

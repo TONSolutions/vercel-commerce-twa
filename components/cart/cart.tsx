@@ -1,20 +1,24 @@
+/* eslint-disable max-lines */
 "use client";
 
 import { useTonAddress, useTonConnectUI, useTonWallet } from "@tonconnect/ui-react";
 import { BackButton } from "@twa-dev/sdk/react";
-import { checkoutCart } from "components/cart/actions";
+import { checkoutCart, clearCart } from "components/cart/actions";
 import { CartList } from "components/cart/components/CartList";
 import { CartTitleSection } from "components/cart/components/CartTitleSection";
+import { Toaster } from "components/cart/components/Toaster";
+import { Routes } from "components/constants";
 import { useCartDataConductor } from "contexts/CartContext";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
 import {
   createReserveTimestamp,
   getValueFromTelegramCloudStorage,
+  prepareCartIdForRequest,
   setValueFromTelegramCloudStorage,
   truncateMiddle
 } from "lib/utils";
 import { useRouter } from "next/navigation";
-import { useEffect, useTransition, type FunctionComponent } from "react";
+import { useEffect, useState, useTransition, type FunctionComponent } from "react";
 
 import type { DraftOrderInput } from "lib/shopify/admin/types";
 import type { ShopifyLocation } from "lib/shopify/storefront/types";
@@ -29,9 +33,9 @@ type Props = {
 export const CartPage: FunctionComponent<Props> = ({ locations }) => {
   const wallet = useTonWallet();
   const address = useTonAddress();
-  const { total } = useCartDataConductor();
   const [isPending, startTransition] = useTransition();
-  const { cart } = useCartDataConductor();
+  const { cart, cartId, setCart, total } = useCartDataConductor();
+  const [isToastOpen, setIsToastOpen] = useState(false);
 
   const [connectUI] = useTonConnectUI();
   const {
@@ -40,6 +44,10 @@ export const CartPage: FunctionComponent<Props> = ({ locations }) => {
   } = useWebAppDataConductor();
 
   const router = useRouter();
+
+  const handleToastClose = () => {
+    setIsToastOpen(false);
+  };
 
   const handleCheckout = () => {
     startTransition(async () => {
@@ -55,7 +63,7 @@ export const CartPage: FunctionComponent<Props> = ({ locations }) => {
       const lineItems = cart?.lines.map(({ quantity, merchandise }) => ({
         variantId: merchandise.id,
         quantity,
-        name: merchandise.product.title
+        title: merchandise.product.title
       }));
 
       const input: DraftOrderInput = {
@@ -66,11 +74,21 @@ export const CartPage: FunctionComponent<Props> = ({ locations }) => {
 
       const draftOrderId = (await getValueFromTelegramCloudStorage("draftOrderId")) as string;
 
-      checkoutCart(input, draftOrderId).then(({ data, error, success }) => {
+      checkoutCart(input, draftOrderId).then(async ({ data, error, success }) => {
         if (success) {
           const { id } = data;
           setValueFromTelegramCloudStorage("draftOrderId", id);
-          router.push("/checkout");
+
+          //TODO FINISH
+          // if (customAttributes.find(({ key }) => key === "wasFiltered")) {
+          //   MainButton.hide();
+          //   setIsToastOpen(true);
+          //   router.push(Routes.Checkout);
+
+          //   return;
+          // }
+
+          router.push(Routes.Checkout);
         }
 
         if (error) {
@@ -112,6 +130,35 @@ export const CartPage: FunctionComponent<Props> = ({ locations }) => {
     });
   }, [connectUI.modalState]);
 
+  useEffect(() => {
+    startTransition(async () => {
+      const soldItems = cart?.lines.filter(({ quantity }) => quantity === 0);
+
+      if (soldItems && soldItems.length > 0) {
+        const idsToRemove = soldItems?.map(({ id }) => id);
+
+        if (cartId) {
+          clearCart(prepareCartIdForRequest(cartId), idsToRemove).then(
+            ({ success, error, data }) => {
+              if (success) {
+                setCart(data);
+                setIsToastOpen(true);
+              }
+
+              if (error) {
+                // TODO
+              }
+            }
+          );
+        }
+      }
+    });
+  }, [cart?.lines.length]);
+
+  if (isPending) {
+    return <h1>Loading....</h1>;
+  }
+
   return (
     <>
       <div className="min-h-screen bg-bg_color px-4 py-6">
@@ -123,6 +170,13 @@ export const CartPage: FunctionComponent<Props> = ({ locations }) => {
           <CartList />
         </div>
       </div>
+
+      <Toaster
+        isOpen={isToastOpen}
+        buttonText="Fine"
+        toastText="Unfortunately, some items are out of stock. We have removed them from your cart."
+        onClose={handleToastClose}
+      />
     </>
   );
 };

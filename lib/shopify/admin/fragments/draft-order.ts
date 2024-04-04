@@ -13,7 +13,8 @@ const draftOrderLineItemFragment = /* GraphQL */ `
   fragment draftOrderLineItem on DraftOrderLineItem {
     id
     quantity
-    name
+    title
+    variantTitle
     originalTotal
     product {
       ...product

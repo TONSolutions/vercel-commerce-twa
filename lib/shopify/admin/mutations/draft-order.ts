@@ -14,3 +14,34 @@ export const createDraftOrderMutation = /* GraphQL */ `
   }
   ${draftOrderFragment}
 `;
+
+export const updateDraftOrderMutation = /* GraphQL */ `
+  mutation draftOrderUpdate($id: ID!, $input: DraftOrderInput!) {
+    draftOrderUpdate(id: $id, input: $input) {
+      draftOrder {
+        ...draftOrder
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+  ${draftOrderFragment}
+`;
+
+export const completeDraftOrderMutation = /* GraphQL */ `
+  mutation draftOrderComplete($id: ID!) {
+    draftOrderComplete(id: $id) {
+      draftOrder {
+        order {
+          name
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;

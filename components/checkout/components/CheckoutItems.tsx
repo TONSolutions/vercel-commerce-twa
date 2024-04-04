@@ -14,12 +14,10 @@ export const CheckoutItems: FunctionComponent<Props> = ({ items }) => {
 
   return (
     <div className="flex flex-col">
-      {items.map(({ quantity, name: combinedTitle, product, originalTotal }, index) => {
-        const [title, sizeColorTitle] = combinedTitle.split(" - ");
-
+      {items.map(({ quantity, title, variantTitle, product, originalTotal }, index) => {
         const url = product?.featuredImage?.url ?? "";
 
-        const options = (sizeColorTitle + ` / x${quantity}`).replaceAll(
+        const options = (variantTitle + ` / x${quantity}`).replaceAll(
           "/",
           String.fromCharCode(183)
         );

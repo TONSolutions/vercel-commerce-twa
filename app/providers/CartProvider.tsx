@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { clearCart, updateItemQuantity } from "components/cart/actions";
+import { Routes } from "components/constants";
 import { CartDataConductorProvider } from "contexts/CartContext";
 import { request } from "lib/requets";
 import { getValueFromTelegramCloudStorage, prepareCartIdForUrl } from "lib/utils";
@@ -52,7 +53,7 @@ export const CartProvider: FunctionComponent<Props> = ({ children }) => {
         clearCart(cart.id, itemIds).then(({ data, success, error }) => {
           if (success) {
             setCart(data);
-            router.push("/");
+            router.push(Routes.Main);
           }
 
           if (error) {

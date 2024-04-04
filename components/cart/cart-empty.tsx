@@ -1,5 +1,6 @@
 "use client";
 import animationData from "components/assets/animations/duck_surprised.json";
+import { Routes } from "components/constants";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
 import Lottie from "lottie-react";
 import { useRouter } from "next/navigation";
@@ -10,7 +11,7 @@ export const EmptyCartPage = () => {
   const router = useRouter();
 
   const handleMainButtonClick = () => {
-    router.push("/");
+    router.push(Routes.Main);
   };
 
   useEffect(() => {

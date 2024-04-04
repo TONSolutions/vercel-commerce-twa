@@ -1,8 +1,7 @@
 "use server";
 
 import { TAGS } from "lib/constants";
-import { isCartsEqual } from "lib/isCartsEqual";
-import { createDraftOrder, getDraftOrderById } from "lib/shopify/admin";
+import { createDraftOrder, getDraftOrderById, updateDraftOrder } from "lib/shopify/admin";
 import { addToCart, createCart, removeItems, updateCart } from "lib/shopify/storefront";
 import { isReserveValid } from "lib/utils";
 import { revalidateTag } from "next/cache";
@@ -98,18 +97,38 @@ export const checkoutCart = async (input: DraftOrderInput, draftOrderId: string)
   if (draftOrderId) {
     const draftOrder = await getDraftOrderById(draftOrderId);
 
-    const { reserveInventoryUntil, lineItems } = draftOrder;
+    const { reserveInventoryUntil, customAttributes } = draftOrder;
+    const { lineItems: newLineItems } = input;
 
     if (isReserveValid(reserveInventoryUntil)) {
-      const { lineItems: newLineItems } = input;
+      //Set up new order – just in case if user changed smth
+      const updatedCustomAttributes = [...customAttributes, { key: "wasFiltered", value: "true" }];
+      const newInput: DraftOrderInput = {
+        ...input,
+        customAttributes: updatedCustomAttributes,
+        reserveInventoryUntil
+      };
 
-      if (isCartsEqual(newLineItems, lineItems)) {
-        return { data: draftOrder, success: "Draft order successfully created" };
-      } else {
-        return { error: "No implemented yet" }; //TODO IMPLEMENT;
-      }
+      const updatedDraftOrder = await updateDraftOrder(draftOrderId, newInput);
+
+      return { data: updatedDraftOrder, success: "Draft order successfully created" };
     } else {
-      return { data: draftOrder, success: "Draft order successfully created" }; //TODO IMPLEMENT NORMALLY;
+      //Reservation is over. If item is out of stock, Shopify send quantity === 0. So we need to remove'em from the cart.
+      const filteredNewLineItems = newLineItems?.filter(({ quantity }) => quantity > 0);
+      const updatedCustomAttributes = [...customAttributes, { key: "wasFiltered", value: "true" }];
+
+      const newInput: DraftOrderInput = {
+        ...input,
+        lineItems: filteredNewLineItems,
+        customAttributes: updatedCustomAttributes
+      };
+
+      const updatedDraftOrder = await updateDraftOrder(draftOrderId, newInput);
+
+      return {
+        data: updatedDraftOrder,
+        success: "Unfortunately, some items are out of stock. We have removed them from your cart."
+      };
     }
   } else {
     try {

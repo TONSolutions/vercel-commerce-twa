@@ -1,6 +1,7 @@
 "use client";
 
 import { BackButton } from "@twa-dev/sdk/react";
+import { Routes } from "components/constants";
 import { addToCart } from "components/product/actions";
 import { ImageSection } from "components/product/components/ImageSection";
 import { ProductCard } from "components/product/components/ProductCard";
@@ -58,7 +59,7 @@ export const ProductPage: FunctionComponent<Props> = ({ product }) => {
   };
 
   const handleGoToCheckout = () => {
-    router.push(`/cart/items`);
+    router.push(Routes.CartItems);
   };
 
   useEffect(() => {

@@ -14,7 +14,8 @@ export type DraftOrderInput = {
 export type DraftOrderLineItem = {
   quantity: number;
   variantId: string;
-  name: string;
+  title: string;
+  variantTitle?: string;
   originalTotal?: string;
   product?: Product;
 };
@@ -56,6 +57,33 @@ export type ShopifyCreateDraftOrderOperation = {
   };
   variables: {
     input: DraftOrderInput;
+  };
+};
+
+export type ShopifyUpdateDraftOrderOperation = {
+  data: {
+    draftOrderUpdate: {
+      draftOrder: ShopifyDraftOrder;
+    };
+  };
+  variables: {
+    input: DraftOrderInput;
+    id: string;
+  };
+};
+
+export type ShopifyCompleteDraftOrderOperation = {
+  data: {
+    draftOrderComplete: {
+      draftOrder: {
+        order: {
+          name: string;
+        };
+      };
+    };
+  };
+  variables: {
+    id: string;
   };
 };
 
