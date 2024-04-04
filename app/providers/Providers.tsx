@@ -13,7 +13,7 @@ type Props = {
   children: ReactNode;
 };
 
-const url = process.env.WEBSITE_URL;
+const url = process.env.NEXT_PUBLIC_WEBSITE_URL;
 
 const MANIFEST_URL = `${url}/tonconnect-manifest.json`;
 
