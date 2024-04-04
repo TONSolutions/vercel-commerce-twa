@@ -7,8 +7,6 @@ import type { AxiosError, Method } from "axios";
 
 export const isExternal = (url: string): boolean => /^(http:\/\/|https:\/\/)/.test(url);
 
-const isDev = process.env.NODE_ENV === "development";
-
 export class RequestError extends Error {
   constructor(message: string, options: unknown = {}) {
     super(message);
@@ -30,9 +28,7 @@ export interface Options {
 export const request = async <Data>(pathname: string, options?: Options) => {
   const { method = "GET", body, headers = {}, signal } = options || {};
 
-  const APP_URL = isDev
-    ? "https://twa-merch-store.local"
-    : "https://vercel-commerce-twa-gilt.vercel.app";
+  const APP_URL = process.env.WEBSITE_URL ?? "";
 
   const external = isExternal(pathname);
   const url = pathResolver(external ? "" : APP_URL, pathname);
