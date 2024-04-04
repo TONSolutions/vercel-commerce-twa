@@ -1,9 +1,9 @@
-import classNames from 'classnames';
-import { ScrollContainer } from 'components/product/components/ScrollContainer';
-import { Colors } from 'components/product/constants';
+import classNames from "classnames";
+import { ScrollContainer } from "components/product/components/ScrollContainer";
+import { Colors } from "components/product/constants";
 
-import type { MappedColor } from 'components/product/types';
-import type { FunctionComponent } from 'react';
+import type { MappedColor } from "components/product/types";
+import type { FunctionComponent } from "react";
 
 type Props = {
   mappedColors: MappedColor[];
@@ -31,9 +31,9 @@ export const ColorsBlock: FunctionComponent<Props> = ({
             {
               [`outline-[${hex}] outline outline-2`]:
                 color === selectedColor && color.toLowerCase() !== Colors.White,
-              ['border-1 border border-[#C8C7CB]']:
+              ["border-1 border border-[#C8C7CB]"]:
                 color !== selectedColor && color.toLowerCase() === Colors.White,
-              ['border-1 border border-[#C8C7CB] outline outline-2 outline-[#C8C7CB]']:
+              ["border-1 border border-[#C8C7CB] outline outline-2 outline-[#C8C7CB]"]:
                 color === selectedColor && color.toLowerCase() === Colors.White
             }
           )}

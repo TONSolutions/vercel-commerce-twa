@@ -1,8 +1,8 @@
-'use client';
-import { motion } from 'framer-motion';
-import ReactDOM from 'react-dom';
+"use client";
+import { motion } from "framer-motion";
+import ReactDOM from "react-dom";
 
-import type { FunctionComponent, ReactNode } from 'react';
+import type { FunctionComponent, ReactNode } from "react";
 
 type Props = {
   isOpen: boolean;
@@ -14,7 +14,7 @@ export const Popover: FunctionComponent<Props> = ({ isOpen, children }) => {
     return null;
   }
 
-  const elem = document.getElementById('popover-root');
+  const elem = document.getElementById("popover-root");
 
   if (!elem) {
     return null;
@@ -26,7 +26,7 @@ export const Popover: FunctionComponent<Props> = ({ isOpen, children }) => {
         initial={{ opacity: 0.5, y: 250 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.2 }}
-        style={{ width: '100%' }}
+        style={{ width: "100%" }}
       >
         <div className="fixed inset-0 ">
           <div className="absolute inset-0 bg-gray-500 opacity-75"></div>

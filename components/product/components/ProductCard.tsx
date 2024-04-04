@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 import { type FunctionComponent } from "react";
 
 import type { MappedColor } from "components/product/types";
-import type { Money, ProductVariant } from "lib/shopify/types";
+import type { Money, ProductVariant } from "lib/shopify/storefront/types";
 
 type Props = {
   title: string;

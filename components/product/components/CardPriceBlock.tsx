@@ -1,7 +1,7 @@
-import TonIcon from 'components/icons/TonIcon';
+import TonIcon from "components/assets/icons/TonIcon";
+import { motion } from "framer-motion";
 
-import { motion } from 'framer-motion';
-import type { FunctionComponent } from 'react';
+import type { FunctionComponent } from "react";
 
 type Props = {
   priceInTon: string;

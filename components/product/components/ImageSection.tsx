@@ -1,8 +1,8 @@
-import Carousel from 'react-material-ui-carousel';
+import { motion } from "framer-motion";
+import Carousel from "react-material-ui-carousel";
 
-import { motion } from 'framer-motion';
-import type { Image as ImageType } from 'lib/shopify/types';
-import type { FunctionComponent } from 'react';
+import type { Image as ImageType } from "lib/shopify/storefront/types";
+import type { FunctionComponent } from "react";
 
 type Props = {
   images: ImageType[];
@@ -15,7 +15,7 @@ export const ImageSection: FunctionComponent<Props> = ({ images }) => (
     transition={{
       // duration: 0.1,
       delay: 0.2,
-      type: 'spring',
+      type: "spring",
       // stiffness: 80,
       bounce: 0.3
     }}
@@ -28,28 +28,28 @@ export const ImageSection: FunctionComponent<Props> = ({ images }) => (
       navButtonsAlwaysInvisible
       indicatorIconButtonProps={{
         style: {
-          color: 'rgba(255, 255, 255, 0.3)',
-          marginLeft: '2px',
-          marginRight: '2px'
+          color: "rgba(255, 255, 255, 0.3)",
+          marginLeft: "2px",
+          marginRight: "2px"
         }
       }}
       activeIndicatorIconButtonProps={{
         style: {
-          color: '#FFF'
+          color: "#FFF"
         }
       }}
       indicatorContainerProps={{
         style: {
-          position: 'absolute',
-          bottom: '1.25rem',
-          left: '50%',
-          transform: 'translate(-50%, 0)',
-          padding: '8px 12px',
-          zIndex: '40',
-          borderRadius: '12px',
-          backgroundColor: 'rgba(255, 255, 255, 0.20)',
+          position: "absolute",
+          bottom: "1.25rem",
+          left: "50%",
+          transform: "translate(-50%, 0)",
+          padding: "8px 12px",
+          zIndex: "40",
+          borderRadius: "12px",
+          backgroundColor: "rgba(255, 255, 255, 0.20)",
           margin: 0,
-          width: 'max-content'
+          width: "max-content"
         }
       }}
     >

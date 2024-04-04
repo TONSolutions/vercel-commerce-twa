@@ -2,7 +2,7 @@
 import { HEX_CODE_HASH } from "components/product/constants";
 
 import type { Colors } from "components/product/constants";
-import type { ProductVariant } from "lib/shopify/types";
+import type { ProductVariant } from "lib/shopify/storefront/types";
 
 export const mapColorsToHexCodex = (colors: string[]) =>
   colors.map((color) => ({

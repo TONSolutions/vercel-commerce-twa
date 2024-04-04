@@ -1,5 +1,7 @@
 "use client";
 
+import { TonConnectUIProvider } from "@tonconnect/ui-react";
+import { CartProvider } from "app/providers/CartProvider";
 import { ThemeProvider } from "app/providers/ThemeProvider";
 import { WebAppProvider } from "app/providers/WebAppProvider";
 import { App } from "konsta/react";
@@ -11,14 +13,20 @@ type Props = {
   children: ReactNode;
 };
 
+const MANIFEST_URL = "https://twa-merch-store.local/tonconnect-manifest.json";
+
 const Providers: FunctionComponent<Props> = ({ children }) => {
   const theme = isIos() ? "ios" : "material";
 
   return (
     <App theme={theme}>
-      <WebAppProvider>
-        <ThemeProvider>{children}</ThemeProvider>
-      </WebAppProvider>
+      <TonConnectUIProvider manifestUrl={MANIFEST_URL}>
+        <WebAppProvider>
+          <CartProvider>
+            <ThemeProvider>{children}</ThemeProvider>
+          </CartProvider>
+        </WebAppProvider>
+      </TonConnectUIProvider>
     </App>
   );
 };

@@ -50,6 +50,8 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           </Suspense>
 
           <div id="popover-root"></div>
+
+          <div id="toast-root"></div>
         </main>
       </body>
     </html>
