@@ -13,6 +13,7 @@ type Props = {
 //gid://shopify/Cart/c1-f1feed27b05066ff619afbcadf8be935
 export const CartPage: FunctionComponent<Props> = ({ cart }) => {
   const { MainButton } = useWebAppDataConductor();
+
   const {
     cost: {
       subtotalAmount: { amount }

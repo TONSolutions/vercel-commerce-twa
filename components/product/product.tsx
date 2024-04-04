@@ -1,12 +1,9 @@
 "use client";
 
 import { BackButton } from "@twa-dev/sdk/react";
-import { addToCart } from "components/product/actions";
 import { ImageSection } from "components/product/components/ImageSection";
 import { ProductCard } from "components/product/components/ProductCard";
-import { getSelectedVariantId } from "components/product/utils";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
-import { getValueFromTelegramCloudStorage, prepareCartIdForUrl } from "lib/utils";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition, type FunctionComponent } from "react";
 
@@ -16,9 +13,11 @@ type Props = {
   product: Product;
 };
 
+//TODO replace cart
+
 export const ProductPage: FunctionComponent<Props> = ({ product }) => {
   //TODO useTransition for button disable
-  const [isPending, startTransition] = useTransition();
+  const [isPending] = useTransition();
   const { title, images, variants, priceRange, description, options } = product;
   const sizes = options.find((item) => item.name === "Size")?.values ?? [];
   const colors = options.find((item) => item.name === "Color")?.values ?? [];
@@ -33,30 +32,36 @@ export const ProductPage: FunctionComponent<Props> = ({ product }) => {
 
   const price = priceRange.minVariantPrice;
 
+  // const handleAddToCart = () => {
+  //   startTransition(() => {
+  //     const selectedVariantId = getSelectedVariantId({
+  //       variants,
+  //       size: selectedSize,
+  //       color: selectedColor
+  //     });
+
+  //     addToCart({ selectedVariantId }).then(({ success, error }) => {
+  //       if (success) {
+  //         setIsAdded(true);
+  //       }
+
+  //       if (error) {
+  //         // TODO error handling
+  //       }
+  //     });
+  //   });
+  // };
+
   const handleAddToCart = () => {
-    startTransition(() => {
-      const selectedVariantId = getSelectedVariantId({
-        variants,
-        size: selectedSize,
-        color: selectedColor
-      });
-
-      addToCart({ selectedVariantId }).then(({ success, error }) => {
-        if (success) {
-          setIsAdded(true);
-        }
-
-        if (error) {
-          // TODO error handling
-        }
-      });
-    });
+    setIsAdded(true);
   };
 
   const handleGoToCheckout = async () => {
-    const cartId = (await getValueFromTelegramCloudStorage("cartId")) as string;
+    // const cartId = (await getValueFromTelegramCloudStorage("cartId")) as string;
 
-    router.push(`/cart/${prepareCartIdForUrl(cartId)}`);
+    // router.push(`/cart/${prepareCartIdForUrl(cartId)}`);
+
+    router.push("/cart/1");
   };
 
   useEffect(() => {
