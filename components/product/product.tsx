@@ -17,6 +17,8 @@ type Props = {
   product: Product;
 };
 
+//TODO replace cart
+
 export const ProductPage: FunctionComponent<Props> = ({ product }) => {
   //TODO useTransition for button disable
   //TODO show colors or sizes if available
@@ -35,6 +37,26 @@ export const ProductPage: FunctionComponent<Props> = ({ product }) => {
   const router = useRouter();
 
   const price = priceRange.minVariantPrice;
+
+  // const handleAddToCart = () => {
+  //   startTransition(() => {
+  //     const selectedVariantId = getSelectedVariantId({
+  //       variants,
+  //       size: selectedSize,
+  //       color: selectedColor
+  //     });
+
+  //     addToCart({ selectedVariantId }).then(({ success, error }) => {
+  //       if (success) {
+  //         setIsAdded(true);
+  //       }
+
+  //       if (error) {
+  //         // TODO error handling
+  //       }
+  //     });
+  //   });
+  // };
 
   const handleAddToCart = () => {
     startTransition(() => {
