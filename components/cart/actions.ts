@@ -1,23 +1,26 @@
 "use server";
 
 import { TAGS } from "lib/constants";
-import { addToCart, createCart, removeItems, updateCart } from "lib/shopify";
+import { createDraftOrder, getDraftOrderById, updateDraftOrder } from "lib/shopify/admin";
+import { addToCart, createCart, removeItems, updateCart } from "lib/shopify/storefront";
+import { isReserveValid } from "lib/utils";
 import { revalidateTag } from "next/cache";
 
-import type { Line } from "lib/shopify/types";
+import type { DraftOrderInput } from "lib/shopify/admin/types";
+import type { Line } from "lib/shopify/storefront/types";
 
 export const addItem = async (selectedVariantId: string, cartId: string | undefined) => {
   if (cartId) {
     //User try to add item to existing cart;
     try {
-      await addToCart(cartId, [{ merchandiseId: selectedVariantId, quantity: 1 }]);
+      const cart = await addToCart(cartId, [{ merchandiseId: selectedVariantId, quantity: 1 }]);
       revalidateTag(TAGS.cart);
 
-      return null;
+      return { createdCartId: null, cart };
     } catch (error) {
       console.error(error);
 
-      return null;
+      return { createdCartId: null, cart: null };
     }
   } else {
     //User try to add item first time
@@ -25,14 +28,14 @@ export const addItem = async (selectedVariantId: string, cartId: string | undefi
     const cartId = cart.id;
 
     try {
-      await addToCart(cartId, [{ merchandiseId: selectedVariantId, quantity: 1 }]);
+      const cart = await addToCart(cartId, [{ merchandiseId: selectedVariantId, quantity: 1 }]);
       revalidateTag(TAGS.cart);
 
-      return cartId;
+      return { createdCartId: cartId, cart };
     } catch (error) {
       console.error(error);
 
-      return null;
+      return { createdCartId: null, cart: null };
     }
   }
 };
@@ -87,5 +90,55 @@ export const updateItemQuantity = async (cartId: string, line: Line) => {
     return {
       error: "Error updating item quantity"
     };
+  }
+};
+
+export const checkoutCart = async (input: DraftOrderInput, draftOrderId: string) => {
+  if (draftOrderId) {
+    const draftOrder = await getDraftOrderById(draftOrderId);
+
+    const { reserveInventoryUntil, customAttributes } = draftOrder;
+    const { lineItems: newLineItems } = input;
+
+    if (isReserveValid(reserveInventoryUntil)) {
+      //Set up new order – just in case if user changed smth
+      const updatedCustomAttributes = [...customAttributes, { key: "wasFiltered", value: "true" }];
+      const newInput: DraftOrderInput = {
+        ...input,
+        customAttributes: updatedCustomAttributes,
+        reserveInventoryUntil
+      };
+
+      const updatedDraftOrder = await updateDraftOrder(draftOrderId, newInput);
+
+      return { data: updatedDraftOrder, success: "Draft order successfully created" };
+    } else {
+      //Reservation is over. If item is out of stock, Shopify send quantity === 0. So we need to remove'em from the cart.
+      const filteredNewLineItems = newLineItems?.filter(({ quantity }) => quantity > 0);
+      const updatedCustomAttributes = [...customAttributes, { key: "wasFiltered", value: "true" }];
+
+      const newInput: DraftOrderInput = {
+        ...input,
+        lineItems: filteredNewLineItems,
+        customAttributes: updatedCustomAttributes
+      };
+
+      const updatedDraftOrder = await updateDraftOrder(draftOrderId, newInput);
+
+      return {
+        data: updatedDraftOrder,
+        success: "Unfortunately, some items are out of stock. We have removed them from your cart."
+      };
+    }
+  } else {
+    try {
+      const draftOrder = await createDraftOrder(input);
+
+      return { data: draftOrder, success: "Draft order successfully created" };
+    } catch (error) {
+      console.error(error);
+
+      return { error };
+    }
   }
 };

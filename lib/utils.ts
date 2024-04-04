@@ -74,3 +74,33 @@ export const prepareCartIdForUrl = (cartId: string) => cartId.replace("gid://sho
 
 export const prepareCartIdForRequest = (cartId: string) =>
   cartId.replace("/", "gid://shopify/Cart/");
+
+export const truncateMiddle = (input: string) => {
+  const middleLength = input.length - 10;
+
+  const modifiedString =
+    input.slice(0, 5) + "...".repeat(middleLength > 0 ? 1 : 0) + input.slice(-5);
+
+  return modifiedString;
+};
+
+export const createReserveTimestamp = (minutes: number) => {
+  const currentDate: Date = new Date();
+
+  const futureDate: Date = new Date(currentDate.getTime() + minutes * 60000);
+
+  const iso8601DateTime: string = futureDate.toISOString();
+
+  return iso8601DateTime;
+};
+
+export const isReserveValid = (reservedUntil: string) => {
+  const reservedUntilDate = new Date(reservedUntil);
+  const currentDate = new Date();
+
+  if (reservedUntilDate < currentDate) {
+    return false;
+  } else {
+    return true;
+  }
+};

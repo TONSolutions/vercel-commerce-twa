@@ -1,5 +1,5 @@
-import { MainPage } from "components/main-page/MainPage";
-import { getProducts } from "lib/shopify";
+import { MainPage } from "components/main-page/main-page";
+import { getProducts } from "lib/shopify/storefront";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 

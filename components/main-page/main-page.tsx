@@ -1,39 +1,32 @@
 "use client";
 
+import { TonConnectButton, useTonAddress, useTonWallet } from "@tonconnect/ui-react";
 import { Card } from "components/ui/Card";
+import { useCartDataConductor } from "contexts/CartContext";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
-import { getValueFromTelegramCloudStorage, prepareCartIdForUrl } from "lib/utils";
 import Link from "next/link";
-import { useEffect, useState, type FunctionComponent } from "react";
+import { useEffect, type FunctionComponent } from "react";
 
-import type { Product } from "lib/shopify/types";
+import type { Product } from "lib/shopify/storefront/types";
 
 type Props = {
   products: Product[];
 };
 
+//TODO style dropdown button when wallet is connected;
+
 export const MainPage: FunctionComponent<Props> = ({ products }) => {
-  const [cartId, setCartId] = useState<null | string>(null);
   const {
     initDataUnsafe: { user },
     MainButton,
     expand
   } = useWebAppDataConductor();
 
-  const cartLink = cartId ? `cart${cartId}` : "/cart";
+  const { itemsQuantity } = useCartDataConductor();
 
-  useEffect(() => {
-    //TODO transition;
-    const handleCartId = async () => {
-      const cartId = (await getValueFromTelegramCloudStorage("cartId")) as string;
-
-      if (cartId) {
-        setCartId(prepareCartIdForUrl(cartId));
-      }
-    };
-
-    handleCartId();
-  }, []);
+  const cartLink = itemsQuantity && itemsQuantity > 0 ? `/cart/items` : "/cart";
+  const wallet = useTonWallet();
+  const address = useTonAddress();
 
   useEffect(() => {
     MainButton.hide();
@@ -42,12 +35,19 @@ export const MainPage: FunctionComponent<Props> = ({ products }) => {
 
   return (
     <div className="flex min-h-screen flex-col justify-between">
-      <div>
-        <h1 className="p-4">{`Hello ${user?.username ?? "User"}! This page is WIP. Just preview`}</h1>
+      <div className="flex flex-col gap-4">
+        <h1 className="px-4">{`Hello ${user?.username ?? "User"}! This page is WIP. Just preview`}</h1>
+
+        {wallet ? (
+          <p className="px-4 text-xs">{`You've connected wallet. The current address is: ${address}`}</p>
+        ) : null}
 
         <Link href={cartLink}>
           <span className="ml-4 mt-2 rounded-xl bg-[#007AFF] px-4 py-2 text-white">Cart</span>
         </Link>
+
+        {/* {wallet ? null : <TonConnectButton className="mt-5 self-end" />} */}
+        <TonConnectButton className="mt-5 self-end" />
       </div>
 
       <Card>

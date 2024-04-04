@@ -1,5 +1,5 @@
-import imageFragment from "lib/shopify/fragments/image";
-import seoFragment from "lib/shopify/fragments/seo";
+import imageFragment from "lib/shopify/storefront/fragments/image";
+import seoFragment from "lib/shopify/storefront/fragments/seo";
 
 const productFragment = /* GraphQL */ `
   fragment product on Product {
