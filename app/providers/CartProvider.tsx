@@ -2,7 +2,7 @@
 import { clearCart, updateItemQuantity } from "components/cart/actions";
 import { Routes } from "components/constants";
 import { CartDataConductorProvider } from "contexts/CartContext";
-import { request } from "lib/requets";
+import { request } from "lib/request";
 import { getValueFromTelegramCloudStorage, prepareCartIdForUrl } from "lib/utils";
 import { useRouter } from "next/navigation";
 import {

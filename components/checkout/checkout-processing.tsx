@@ -1,4 +1,5 @@
 "use client";
+import { useTonAddress } from "@tonconnect/ui-react";
 import { clearCart } from "components/cart/actions";
 import { markOrderAsPaid } from "components/checkout/actions";
 import { ProcessingStatus } from "components/constants";
@@ -6,6 +7,7 @@ import { useGetCheckoutStatusContent } from "components/hooks/useGetCheckoutStat
 import { useCartDataConductor } from "contexts/CartContext";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
 import { Link } from "konsta/react";
+import { pollTransactionStatus } from "lib/pollTransactionStatus";
 import {
   getValueFromTelegramCloudStorage,
   prepareCartIdForRequest,
@@ -14,7 +16,13 @@ import {
 import Lottie from "lottie-react";
 import { useEffect, useState } from "react";
 
-export const CheckoutProcessingPage = () => {
+import type { FunctionComponent } from "react";
+
+type Props = {
+  amount: string;
+};
+
+export const CheckoutProcessingPage: FunctionComponent<Props> = ({ amount }) => {
   const [status, setStatus] = useState(ProcessingStatus.NotStarted);
 
   const { cart, cartId, setCart } = useCartDataConductor();
@@ -23,6 +31,8 @@ export const CheckoutProcessingPage = () => {
     useGetCheckoutStatusContent(status);
 
   const { MainButton } = useWebAppDataConductor();
+
+  const address = useTonAddress(false);
 
   useEffect(() => {
     if (buttonSettings) {
@@ -40,10 +50,11 @@ export const CheckoutProcessingPage = () => {
   }, [status]);
 
   useEffect(() => {
-    setStatus(ProcessingStatus.Started);
-    const timeoutId = setTimeout(() => setStatus(ProcessingStatus.Success), 5000);
+    setStatus(ProcessingStatus.Processing);
 
-    return () => clearTimeout(timeoutId);
+    pollTransactionStatus(address, Number(amount))
+      .then((status) => setStatus(status))
+      .catch((status) => setStatus(status));
   }, []);
 
   useEffect(() => {

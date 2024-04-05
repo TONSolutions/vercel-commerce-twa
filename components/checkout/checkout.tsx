@@ -8,7 +8,7 @@ import { TotalSection } from "components/checkout/components/TotalSection";
 import { FEE, NANOTONS_IN_TON, Routes } from "components/constants";
 import { useCartDataConductor } from "contexts/CartContext";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
-import { request } from "lib/requets";
+import { request } from "lib/request";
 import { getValueFromTelegramCloudStorage } from "lib/utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -32,12 +32,18 @@ export const CheckoutPage: FunctionComponent = () => {
     startTransition(() => {
       MainButton.hide();
       const amount = String(NANOTONS_IN_TON * (Number(total) + FEE));
+      const address = process.env.NEXT_PUBLIC_TON_WALLET_ADDRESS;
+
+      if (!address) {
+        // TODO error handling
+        return;
+      }
 
       const TRANSACTION: SendTransactionRequest = {
         validUntil: Math.floor(Number(new Date()) / 1000),
         messages: [
           {
-            address: "0:9bf8d856ecbadfdf472438f59a79d346928a51a08920061a573e720be16bbb3a", //TODO put to ENV
+            address,
             amount
           }
         ]
@@ -46,7 +52,7 @@ export const CheckoutPage: FunctionComponent = () => {
       tonConnectUI
         .sendTransaction(TRANSACTION)
         .then(() => {
-          router.push(Routes.CheckoutProcessing);
+          router.push(Routes.CheckoutProcessing.replace(":amount", amount));
         })
         .finally(() => {
           MainButton.show();
