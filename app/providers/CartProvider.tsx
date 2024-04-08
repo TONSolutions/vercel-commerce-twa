@@ -27,6 +27,7 @@ export const CartProvider: FunctionComponent<Props> = ({ children }) => {
   const router = useRouter();
 
   useEffect(() => {
+    //TODO add transition
     const fetchCart = async () => {
       const cartId = (await getValueFromTelegramCloudStorage("cartId")) as string;
 

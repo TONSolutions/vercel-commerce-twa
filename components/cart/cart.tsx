@@ -14,8 +14,7 @@ import {
   createReserveTimestamp,
   getValueFromTelegramCloudStorage,
   prepareCartIdForRequest,
-  setValueFromTelegramCloudStorage,
-  truncateMiddle
+  setValueFromTelegramCloudStorage
 } from "lib/utils";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition, type FunctionComponent } from "react";
@@ -49,7 +48,7 @@ export const CartPage: FunctionComponent<Props> = ({ locations }) => {
   const handleCheckout = () => {
     startTransition(async () => {
       const customAttributes = [
-        { key: "paymentMethod", value: truncateMiddle(address) },
+        { key: "paymentMethod", value: address },
         {
           key: "shippingInformation",
           value: `${locations[0].address.city}, ${locations[0].address.countryCode}`

@@ -1,5 +1,6 @@
 export enum Routes {
   Checkout = "/checkout",
+  CheckoutEdit = "/checkout/edit",
   CheckoutProcessing = "/checkout/processing/:amount",
   Cart = "/cart",
   CartItems = "/cart/items",

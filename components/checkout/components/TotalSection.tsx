@@ -8,10 +8,12 @@ export const TotalSection = () => {
   }
 
   return (
-    <div className="flex justify-between pt-4 text-xl font-semibold">
-      <span>Total price</span>
+    <div className="pl-4">
+      <div className="relative flex justify-between py-4 pr-4 text-xl font-semibold hairline-t">
+        <span>Total price</span>
 
-      <span>{total}</span>
+        <span>{total}</span>
+      </div>
     </div>
   );
 };
