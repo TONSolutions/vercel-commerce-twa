@@ -2,15 +2,14 @@
 
 import { useTonConnectUI } from "@tonconnect/ui-react";
 import { BackButton } from "@twa-dev/sdk/react";
+import { getDraftOrderById } from "components/checkout/actions";
 import { CheckoutItems } from "components/checkout/components/CheckoutItems";
-import { Option } from "components/checkout/components/Option";
 import { TotalSection } from "components/checkout/components/TotalSection";
 import { FEE, NANOTONS_IN_TON, Routes } from "components/constants";
 import { useCartDataConductor } from "contexts/CartContext";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
-import { request } from "lib/requets";
-import { getValueFromTelegramCloudStorage } from "lib/utils";
-import Link from "next/link";
+import { List, ListItem } from "konsta/react";
+import { getValueFromTelegramCloudStorage, truncateMiddle } from "lib/utils";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition, type FunctionComponent } from "react";
 
@@ -32,12 +31,18 @@ export const CheckoutPage: FunctionComponent = () => {
     startTransition(() => {
       MainButton.hide();
       const amount = String(NANOTONS_IN_TON * (Number(total) + FEE));
+      const address = process.env.NEXT_PUBLIC_TON_WALLET_ADDRESS;
+
+      if (!address) {
+        // TODO error handling
+        return;
+      }
 
       const TRANSACTION: SendTransactionRequest = {
         validUntil: Math.floor(Number(new Date()) / 1000),
         messages: [
           {
-            address: "0:9bf8d856ecbadfdf472438f59a79d346928a51a08920061a573e720be16bbb3a", //TODO put to ENV
+            address,
             amount
           }
         ]
@@ -46,7 +51,7 @@ export const CheckoutPage: FunctionComponent = () => {
       tonConnectUI
         .sendTransaction(TRANSACTION)
         .then(() => {
-          router.push(Routes.CheckoutProcessing);
+          router.push(Routes.CheckoutProcessing.replace(":amount", amount));
         })
         .finally(() => {
           MainButton.show();
@@ -58,9 +63,15 @@ export const CheckoutPage: FunctionComponent = () => {
     startTransition(async () => {
       const draftOrderId = (await getValueFromTelegramCloudStorage("draftOrderId")) as string;
 
-      const draftOrder = await request<DraftOrder>("/api/draft-order", { body: { draftOrderId } });
+      getDraftOrderById(draftOrderId).then(({ data, success, error }) => {
+        if (success) {
+          setDraftOrder(data);
+        }
 
-      setDraftOrder(draftOrder);
+        if (error) {
+          // TODO ADD
+        }
+      });
     });
   }, []);
 
@@ -87,32 +98,34 @@ export const CheckoutPage: FunctionComponent = () => {
   const address = customAttributes.find((item) => item.key === "shippingInformation");
   const name = customAttributes.find((item) => item.key === "name");
   const paymentMethod = customAttributes.find((item) => item.key === "paymentMethod");
+  const phone = customAttributes.find((item) => item.key === "phone");
 
   return (
-    <div className="px-4 pt-6">
+    <div className="pt-6">
       <BackButton />
 
-      <div className="mb-6">
-        <h1 className="mb-3 text-xl font-bold">Checkout</h1>
+      <h1 className="mb-3 px-4 text-xl font-bold">Checkout</h1>
 
-        <div className="divide-y divide-[#C8C7CB] rounded-xl bg-bg_color px-4 py-3">
-          <CheckoutItems items={lineItems} />
+      <div className="m-4 rounded-xl bg-bg_color">
+        <CheckoutItems items={lineItems} />
 
-          <TotalSection />
-        </div>
+        <TotalSection />
       </div>
 
-      <div className="rounded-xl bg-bg_color px-4 py-3">
-        <Link href="/checkout/edit" className="divide-y divide-[#C8C7CB]">
-          <Option title="Payment Method" option={paymentMethod?.value ?? ""} />
+      <List className="m-4 rounded-xl bg-bg_color" strongIos>
+        <ListItem title="Payment Method" after={truncateMiddle(paymentMethod?.value ?? "")} />
 
-          <Option title="Shipping information" option={address?.value ?? ""} clickable />
+        <ListItem
+          link
+          href={Routes.CheckoutEdit}
+          title="Shipping information"
+          after={address?.value ?? ""}
+        />
 
-          <Option title="Name" option={name?.value ?? ""} clickable />
+        <ListItem link href={Routes.CheckoutEdit} title="Name" after={name?.value ?? ""} />
 
-          <Option title="Phone" option="" clickable />
-        </Link>
-      </div>
+        <ListItem link href={Routes.CheckoutEdit} title="Phone" after={phone?.value ?? ""} />
+      </List>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 export enum Routes {
   Checkout = "/checkout",
-  CheckoutProcessing = "/checkout/processing",
+  CheckoutEdit = "/checkout/edit",
+  CheckoutProcessing = "/checkout/processing/:amount",
   Cart = "/cart",
   CartItems = "/cart/items",
   Main = "/",
@@ -9,7 +10,7 @@ export enum Routes {
 
 export enum ProcessingStatus {
   NotStarted = "not_started",
-  Started = "started",
+  Processing = "processing",
   Success = "success",
   Error = "error"
 }

@@ -19,7 +19,7 @@ export const useGetCheckoutStatusContent = (status: ProcessingStatus) => {
       linkAction: () => console.log("triggered"), //TODO IMPLEMENT
       buttonSettings: null
     },
-    [ProcessingStatus.Started]: {
+    [ProcessingStatus.Processing]: {
       animation: processingAnimation,
       title: "Checking your payment",
       subtitle: "Hold on a second, we need to make sure the payment went through successfully.",

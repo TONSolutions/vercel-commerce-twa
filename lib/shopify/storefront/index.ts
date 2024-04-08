@@ -285,7 +285,8 @@ export async function getCompanyLocations({
     query: getLocationsQuery,
     variables: {
       first
-    }
+    },
+    cache: "no-store"
   });
 
   return removeEdgesAndNodes(res.body.data.locations);

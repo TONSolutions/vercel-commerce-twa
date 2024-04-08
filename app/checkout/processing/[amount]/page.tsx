@@ -6,6 +6,6 @@ export const runtime = "edge";
 
 export const revalidate = 43200; // 12 hours in seconds
 
-export default async function Page() {
-  return <CheckoutProcessingPage />;
+export default async function Page({ params }: { params: { amount: string } }) {
+  return <CheckoutProcessingPage amount={params.amount} />;
 }

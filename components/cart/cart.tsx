@@ -14,17 +14,13 @@ import {
   createReserveTimestamp,
   getValueFromTelegramCloudStorage,
   prepareCartIdForRequest,
-  setValueFromTelegramCloudStorage,
-  truncateMiddle
+  setValueFromTelegramCloudStorage
 } from "lib/utils";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition, type FunctionComponent } from "react";
 
 import type { DraftOrderInput } from "lib/shopify/admin/types";
 import type { ShopifyLocation } from "lib/shopify/storefront/types";
-
-//TODO add check for items in cart with 0 quantity – they are sold, we need to remove them and notify the user
-//gid://shopify/Cart/c1-f1feed27b05066ff619afbcadf8be935
 
 type Props = {
   locations: ShopifyLocation[];
@@ -52,7 +48,7 @@ export const CartPage: FunctionComponent<Props> = ({ locations }) => {
   const handleCheckout = () => {
     startTransition(async () => {
       const customAttributes = [
-        { key: "paymentMethod", value: truncateMiddle(address) },
+        { key: "paymentMethod", value: address },
         {
           key: "shippingInformation",
           value: `${locations[0].address.city}, ${locations[0].address.countryCode}`

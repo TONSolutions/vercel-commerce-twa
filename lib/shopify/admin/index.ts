@@ -76,11 +76,11 @@ export async function completeDraftOrder(id: string): Promise<string> {
   return res.body.data.draftOrderComplete.draftOrder.order.name;
 }
 
-export async function getDraftOrderById(draftOrderId: string): Promise<DraftOrder> {
+export async function getDraftOrder(id: string): Promise<DraftOrder> {
   const res = await adminFetch<ShopifyGetDraftOrderOperation>({
     query: getDraftOrderQuery,
     variables: {
-      id: draftOrderId,
+      id
     },
     cache: "no-store"
   });
