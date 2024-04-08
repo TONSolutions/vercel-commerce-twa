@@ -1,10 +1,10 @@
 import { CheckoutItem } from "components/checkout/components/CheckoutItem";
 
-import type { DraftOrderLineItem } from "lib/shopify/admin/types";
+import type { LineItem } from "lib/shopify/admin/types";
 import type { FunctionComponent } from "react";
 
 type Props = {
-  items: DraftOrderLineItem[];
+  items: LineItem[];
 };
 
 export const CheckoutItems: FunctionComponent<Props> = ({ items }) => {

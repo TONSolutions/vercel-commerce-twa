@@ -16,8 +16,6 @@ import { useEffect, useState, useTransition, type FunctionComponent } from "reac
 import type { SendTransactionRequest } from "@tonconnect/ui-react";
 import type { DraftOrder } from "lib/shopify/admin/types";
 
-//TODO use components from Konsta UI
-
 export const CheckoutPage: FunctionComponent = () => {
   const { total } = useCartDataConductor();
   const [isPending, startTransition] = useTransition();
@@ -39,7 +37,7 @@ export const CheckoutPage: FunctionComponent = () => {
       }
 
       const TRANSACTION: SendTransactionRequest = {
-        validUntil: Math.floor(Number(new Date()) / 1000),
+        validUntil: Math.floor(Date.now() + 1000000),
         messages: [
           {
             address,
@@ -97,7 +95,6 @@ export const CheckoutPage: FunctionComponent = () => {
 
   const address = customAttributes.find((item) => item.key === "shippingInformation");
   const name = customAttributes.find((item) => item.key === "name");
-  const paymentMethod = customAttributes.find((item) => item.key === "paymentMethod");
   const phone = customAttributes.find((item) => item.key === "phone");
 
   return (
@@ -113,7 +110,7 @@ export const CheckoutPage: FunctionComponent = () => {
       </div>
 
       <List className="m-4 rounded-xl bg-bg_color" strongIos>
-        <ListItem title="Payment Method" after={truncateMiddle(paymentMethod?.value ?? "")} />
+        <ListItem title="Payment Method" after={truncateMiddle(draftOrder.poNumber ?? "")} />
 
         <ListItem
           link

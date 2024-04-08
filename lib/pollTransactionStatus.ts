@@ -115,7 +115,7 @@ export async function pollTransactionStatus(
     attempt++;
 
     // Wait for 5 seconds before fetching data again
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    await new Promise((resolve) => setTimeout(resolve, 10000));
   }
 
   if (attempt === 5) {

@@ -48,7 +48,6 @@ export const CartPage: FunctionComponent<Props> = ({ locations }) => {
   const handleCheckout = () => {
     startTransition(async () => {
       const customAttributes = [
-        { key: "paymentMethod", value: address },
         {
           key: "shippingInformation",
           value: `${locations[0].address.city}, ${locations[0].address.countryCode}`
@@ -65,7 +64,8 @@ export const CartPage: FunctionComponent<Props> = ({ locations }) => {
       const input: DraftOrderInput = {
         lineItems,
         reserveInventoryUntil: createReserveTimestamp(30),
-        customAttributes
+        customAttributes,
+        poNumber: address // This is workaround: we set wallet's address as Post Office Number as this data is shared among Draft Order Update Input, Draft Order and Order and can be used to fetch them
       };
 
       const draftOrderId = (await getValueFromTelegramCloudStorage("draftOrderId")) as string;

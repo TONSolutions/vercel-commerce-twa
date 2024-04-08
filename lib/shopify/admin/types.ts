@@ -1,4 +1,4 @@
-import type { Connection, Image } from "lib/shopify/storefront/types";
+import type { Address, Connection, Image } from "lib/shopify/storefront/types";
 
 type Product = {
   featuredImage: Image;
@@ -6,12 +6,13 @@ type Product = {
 
 export type DraftOrderInput = {
   customAttributes?: CustomAttribute[];
-  lineItems?: DraftOrderLineItem[];
+  lineItems?: LineItem[];
   phone?: string;
   reserveInventoryUntil?: string;
+  poNumber?: string;
 };
 
-export type DraftOrderLineItem = {
+export type LineItem = {
   quantity: number;
   variantId: string;
   title: string;
@@ -42,11 +43,48 @@ export type ShopifyDraftOrder = {
   name: string;
   reserveInventoryUntil: string;
   status: string;
-  lineItems: Connection<DraftOrderLineItem>;
+  lineItems: Connection<LineItem>;
+  poNumber: string;
 };
 
 export type DraftOrder = Omit<ShopifyDraftOrder, "lineItems"> & {
-  lineItems: DraftOrderLineItem[];
+  lineItems: LineItem[];
+};
+
+export type ShopifyOrder = {
+  id: string;
+  name: string;
+  tags: string[];
+  lineItems: Connection<LineItem>;
+  customAttributes: CustomAttribute[];
+  subtotalLineItemsQuantity: number;
+  displayFulfillmentStatus: string;
+  createdAt: string;
+  poNumber: string;
+  fulfillments: Fulfillment[];
+};
+
+export type Order = Omit<ShopifyOrder, "lineItems"> & {
+  lineItems: LineItem[];
+};
+
+type Fulfillment = {
+  id: string;
+  location: {
+    address: Address;
+  };
+  status: string;
+  displayStatus: string;
+  updatedAt: string;
+};
+
+export type ShopifyGetOrdersOperation = {
+  data: {
+    orders: Connection<ShopifyOrder>;
+  };
+  variables: {
+    queryString: string;
+  };
 };
 
 export type ShopifyCreateDraftOrderOperation = {
