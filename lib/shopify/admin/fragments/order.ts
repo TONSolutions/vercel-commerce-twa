@@ -56,6 +56,7 @@ export const orderFragment = /* GraphQL */ `
     subtotalLineItemsQuantity
     displayFulfillmentStatus
     createdAt
+    updatedAt
     poNumber
     fulfillments {
       ...fulfillmentsFragment

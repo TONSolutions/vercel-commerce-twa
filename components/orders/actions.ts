@@ -1,6 +1,9 @@
 "use server";
 
+import { OrderType } from "components/orders/constants";
 import { getOrders } from "lib/shopify/admin";
+
+import type { MappedOrders } from "components/orders/types";
 
 export const getOrdersByAddress = async (address: string) => {
   if (!address) {
@@ -10,7 +13,21 @@ export const getOrdersByAddress = async (address: string) => {
   try {
     const orders = await getOrders(address);
 
-    return { data: orders, success: "Orders successfully fetched" };
+    const mappedOrders = orders.reduce<MappedOrders>(
+      (acc, curr) => {
+        if (curr.displayFulfillmentStatus === "UNFULFILLED") {
+          return { ...acc, [OrderType.Active]: [...acc[OrderType.Active], curr] };
+        }
+
+        return { ...acc, [OrderType.Finished]: [...acc[OrderType.Finished], curr] };
+      },
+      {
+        [OrderType.Active]: [],
+        [OrderType.Finished]: []
+      }
+    );
+
+    return { data: mappedOrders, success: "Orders successfully fetched" };
   } catch (error) {
     console.error(error);
 

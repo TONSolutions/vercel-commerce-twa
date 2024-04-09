@@ -133,6 +133,7 @@ export const CheckoutEditPage: FunctionComponent<Props> = ({ locations }) => {
           ))}
         </ListWithTitle>
 
+        {/* TODO move to ui component HintText */}
         <p className="mx-4 px-4 text-sm text-[#6D6D72]">
           Now in our store, delivery is available only to the pick-up point. In the near future, the
           options will be more.

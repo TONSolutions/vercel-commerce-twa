@@ -70,10 +70,11 @@ export function setValueFromTelegramCloudStorage(key: string, value: string) {
   });
 }
 
-export const prepareCartIdForUrl = (cartId: string) => cartId.replace("gid://shopify/Cart/", "/");
+export const prepareShopifyIdForUrl = (id: string, resource = "Cart") =>
+  id.replace(`gid://shopify/${resource}/`, "/");
 
-export const prepareCartIdForRequest = (cartId: string) =>
-  cartId.replace("/", "gid://shopify/Cart/");
+export const prepareShopifyIdForRequest = (id: string, resource = "Cart") =>
+  id.replace("/", `gid://shopify/${resource}/`);
 
 export const truncateMiddle = (input: string) => {
   const middleLength = input.length - 10;

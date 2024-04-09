@@ -1,6 +1,6 @@
+import { Table, TableBody, TableHeader, TableRow } from "components/common/ui/Table";
 import { SizesHeaderTableCell } from "components/product/components/SizesHeaderTableCell";
 import { SizesTableBodyCell } from "components/product/components/SizesTableBodyCell";
-import { Table, TableBody, TableHeader, TableRow } from "components/ui/Table";
 import { motion } from "framer-motion";
 
 export const SizesTable = () => (

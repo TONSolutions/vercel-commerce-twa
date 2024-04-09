@@ -13,7 +13,7 @@ import { useWebAppDataConductor } from "contexts/WebAppContext";
 import {
   createReserveTimestamp,
   getValueFromTelegramCloudStorage,
-  prepareCartIdForRequest,
+  prepareShopifyIdForRequest,
   setValueFromTelegramCloudStorage
 } from "lib/utils";
 import { useRouter } from "next/navigation";
@@ -52,7 +52,8 @@ export const CartPage: FunctionComponent<Props> = ({ locations }) => {
           key: "shippingInformation",
           value: `${locations[0].address.city}, ${locations[0].address.countryCode}`
         },
-        { key: "name", value: `${user?.first_name} ${user?.last_name}` }
+        { key: "name", value: `${user?.first_name} ${user?.last_name}` },
+        { key: "deliveryEstimation", value: String(new Date()) }
       ];
 
       const lineItems = cart?.lines.map(({ quantity, merchandise }) => ({
@@ -74,15 +75,6 @@ export const CartPage: FunctionComponent<Props> = ({ locations }) => {
         if (success) {
           const { id } = data;
           setValueFromTelegramCloudStorage("draftOrderId", id);
-
-          //TODO FINISH
-          // if (customAttributes.find(({ key }) => key === "wasFiltered")) {
-          //   MainButton.hide();
-          //   setIsToastOpen(true);
-          //   router.push(Routes.Checkout);
-
-          //   return;
-          // }
 
           router.push(Routes.Checkout);
         }
@@ -134,7 +126,7 @@ export const CartPage: FunctionComponent<Props> = ({ locations }) => {
         const idsToRemove = soldItems?.map(({ id }) => id);
 
         if (cartId) {
-          clearCart(prepareCartIdForRequest(cartId), idsToRemove).then(
+          clearCart(prepareShopifyIdForRequest(cartId), idsToRemove).then(
             ({ success, error, data }) => {
               if (success) {
                 setCart(data);

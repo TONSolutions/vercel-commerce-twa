@@ -21,7 +21,7 @@ export type LineItem = {
   product?: Product;
 };
 
-type CustomAttribute = {
+export type CustomAttribute = {
   key: string;
   value: string;
 };
@@ -60,8 +60,9 @@ export type ShopifyOrder = {
   subtotalLineItemsQuantity: number;
   displayFulfillmentStatus: string;
   createdAt: string;
+  updatedAt: string;
   poNumber: string;
-  fulfillments: Fulfillment[];
+  fulfillments: Fulfillment[]; //TODO maybe needed to be removed;
 };
 
 export type Order = Omit<ShopifyOrder, "lineItems"> & {

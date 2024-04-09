@@ -1,10 +1,10 @@
 "use client";
+import { OverlayCard } from "components/common/ui/Card";
 import { CardPriceBlock } from "components/product/components/CardPriceBlock";
 import { CardTitleBlock } from "components/product/components/CardTitleBlock";
 import { ColorsBlock } from "components/product/components/ColorsBlock";
 import { SizesBlock } from "components/product/components/SizesBlock";
 import { mapColorsToHexCodex } from "components/product/utils";
-import { Card } from "components/ui/Card";
 import data from "data/tonRates.json"; //TODO replace on fetched;
 import { motion } from "framer-motion";
 import { type FunctionComponent } from "react";
@@ -53,7 +53,7 @@ export const ProductCard: FunctionComponent<Props> = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.2 }}
     >
-      <Card className="min-h-[45vh]">
+      <OverlayCard className="min-h-[45vh]">
         <div className="flex flex-col justify-between gap-4 px-4 pb-4">
           <CardPriceBlock priceInTon={priceInTon} priceInUsd={priceInUsd} />
 
@@ -75,7 +75,7 @@ export const ProductCard: FunctionComponent<Props> = ({
             />
           ) : null}
         </div>
-      </Card>
+      </OverlayCard>
     </motion.div>
   );
 };

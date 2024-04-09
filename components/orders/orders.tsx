@@ -2,14 +2,23 @@
 
 import { useTonAddress } from "@tonconnect/ui-react";
 import { BackButton } from "@twa-dev/sdk/react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "components/common/ui/tabs";
 import { getOrdersByAddress } from "components/orders/actions";
+import { OrdersList } from "components/orders/components/OrdersList";
+import { OrderType } from "components/orders/constants";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
 import { useEffect, useState, useTransition } from "react";
 
-import type { Order } from "lib/shopify/admin/types";
+import type { MappedOrders } from "components/orders/types";
+import type { ShopifyLocation } from "lib/shopify/storefront/types";
+import type { FunctionComponent } from "react";
 
-export const OrdersPage = () => {
-  const [orders, setOrders] = useState<Order[] | null>(null);
+type Props = {
+  locations: ShopifyLocation[];
+};
+
+export const OrdersPage: FunctionComponent<Props> = ({ locations }) => {
+  const [orders, setOrders] = useState<MappedOrders | null>(null);
   const { MainButton } = useWebAppDataConductor();
   const [isPending, startTransition] = useTransition();
   const address = useTonAddress();
@@ -32,15 +41,39 @@ export const OrdersPage = () => {
     });
   }, []);
 
-  if (isPending || !orders) {
+  if (isPending || orders === null) {
     return <h1>Loading...</h1>;
   }
 
   return (
-    <div className="pt-6">
+    <div className="mx-4 min-h-screen pt-6">
       <BackButton />
 
       <h1 className="mb-3 px-4 text-xl font-bold">My orders</h1>
+
+      <Tabs defaultValue={OrderType.Active}>
+        <TabsList className="grid w-full grid-cols-2 bg-[#74748014]">
+          <TabsTrigger value={OrderType.Active}>Active</TabsTrigger>
+
+          <TabsTrigger value={OrderType.Finished}>Finished</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value={OrderType.Active}>
+          <OrdersList
+            type={OrderType.Active}
+            orders={orders[OrderType.Active]}
+            locations={locations}
+          />
+        </TabsContent>
+
+        <TabsContent value={OrderType.Finished}>
+          <OrdersList
+            type={OrderType.Finished}
+            orders={orders[OrderType.Finished]}
+            locations={locations}
+          />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
