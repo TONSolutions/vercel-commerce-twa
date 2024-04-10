@@ -101,11 +101,10 @@ export const checkoutCart = async (input: DraftOrderInput, draftOrderId: string)
     const { lineItems: newLineItems } = input;
 
     if (isReserveValid(reserveInventoryUntil)) {
-      //Set up new order – just in case if user changed smth
-      const updatedCustomAttributes = [...customAttributes, { key: "wasFiltered", value: "true" }];
+      //Update draft order content – just in case if user added new goods in cart
       const newInput: DraftOrderInput = {
         ...input,
-        customAttributes: updatedCustomAttributes,
+        lineItems: newLineItems,
         reserveInventoryUntil
       };
 

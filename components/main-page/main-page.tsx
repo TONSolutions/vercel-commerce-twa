@@ -1,7 +1,8 @@
 "use client";
 
 import { TonConnectButton, useTonAddress, useTonWallet } from "@tonconnect/ui-react";
-import { Card } from "components/ui/Card";
+import { OverlayCard } from "components/common/ui/Card";
+import { Routes } from "components/constants";
 import { useCartDataConductor } from "contexts/CartContext";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
 import Link from "next/link";
@@ -46,11 +47,14 @@ export const MainPage: FunctionComponent<Props> = ({ products }) => {
           <span className="ml-4 mt-2 rounded-xl bg-[#007AFF] px-4 py-2 text-white">Cart</span>
         </Link>
 
-        {/* {wallet ? null : <TonConnectButton className="mt-5 self-end" />} */}
+        <Link href={Routes.Orders}>
+          <span className="ml-4 mt-2 rounded-xl bg-[#007AFF] px-4 py-2 text-white">Orders</span>
+        </Link>
+
         <TonConnectButton className="mt-5 self-end" />
       </div>
 
-      <Card>
+      <OverlayCard>
         <div className="grid grid-cols-2 gap-2 px-4 pb-4">
           {products.map((product, index) => (
             <Link key={index} href={`/${product.handle}`}>
@@ -62,7 +66,7 @@ export const MainPage: FunctionComponent<Props> = ({ products }) => {
             </Link>
           ))}
         </div>
-      </Card>
+      </OverlayCard>
     </div>
   );
 };

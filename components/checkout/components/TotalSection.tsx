@@ -1,8 +1,10 @@
-import { useCartDataConductor } from "contexts/CartContext";
+import type { FunctionComponent } from "react";
 
-export const TotalSection = () => {
-  const { total } = useCartDataConductor();
+type Props = {
+  total: string;
+};
 
+export const TotalSection: FunctionComponent<Props> = ({ total }) => {
   if (!total) {
     return null;
   }
@@ -12,7 +14,7 @@ export const TotalSection = () => {
       <div className="relative flex justify-between py-4 pr-4 text-xl font-semibold hairline-t">
         <span>Total price</span>
 
-        <span>{total}</span>
+        <span>{`${total} TON`}</span>
       </div>
     </div>
   );
