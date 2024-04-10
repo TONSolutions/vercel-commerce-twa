@@ -51,6 +51,12 @@ export type DraftOrder = Omit<ShopifyDraftOrder, "lineItems"> & {
   lineItems: LineItem[];
 };
 
+type SubtotalPrice = {
+  shopMoney: {
+    amount: string;
+  };
+};
+
 export type ShopifyOrder = {
   id: string;
   name: string;
@@ -62,6 +68,7 @@ export type ShopifyOrder = {
   createdAt: string;
   updatedAt: string;
   poNumber: string;
+  currentSubtotalPriceSet: SubtotalPrice;
   fulfillments: Fulfillment[]; //TODO maybe needed to be removed;
 };
 
@@ -85,6 +92,15 @@ export type ShopifyGetOrdersOperation = {
   };
   variables: {
     queryString: string;
+  };
+};
+
+export type ShopifyGetOrderOperation = {
+  data: {
+    order: ShopifyOrder;
+  };
+  variables: {
+    id: string;
   };
 };
 

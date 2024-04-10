@@ -12,3 +12,12 @@ export const getOrdersByAddressQuery = /* GraphQL */ `
   }
   ${orderFragment}
 `;
+
+export const getOrderQuery = /* GraphQL */ `
+  query order($id: ID!) {
+    order(id: $id) {
+      ...orderFragment
+    }
+  }
+  ${orderFragment}
+`;

@@ -4,6 +4,7 @@
 import { BackButton } from "@twa-dev/sdk/react";
 import { getDraftOrderById, updateDraftOrder } from "components/checkout/actions";
 import { ListWithTitle } from "components/checkout/ui/ListWithTitle";
+import { HintText } from "components/common/ui/HintText";
 import { Routes } from "components/constants";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
 import { ListInput, ListItem, Radio } from "konsta/react";
@@ -133,11 +134,10 @@ export const CheckoutEditPage: FunctionComponent<Props> = ({ locations }) => {
           ))}
         </ListWithTitle>
 
-        {/* TODO move to ui component HintText */}
-        <p className="mx-4 px-4 text-sm text-[#6D6D72]">
+        <HintText>
           Now in our store, delivery is available only to the pick-up point. In the near future, the
           options will be more.
-        </p>
+        </HintText>
       </div>
 
       <div>

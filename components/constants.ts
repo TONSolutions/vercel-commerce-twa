@@ -6,7 +6,8 @@ export enum Routes {
   CartItems = "/cart/items",
   Main = "/",
   Orders = "/orders",
-  Order = "/orders/:id"
+  Order = "/orders/:id",
+  OrderEdit = "/orders/:id/edit"
 }
 
 export enum ProcessingStatus {

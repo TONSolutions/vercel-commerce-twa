@@ -1,6 +1,6 @@
 //TODO add metadata
 
-import { OrderPage } from "components/orders/order";
+import { EditOrderPage } from "components/orders/order-edit";
 import { getOrder } from "lib/shopify/admin";
 import { prepareShopifyIdForRequest } from "lib/utils";
 import { notFound } from "next/navigation";
@@ -14,5 +14,5 @@ export default async function Page({ params }: { params: { orderId: string } }) 
     return notFound();
   }
 
-  return <OrderPage order={order} />;
+  return <EditOrderPage order={order} />;
 }

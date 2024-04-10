@@ -58,10 +58,11 @@ export const orderFragment = /* GraphQL */ `
     createdAt
     updatedAt
     poNumber
-    fulfillments {
-      ...fulfillmentsFragment
+    currentSubtotalPriceSet {
+      shopMoney {
+        amount
+      }
     }
   }
   ${orderLineItemFragment}
-  ${fulfillmentsFragment}
 `;

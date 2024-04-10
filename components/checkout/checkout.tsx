@@ -3,13 +3,11 @@
 import { useTonConnectUI } from "@tonconnect/ui-react";
 import { BackButton } from "@twa-dev/sdk/react";
 import { getDraftOrderById } from "components/checkout/actions";
-import { CheckoutItems } from "components/checkout/components/CheckoutItems";
-import { TotalSection } from "components/checkout/components/TotalSection";
+import { OrderInformation } from "components/common/components/OrderInformation";
 import { FEE, NANOTONS_IN_TON, Routes } from "components/constants";
 import { useCartDataConductor } from "contexts/CartContext";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
-import { List, ListItem } from "konsta/react";
-import { getValueFromTelegramCloudStorage, truncateMiddle } from "lib/utils";
+import { getValueFromTelegramCloudStorage } from "lib/utils";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition, type FunctionComponent } from "react";
 
@@ -87,42 +85,30 @@ export const CheckoutPage: FunctionComponent = () => {
     return <h1>Loading...</h1>;
   }
 
-  if (!draftOrder) {
+  if (!draftOrder || !total) {
     return <h1>Loading</h1>;
   }
 
   const { lineItems, customAttributes } = draftOrder ?? {};
 
-  const address = customAttributes.find((item) => item.key === "shippingInformation");
-  const name = customAttributes.find((item) => item.key === "name");
-  const phone = customAttributes.find((item) => item.key === "phone");
+  const address = customAttributes.find((item) => item.key === "shippingInformation")?.value ?? "";
+  const name = customAttributes.find((item) => item.key === "name")?.value ?? "";
+  const phone = customAttributes.find((item) => item.key === "phone")?.value ?? "";
 
   return (
     <div className="pt-6">
       <BackButton />
 
-      <h1 className="mb-3 px-4 text-xl font-bold">Checkout</h1>
-
-      <div className="m-4 rounded-xl bg-bg_color">
-        <CheckoutItems items={lineItems} />
-
-        <TotalSection />
-      </div>
-
-      <List className="m-4 rounded-xl bg-bg_color" strongIos>
-        <ListItem title="Payment Method" after={truncateMiddle(draftOrder.poNumber ?? "")} />
-
-        <ListItem
-          link
-          href={Routes.CheckoutEdit}
-          title="Shipping information"
-          after={address?.value ?? ""}
-        />
-
-        <ListItem link href={Routes.CheckoutEdit} title="Name" after={name?.value ?? ""} />
-
-        <ListItem link href={Routes.CheckoutEdit} title="Phone" after={phone?.value ?? ""} />
-      </List>
+      <OrderInformation
+        title="Checkout"
+        walletAddress={draftOrder.poNumber}
+        lineItems={lineItems}
+        name={name}
+        address={address}
+        phone={phone}
+        linkHref={Routes.CheckoutEdit}
+        total={total}
+      />
     </div>
   );
 };

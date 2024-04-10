@@ -4,7 +4,7 @@
 import { SHOPIFY_GRAPHQL_ADMIN_API_ENDPOINT } from "lib/constants";
 import { completeDraftOrderMutation, createDraftOrderMutation, updateDraftOrderMutation } from "lib/shopify/admin/mutations/draft-order";
 import { getDraftOrderQuery } from "lib/shopify/admin/queries/draft-order";
-import { getOrdersByAddressQuery } from "lib/shopify/admin/queries/order";
+import { getOrderQuery, getOrdersByAddressQuery } from "lib/shopify/admin/queries/order";
 import { domain } from "lib/shopify/constants";
 import { removeEdgesAndNodes, shopifyFetch } from "lib/shopify/utils";
 
@@ -18,6 +18,7 @@ import type {
   ShopifyCreateDraftOrderOperation,
   ShopifyDraftOrder,
   ShopifyGetDraftOrderOperation,
+  ShopifyGetOrderOperation,
   ShopifyGetOrdersOperation,
   ShopifyOrder,
   ShopifyUpdateDraftOrderOperation
@@ -43,8 +44,10 @@ const adminFetch = async <T>({
   }) => await shopifyFetch({ cache, headers: { ...headers, "X-Shopify-Access-Token": key }, query, tags, variables, endpoint });
 
 
-const reshapeDraftOrder = (draftOrder: ShopifyDraftOrder): DraftOrder => ({...draftOrder, lineItems: removeEdgesAndNodes(draftOrder.lineItems)})
-const reshapeOrder = (orders:  Connection<ShopifyOrder>): Order[] => removeEdgesAndNodes(orders).map((item) => ({...item, lineItems: removeEdgesAndNodes(item.lineItems)}) );
+const reshapeDraftOrder = (draftOrder: ShopifyDraftOrder): DraftOrder => ({...draftOrder, lineItems: removeEdgesAndNodes(draftOrder.lineItems)});
+const reshapeOrders = (orders:  Connection<ShopifyOrder>): Order[] => removeEdgesAndNodes(orders).map((item) => ({...item, lineItems: removeEdgesAndNodes(item.lineItems)}) );
+const reshapeOrder = (order: ShopifyOrder): Order => ({ ...order, lineItems: removeEdgesAndNodes(order.lineItems) })
+
 
 export async function createDraftOrder(input: DraftOrderInput): Promise<DraftOrder> {
   const res = await adminFetch<ShopifyCreateDraftOrderOperation>({
@@ -104,6 +107,17 @@ export async function getOrders(addressId: string): Promise<Order[]> {
     cache: "no-store"
   });
 
-  return reshapeOrder(res.body.data.orders);
+  return reshapeOrders(res.body.data.orders);
 }
 
+export async function getOrder(id: string): Promise<Order> {
+  const res = await adminFetch<ShopifyGetOrderOperation>({
+    query: getOrderQuery,
+    variables: {
+      id,
+    },
+    cache: "no-store"
+  });
+
+  return reshapeOrder(res.body.data.order);
+}
