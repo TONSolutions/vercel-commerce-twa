@@ -62,6 +62,12 @@ export const OrdersList: FunctionComponent<Props> = ({ orders, type, locations }
 
           const images = lineItems.map(({ product }) => product?.featuredImage.url ?? "");
 
+          const deliveryDate = new Date(updatedAt).toLocaleDateString("en-GB", {
+            day: "numeric",
+            month: "short",
+            year: "numeric"
+          });
+
           return (
             <OrderListItem
               id={id}
@@ -72,7 +78,7 @@ export const OrdersList: FunctionComponent<Props> = ({ orders, type, locations }
               type={type}
               status={status}
               address={address}
-              deliveryDate={updatedAt}
+              deliveryDate={deliveryDate}
               images={images}
             />
           );
