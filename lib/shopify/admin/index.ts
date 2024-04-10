@@ -3,6 +3,7 @@
 
 import { SHOPIFY_GRAPHQL_ADMIN_API_ENDPOINT } from "lib/constants";
 import { completeDraftOrderMutation, createDraftOrderMutation, updateDraftOrderMutation } from "lib/shopify/admin/mutations/draft-order";
+import { updateOrderMutation } from "lib/shopify/admin/mutations/order";
 import { getDraftOrderQuery } from "lib/shopify/admin/queries/draft-order";
 import { getOrderQuery, getOrdersByAddressQuery } from "lib/shopify/admin/queries/order";
 import { domain } from "lib/shopify/constants";
@@ -10,10 +11,12 @@ import { removeEdgesAndNodes, shopifyFetch } from "lib/shopify/utils";
 
 
 
+
 import type {
   DraftOrder,
   DraftOrderInput,
   Order,
+  OrderInput,
   ShopifyCompleteDraftOrderOperation,
   ShopifyCreateDraftOrderOperation,
   ShopifyDraftOrder,
@@ -21,7 +24,8 @@ import type {
   ShopifyGetOrderOperation,
   ShopifyGetOrdersOperation,
   ShopifyOrder,
-  ShopifyUpdateDraftOrderOperation
+  ShopifyUpdateDraftOrderOperation,
+  ShopifyUpdateOrderOperation
 } from "lib/shopify/admin/types";
 import type { Connection } from "lib/shopify/storefront/types";
 import type { ExtractVariables } from "lib/shopify/types";
@@ -120,4 +124,16 @@ export async function getOrder(id: string): Promise<Order> {
   });
 
   return reshapeOrder(res.body.data.order);
+}
+
+export async function updateOrder(input: OrderInput): Promise<Order> {
+  const res = await adminFetch<ShopifyUpdateOrderOperation>({
+    query: updateOrderMutation,
+    variables: {
+      input,
+    },
+    cache: "no-store"
+  });
+
+  return reshapeOrder(res.body.data.orderUpdate.order);
 }

@@ -5,3 +5,7 @@ declare global {
     Telegram: TelegramInterface;
   }
 }
+
+type FormInput = { value: string; changed: boolean };
+
+export type CheckoutForm = { shippingInformation: FormInput; phone: FormInput; name: FormInput };

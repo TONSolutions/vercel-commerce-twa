@@ -7,6 +7,8 @@ import { truncateMiddle } from "lib/utils";
 import type { LineItem } from "lib/shopify/admin/types";
 import type { FunctionComponent } from "react";
 
+type FieldsDisableStatus = { name: boolean; phone: boolean; shippingInformation: boolean };
+
 type Props = {
   name: string;
   phone: string;
@@ -17,7 +19,7 @@ type Props = {
   linkHref: string;
   orderDate?: string;
   total: string;
-  disabled?: boolean;
+  disabledFields?: FieldsDisableStatus;
 };
 
 export const OrderInformation: FunctionComponent<Props> = ({
@@ -30,7 +32,7 @@ export const OrderInformation: FunctionComponent<Props> = ({
   linkHref,
   orderDate,
   total,
-  disabled
+  disabledFields = { name: false, phone: false, shippingInformation: false }
 }) => {
   const disabledStyles = "pointer-events-none cursor-not-allowed opacity-50";
 
@@ -55,7 +57,7 @@ export const OrderInformation: FunctionComponent<Props> = ({
           link
           href={linkHref}
           title="Shipping information"
-          className={classNames({ [disabledStyles]: disabled })}
+          className={classNames({ [disabledStyles]: disabledFields.shippingInformation })}
           after={address}
         />
 
@@ -63,7 +65,7 @@ export const OrderInformation: FunctionComponent<Props> = ({
           link
           href={linkHref}
           title="Name"
-          className={classNames({ [disabledStyles]: disabled })}
+          className={classNames({ [disabledStyles]: disabledFields.name })}
           after={name}
         />
 
@@ -71,7 +73,7 @@ export const OrderInformation: FunctionComponent<Props> = ({
           link
           href={linkHref}
           title="Phone"
-          className={classNames({ [disabledStyles]: disabled })}
+          className={classNames({ [disabledStyles]: disabledFields.phone })}
           after={phone}
         />
       </List>

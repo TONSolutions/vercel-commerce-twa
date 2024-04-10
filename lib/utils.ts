@@ -1,3 +1,7 @@
+import { DEFAULT_FORM_VALUES } from "components/constants";
+
+import type { CheckoutForm } from "components/types";
+import type { CustomAttribute } from "lib/shopify/admin/types";
 import type { ReadonlyURLSearchParams } from "next/navigation";
 
 export const createUrl = (pathname: string, params: URLSearchParams | ReadonlyURLSearchParams) => {
@@ -105,3 +109,13 @@ export const isReserveValid = (reservedUntil: string) => {
     return true;
   }
 };
+
+export const mapCustomAttributesToFormValues = (customAttributes: CustomAttribute[]) =>
+  customAttributes.reduce<CheckoutForm>((acc, curr) => {
+    const { key, value } = curr;
+
+    return { ...acc, [key]: { value, changed: false } };
+  }, DEFAULT_FORM_VALUES);
+
+export const mapFormValuesToCustomAttributes = (formValues: CheckoutForm) =>
+  Object.entries(formValues).map<CustomAttribute>(([k, v]) => ({ key: k, value: v.value }));

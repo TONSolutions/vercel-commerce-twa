@@ -24,7 +24,9 @@ export const OrderPage: FunctionComponent<Props> = ({ order }) => {
     lineItems,
     customAttributes,
     id,
-    currentSubtotalPriceSet
+    currentSubtotalPriceSet,
+    tags,
+    displayFulfillmentStatus
   } = order;
 
   const address = customAttributes.find((item) => item.key === "shippingInformation")?.value ?? "";
@@ -34,6 +36,20 @@ export const OrderPage: FunctionComponent<Props> = ({ order }) => {
   const total = currentSubtotalPriceSet.shopMoney.amount;
 
   const title = `Order ${orderName}`;
+
+  const getDisabledFields = () => {
+    if (displayFulfillmentStatus === "FULFILLED") {
+      return { name: true, phone: true, shippingInformation: true };
+    }
+
+    if (tags.includes("Ready for pickup") && displayFulfillmentStatus === "UNFULFILLED") {
+      return { name: false, phone: false, shippingInformation: true };
+    }
+
+    return { name: false, phone: false, shippingInformation: false };
+  };
+
+  const disabledFields = getDisabledFields();
 
   useEffect(() => {
     MainButton.hide();
@@ -56,6 +72,7 @@ export const OrderPage: FunctionComponent<Props> = ({ order }) => {
         phone={phone}
         linkHref={Routes.OrderEdit.replace("/:id", prepareShopifyIdForUrl(id, "Order"))}
         total={total}
+        disabledFields={disabledFields}
       />
 
       <ContactSupportBlock onClick={handleContactSupportClick} />

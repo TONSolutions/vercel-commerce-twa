@@ -4,6 +4,11 @@ type Product = {
   featuredImage: Image;
 };
 
+export type OrderInput = {
+  customAttributes?: CustomAttribute[];
+  id: string;
+};
+
 export type DraftOrderInput = {
   customAttributes?: CustomAttribute[];
   lineItems?: LineItem[];
@@ -101,6 +106,17 @@ export type ShopifyGetOrderOperation = {
   };
   variables: {
     id: string;
+  };
+};
+
+export type ShopifyUpdateOrderOperation = {
+  data: {
+    orderUpdate: {
+      order: ShopifyOrder;
+    };
+  };
+  variables: {
+    input: OrderInput;
   };
 };
 

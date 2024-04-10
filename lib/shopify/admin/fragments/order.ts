@@ -14,29 +14,6 @@ const orderLineItemFragment = /* GraphQL */ `
   ${draftOrderProductFragment}
 `;
 
-const fulfillmentsFragment = /* GraphQL */ `
-  fragment fulfillmentsFragment on Fulfillment {
-    id
-    location {
-      address {
-        address1
-        address2
-        city
-        country
-        countryCode
-        formatted
-        latitude
-        longitude
-        province
-        provinceCode
-      }
-    }
-    status
-    displayStatus
-    updatedAt
-  }
-`;
-
 export const orderFragment = /* GraphQL */ `
   fragment orderFragment on Order {
     id
