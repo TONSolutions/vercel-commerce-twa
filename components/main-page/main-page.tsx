@@ -3,20 +3,23 @@
 import { TonConnectButton, useTonAddress, useTonWallet } from "@tonconnect/ui-react";
 import { OverlayCard } from "components/common/ui/Card";
 import { Routes } from "components/constants";
+import { BannersContainer } from "components/main-page/components/BannersContainer";
 import { useCartDataConductor } from "contexts/CartContext";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
 import Link from "next/link";
 import { useEffect, type FunctionComponent } from "react";
 
+import type { Banner } from "components/main-page/types";
 import type { Product } from "lib/shopify/storefront/types";
 
 type Props = {
   products: Product[];
+  banners: Banner[];
 };
 
 //TODO style dropdown button when wallet is connected;
 
-export const MainPage: FunctionComponent<Props> = ({ products }) => {
+export const MainPage: FunctionComponent<Props> = ({ products, banners }) => {
   const {
     initDataUnsafe: { user },
     MainButton,
@@ -53,6 +56,8 @@ export const MainPage: FunctionComponent<Props> = ({ products }) => {
 
         <TonConnectButton className="mt-5 self-end" />
       </div>
+
+      <BannersContainer banners={banners} />
 
       <OverlayCard>
         <div className="grid grid-cols-2 gap-2 px-4 pb-4">
