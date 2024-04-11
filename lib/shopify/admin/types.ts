@@ -1,3 +1,4 @@
+import type { Banner } from "components/main-page/types";
 import type { Connection, Image } from "lib/shopify/storefront/types";
 
 type Product = {
@@ -80,8 +81,13 @@ export type Order = Omit<ShopifyOrder, "lineItems"> & {
   lineItems: LineItem[];
 };
 
+type MetaobjectField = {
+  key: keyof Omit<Banner, "thumbnail">;
+  value: string | null | Image;
+};
+
 export type Metaobject = {
-  fields: CustomAttribute[];
+  fields: MetaobjectField[];
   thumbnailField: {
     reference: {
       image: Image;

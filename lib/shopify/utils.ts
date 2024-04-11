@@ -1,5 +1,7 @@
 import { isShopifyError } from "lib/type-guards";
 
+import type { Banner } from "components/main-page/types";
+import type { Metaobject } from "lib/shopify/admin/types";
 import type { Connection } from "lib/shopify/storefront/types";
 import type { ExtractVariables } from "lib/shopify/types";
 
@@ -65,18 +67,33 @@ export async function shopifyFetch<T>({
 export const removeEdgesAndNodes = (array: Connection<any>) =>
   array.edges.map((edge) => edge?.node);
 
-export const generateBgColorClass = (colors: string[]) => {
-  if (colors.length === 0) {
-    return "bg-gradient-to-b from-transparent to-transparent";
+export const generateBgColorClass = (colors: string[] | null) => {
+  if (colors?.length === 0 || !colors) {
+    return "linear-gradient(to bottom, transparent, transparent)";
   } else if (colors.length === 1) {
-    return `bg-gradient-to-b from-${colors[0]} to-${colors[0]}`;
+    return `linear-gradient(to bottom, ${colors[0]}, ${colors[0]})`;
   } else {
-    let gradient = "bg-gradient-to-b";
-
+    let gradient = "linear-gradient(to bottom";
     colors.forEach((color, index) => {
-      gradient += ` from-${color} ${(index / (colors.length - 1)) * 100}%`;
+      gradient += `, ${color} ${(index / (colors.length - 1)) * 100}%`;
     });
+    gradient += ")";
 
     return gradient;
   }
 };
+
+export const mapMetaobjectsToBanner = (metaobjects: Metaobject[]): Banner[] =>
+  metaobjects.map((metaobject) => {
+    const fields = metaobject.fields.reduce(
+      (acc, { key, value }) => ({
+        ...acc,
+        [key]: key === "bg_colors_list" ? JSON.parse(value as string) : value
+      }),
+      {
+        thumbnail: metaobject.thumbnailField.reference.image
+      }
+    );
+
+    return fields as Banner;
+  });

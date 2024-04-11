@@ -2,6 +2,7 @@ import { BANNER_KEY } from "components/constants";
 import { MainPage } from "components/main-page/main-page";
 import { getMetaobjects } from "lib/shopify/admin";
 import { getProducts } from "lib/shopify/storefront";
+import { mapMetaobjectsToBanner } from "lib/shopify/utils";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
@@ -14,18 +15,20 @@ export const metadata = {
 
 export default async function HomePage() {
   const products = await getProducts({});
-  const banners = await getMetaobjects(BANNER_KEY, 5);
+  const metaobject = await getMetaobjects(BANNER_KEY, 5);
 
-  if (!products) {
+  if (!products || !metaobject) {
     return notFound();
   }
 
   //TODO add Fallback
 
+  const banners = mapMetaobjectsToBanner(metaobject);
+
   return (
     <>
       <Suspense>
-        <MainPage products={products} />
+        <MainPage products={products} banners={banners} />
       </Suspense>
     </>
   );
