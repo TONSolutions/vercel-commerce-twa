@@ -5,22 +5,22 @@ import { SHOPIFY_GRAPHQL_ADMIN_API_ENDPOINT } from "lib/constants";
 import { completeDraftOrderMutation, createDraftOrderMutation, updateDraftOrderMutation } from "lib/shopify/admin/mutations/draft-order";
 import { updateOrderMutation } from "lib/shopify/admin/mutations/order";
 import { getDraftOrderQuery } from "lib/shopify/admin/queries/draft-order";
+import { getMetaobjectsQuery } from "lib/shopify/admin/queries/metaobject";
 import { getOrderQuery, getOrdersByAddressQuery } from "lib/shopify/admin/queries/order";
 import { domain } from "lib/shopify/constants";
 import { removeEdgesAndNodes, shopifyFetch } from "lib/shopify/utils";
 
-
-
-
 import type {
   DraftOrder,
   DraftOrderInput,
+  Metaobject,
   Order,
   OrderInput,
   ShopifyCompleteDraftOrderOperation,
   ShopifyCreateDraftOrderOperation,
   ShopifyDraftOrder,
   ShopifyGetDraftOrderOperation,
+  ShopifyGetMetaobjectsOperation,
   ShopifyGetOrderOperation,
   ShopifyGetOrdersOperation,
   ShopifyOrder,
@@ -136,4 +136,17 @@ export async function updateOrder(input: OrderInput): Promise<Order> {
   });
 
   return reshapeOrder(res.body.data.orderUpdate.order);
+}
+
+export async function getMetaobjects(type: string, first: number): Promise<Metaobject[]> {
+  const res = await adminFetch<ShopifyGetMetaobjectsOperation>({
+    query: getMetaobjectsQuery,
+    variables: {
+      type, 
+      first
+    },
+    cache: "no-store"
+  });
+
+  return removeEdgesAndNodes(res.body.data.metaobjects);
 }

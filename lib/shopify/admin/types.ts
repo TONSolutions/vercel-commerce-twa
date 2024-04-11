@@ -1,4 +1,4 @@
-import type { Address, Connection, Image } from "lib/shopify/storefront/types";
+import type { Connection, Image } from "lib/shopify/storefront/types";
 
 type Product = {
   featuredImage: Image;
@@ -74,21 +74,27 @@ export type ShopifyOrder = {
   updatedAt: string;
   poNumber: string;
   currentSubtotalPriceSet: SubtotalPrice;
-  fulfillments: Fulfillment[]; //TODO maybe needed to be removed;
 };
 
 export type Order = Omit<ShopifyOrder, "lineItems"> & {
   lineItems: LineItem[];
 };
 
-type Fulfillment = {
-  id: string;
-  location: {
-    address: Address;
+export type Metaobject = {
+  fields: CustomAttribute[];
+  thumbnailField: {
+    reference: {
+      image: Image;
+    };
   };
-  status: string;
-  displayStatus: string;
-  updatedAt: string;
+};
+
+export type ShopifyGetMetaobjectsOperation = {
+  data: { metaobjects: Connection<Metaobject[]> };
+  variables: {
+    type: string;
+    first: number;
+  };
 };
 
 export type ShopifyGetOrdersOperation = {

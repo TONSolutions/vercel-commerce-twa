@@ -64,3 +64,19 @@ export async function shopifyFetch<T>({
 
 export const removeEdgesAndNodes = (array: Connection<any>) =>
   array.edges.map((edge) => edge?.node);
+
+export const generateBgColorClass = (colors: string[]) => {
+  if (colors.length === 0) {
+    return "bg-gradient-to-b from-transparent to-transparent";
+  } else if (colors.length === 1) {
+    return `bg-gradient-to-b from-${colors[0]} to-${colors[0]}`;
+  } else {
+    let gradient = "bg-gradient-to-b";
+
+    colors.forEach((color, index) => {
+      gradient += ` from-${color} ${(index / (colors.length - 1)) * 100}%`;
+    });
+
+    return gradient;
+  }
+};

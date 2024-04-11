@@ -25,3 +25,5 @@ export const DEFAULT_FORM_VALUES = {
   phone: { value: "", changed: false }, //TODO we should transmit hash, not real numbers
   name: { value: "", changed: false }
 };
+
+export const BANNER_KEY = "banner";

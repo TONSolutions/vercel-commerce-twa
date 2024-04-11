@@ -1,4 +1,6 @@
+import { BANNER_KEY } from "components/constants";
 import { MainPage } from "components/main-page/main-page";
+import { getMetaobjects } from "lib/shopify/admin";
 import { getProducts } from "lib/shopify/storefront";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
@@ -12,6 +14,7 @@ export const metadata = {
 
 export default async function HomePage() {
   const products = await getProducts({});
+  const banners = await getMetaobjects(BANNER_KEY, 5);
 
   if (!products) {
     return notFound();
