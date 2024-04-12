@@ -10,7 +10,6 @@ import CartIcon from "components/assets/icons/CartIcon";
 import StoreLogo from "components/assets/StoreLogo";
 import { OverlayCard } from "components/common/ui/Card";
 import { Routes } from "components/constants";
-import { useGetUserBalance } from "components/hooks/useGetUserBalance";
 import { BannersContainer } from "components/main-page/components/BannersContainer";
 import { MenuButton } from "components/main-page/components/MenuButton";
 import { useCartDataConductor } from "contexts/CartContext";
@@ -40,8 +39,6 @@ export const MainPage: FunctionComponent<Props> = ({ products, banners }) => {
   const cartLink = itemsQuantity && itemsQuantity > 0 ? `/cart/items` : "/cart";
   const wallet = useTonWallet();
   const address = useTonAddress();
-
-  const balance = useGetUserBalance({ address });
 
   const handleDisconnectWallet = () => {
     if (!tonConnect) {
@@ -81,7 +78,6 @@ export const MainPage: FunctionComponent<Props> = ({ products, banners }) => {
           {wallet ? (
             <MenuButton
               address={address}
-              balance={balance}
               handleAddBalanceCLick={handleAddBalanceCLick}
               handleDisconnectWallet={handleDisconnectWallet}
               handleMoveToOrders={handleMoveToOrders}

@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+
 import { clearCart, updateItemQuantity } from "components/cart/actions";
 import { Routes } from "components/constants";
 import { CartDataConductorProvider } from "contexts/CartContext";
@@ -6,12 +7,12 @@ import { request } from "lib/request";
 import { getValueFromTelegramCloudStorage, prepareShopifyIdForUrl } from "lib/utils";
 import { useRouter } from "next/navigation";
 import {
-    useEffect,
-    useMemo,
-    useState,
-    useTransition,
-    type FunctionComponent,
-    type ReactNode
+  useEffect,
+  useMemo,
+  useState,
+  useTransition,
+  type FunctionComponent,
+  type ReactNode
 } from "react";
 
 import type { Cart, Line } from "lib/shopify/storefront/types";
@@ -94,10 +95,6 @@ export const CartProvider: FunctionComponent<Props> = ({ children }) => {
     }),
     [cart, handleClearCart, handleUpdateQuantity, isPending]
   );
-
-  if (!cart) {
-    return null;
-  }
 
   return (
     <CartDataConductorProvider value={cartDataConductorCtx}>{children}</CartDataConductorProvider>

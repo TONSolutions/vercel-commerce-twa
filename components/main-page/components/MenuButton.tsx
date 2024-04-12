@@ -11,13 +11,13 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger
 } from "components/common/ui/dropdown-menu";
+import { useGetUserBalance } from "components/hooks/useGetUserBalance";
 import { truncateMiddle } from "lib/utils";
 
 import type { FunctionComponent } from "react";
 
 type Props = {
   address: string;
-  balance?: string;
   handleAddBalanceCLick: () => void;
   handleDisconnectWallet: () => void;
   handleMoveToOrders: () => void;
@@ -27,10 +27,10 @@ export const MenuButton: FunctionComponent<Props> = ({
   address,
   handleAddBalanceCLick,
   handleDisconnectWallet,
-  handleMoveToOrders,
-  balance = ""
+  handleMoveToOrders
 }) => {
   const truncatedAddress = truncateMiddle(address);
+  const balance = useGetUserBalance({ address });
 
   return (
     <DropdownMenu>
