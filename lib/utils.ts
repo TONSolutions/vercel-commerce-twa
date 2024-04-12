@@ -1,3 +1,7 @@
+import { DEFAULT_FORM_VALUES } from "components/constants";
+
+import type { CheckoutForm } from "components/types";
+import type { CustomAttribute } from "lib/shopify/admin/types";
 import type { ReadonlyURLSearchParams } from "next/navigation";
 
 export const createUrl = (pathname: string, params: URLSearchParams | ReadonlyURLSearchParams) => {
@@ -48,13 +52,24 @@ export const isIos = () => {
 
 export async function getValueFromTelegramCloudStorage(key: string) {
   return new Promise((resolve, reject) => {
-    window.Telegram.WebApp.CloudStorage.getItem(key, (error, value) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(value);
+    try {
+      if (window?.Telegram?.WebApp?.version === "6.0") {
+        console.error("Cloud storage is not available");
+
+        return;
       }
-    });
+
+      window.Telegram.WebApp.CloudStorage.getItem(key, (error, value) => {
+        if (error) {
+          return reject(error);
+        } else {
+          resolve(value);
+        }
+      });
+    } catch (error) {
+      console.error(error);
+      reject(error);
+    }
   });
 }
 
@@ -70,10 +85,11 @@ export function setValueFromTelegramCloudStorage(key: string, value: string) {
   });
 }
 
-export const prepareCartIdForUrl = (cartId: string) => cartId.replace("gid://shopify/Cart/", "/");
+export const prepareShopifyIdForUrl = (id: string, resource = "Cart") =>
+  id.replace(`gid://shopify/${resource}/`, "/");
 
-export const prepareCartIdForRequest = (cartId: string) =>
-  cartId.replace("/", "gid://shopify/Cart/");
+export const prepareShopifyIdForRequest = (id: string, resource = "Cart") =>
+  id.replace("/", `gid://shopify/${resource}/`);
 
 export const truncateMiddle = (input: string) => {
   const middleLength = input.length - 10;
@@ -104,3 +120,17 @@ export const isReserveValid = (reservedUntil: string) => {
     return true;
   }
 };
+
+export const mapCustomAttributesToFormValues = (customAttributes: CustomAttribute[]) =>
+  customAttributes.reduce<CheckoutForm>((acc, curr) => {
+    const { key, value } = curr;
+
+    return { ...acc, [key]: { value, changed: false } };
+  }, DEFAULT_FORM_VALUES);
+
+export const mapFormValuesToCustomAttributes = (formValues: CheckoutForm) =>
+  Object.entries(formValues).map<CustomAttribute>(([k, v]) => ({ key: k, value: v.value }));
+
+export function openLink(href: string, target = "_self"): void {
+  window.open(href, target, "noopener noreferrer");
+}

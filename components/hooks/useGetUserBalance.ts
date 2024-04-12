@@ -13,6 +13,13 @@ export const useGetUserBalance = ({ address }: Options) => {
 
   useEffect(() => {
     const getBalanceValue = async () => {
+      if (!address) {
+        console.error("No address provided");
+        setBalance("");
+
+        return;
+      }
+
       const typedAddress = typeAddress(address);
 
       const balance = await client?.getBalance(typedAddress);

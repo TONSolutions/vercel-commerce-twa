@@ -7,7 +7,7 @@ type Props = {
   className?: string;
 };
 
-export const Card: FunctionComponent<Props> = ({ children, className }) => (
+export const OverlayCard: FunctionComponent<Props> = ({ children, className }) => (
   <div
     className={classNames(
       className,

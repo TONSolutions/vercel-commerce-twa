@@ -8,7 +8,7 @@ type Props = {
 };
 
 export const CheckoutItem: FunctionComponent<Props> = ({ imageUrl, title, options, price }) => (
-  <div className="mb-4 flex justify-between gap-3">
+  <div className="mb-4 flex justify-between gap-3 p-4 last:mb-0">
     <div className="flex w-full max-w-[75%] ">
       <img src={imageUrl} className="mr-2 h-10 w-10 rounded-xl" />
 

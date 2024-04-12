@@ -1,9 +1,10 @@
 /* eslint-disable prettier/prettier */
+
 import { clearCart, updateItemQuantity } from "components/cart/actions";
 import { Routes } from "components/constants";
 import { CartDataConductorProvider } from "contexts/CartContext";
-import { request } from "lib/requets";
-import { getValueFromTelegramCloudStorage, prepareCartIdForUrl } from "lib/utils";
+import { request } from "lib/request";
+import { getValueFromTelegramCloudStorage, prepareShopifyIdForUrl } from "lib/utils";
 import { useRouter } from "next/navigation";
 import {
   useEffect,
@@ -27,11 +28,12 @@ export const CartProvider: FunctionComponent<Props> = ({ children }) => {
   const router = useRouter();
 
   useEffect(() => {
+    //TODO add transition
     const fetchCart = async () => {
       const cartId = (await getValueFromTelegramCloudStorage("cartId")) as string;
 
       if (cartId) {
-          setCartId(prepareCartIdForUrl(cartId));
+          setCartId(prepareShopifyIdForUrl(cartId));
 
           try {
               const cart = await request<Cart>("/api/cart", { body: { cartId } });
@@ -93,10 +95,6 @@ export const CartProvider: FunctionComponent<Props> = ({ children }) => {
     }),
     [cart, handleClearCart, handleUpdateQuantity, isPending]
   );
-
-  if (!cart) {
-    return null;
-  }
 
   return (
     <CartDataConductorProvider value={cartDataConductorCtx}>{children}</CartDataConductorProvider>

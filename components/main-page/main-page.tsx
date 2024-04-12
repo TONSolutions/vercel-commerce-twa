@@ -1,32 +1,68 @@
 "use client";
 
-import { TonConnectButton, useTonAddress, useTonWallet } from "@tonconnect/ui-react";
-import { Card } from "components/ui/Card";
+import {
+  TonConnectButton,
+  useTonAddress,
+  useTonConnectUI,
+  useTonWallet
+} from "@tonconnect/ui-react";
+import CartIcon from "components/assets/icons/CartIcon";
+import StoreLogo from "components/assets/StoreLogo";
+import { OverlayCard } from "components/common/ui/Card";
+import { Routes } from "components/constants";
+import { BannersContainer } from "components/main-page/components/BannersContainer";
+import { MenuButton } from "components/main-page/components/MenuButton";
 import { useCartDataConductor } from "contexts/CartContext";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
+import { Button } from "konsta/react";
+import { redirectToWallet } from "lib/redirectToWallet";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, type FunctionComponent } from "react";
 
+import type { WalletInfoRemote } from "@tonconnect/ui-react";
+import type { Banner } from "components/main-page/types";
 import type { Product } from "lib/shopify/storefront/types";
 
 type Props = {
   products: Product[];
+  banners: Banner[];
 };
 
-//TODO style dropdown button when wallet is connected;
-
-export const MainPage: FunctionComponent<Props> = ({ products }) => {
-  const {
-    initDataUnsafe: { user },
-    MainButton,
-    expand
-  } = useWebAppDataConductor();
+export const MainPage: FunctionComponent<Props> = ({ products, banners }) => {
+  const { MainButton, expand } = useWebAppDataConductor();
 
   const { itemsQuantity } = useCartDataConductor();
+  const [tonConnect] = useTonConnectUI();
+  const router = useRouter();
 
   const cartLink = itemsQuantity && itemsQuantity > 0 ? `/cart/items` : "/cart";
   const wallet = useTonWallet();
   const address = useTonAddress();
+
+  const handleDisconnectWallet = () => {
+    if (!tonConnect) {
+      console.error("No ton connect found");
+
+      return;
+    }
+
+    tonConnect.disconnect();
+  };
+
+  const handleAddBalanceCLick = () => {
+    if (!tonConnect) {
+      console.error("No ton connect found");
+
+      return;
+    }
+
+    const { universalLink, deepLink } = tonConnect.wallet as WalletInfoRemote;
+
+    redirectToWallet(universalLink, deepLink, { returnStrategy: "back", forceRedirect: false });
+  };
+
+  const handleMoveToOrders = () => router.push(Routes.Orders);
 
   useEffect(() => {
     MainButton.hide();
@@ -34,23 +70,31 @@ export const MainPage: FunctionComponent<Props> = ({ products }) => {
   }, []);
 
   return (
-    <div className="flex min-h-screen flex-col justify-between">
-      <div className="flex flex-col gap-4">
-        <h1 className="px-4">{`Hello ${user?.username ?? "User"}! This page is WIP. Just preview`}</h1>
+    <div className="flex min-h-screen flex-col gap-6">
+      <div className="mx-4 mt-4 flex items-center justify-between">
+        <StoreLogo />
 
-        {wallet ? (
-          <p className="px-4 text-xs">{`You've connected wallet. The current address is: ${address}`}</p>
-        ) : null}
+        <div className="flex items-center">
+          {wallet ? (
+            <MenuButton
+              address={address}
+              handleAddBalanceCLick={handleAddBalanceCLick}
+              handleDisconnectWallet={handleDisconnectWallet}
+              handleMoveToOrders={handleMoveToOrders}
+            />
+          ) : (
+            <TonConnectButton className="mr-4" />
+          )}
 
-        <Link href={cartLink}>
-          <span className="ml-4 mt-2 rounded-xl bg-[#007AFF] px-4 py-2 text-white">Cart</span>
-        </Link>
-
-        {/* {wallet ? null : <TonConnectButton className="mt-5 self-end" />} */}
-        <TonConnectButton className="mt-5 self-end" />
+          <Button className="!h-10 !w-10 !rounded-full !bg-bg_color !p-2" href={cartLink}>
+            <CartIcon />
+          </Button>
+        </div>
       </div>
 
-      <Card>
+      <BannersContainer banners={banners} />
+
+      <OverlayCard>
         <div className="grid grid-cols-2 gap-2 px-4 pb-4">
           {products.map((product, index) => (
             <Link key={index} href={`/${product.handle}`}>
@@ -62,7 +106,7 @@ export const MainPage: FunctionComponent<Props> = ({ products }) => {
             </Link>
           ))}
         </div>
-      </Card>
+      </OverlayCard>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 "use server";
 
 import { TAGS } from "lib/constants";
-import { createDraftOrder, getDraftOrderById, updateDraftOrder } from "lib/shopify/admin";
+import { createDraftOrder, getDraftOrder, updateDraftOrder } from "lib/shopify/admin";
 import { addToCart, createCart, removeItems, updateCart } from "lib/shopify/storefront";
 import { isReserveValid } from "lib/utils";
 import { revalidateTag } from "next/cache";
@@ -95,17 +95,16 @@ export const updateItemQuantity = async (cartId: string, line: Line) => {
 
 export const checkoutCart = async (input: DraftOrderInput, draftOrderId: string) => {
   if (draftOrderId) {
-    const draftOrder = await getDraftOrderById(draftOrderId);
+    const draftOrder = await getDraftOrder(draftOrderId);
 
     const { reserveInventoryUntil, customAttributes } = draftOrder;
     const { lineItems: newLineItems } = input;
 
     if (isReserveValid(reserveInventoryUntil)) {
-      //Set up new order – just in case if user changed smth
-      const updatedCustomAttributes = [...customAttributes, { key: "wasFiltered", value: "true" }];
+      //Update draft order content – just in case if user added new goods in cart
       const newInput: DraftOrderInput = {
         ...input,
-        customAttributes: updatedCustomAttributes,
+        lineItems: newLineItems,
         reserveInventoryUntil
       };
 
