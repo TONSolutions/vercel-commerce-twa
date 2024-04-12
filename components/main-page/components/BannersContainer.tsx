@@ -9,7 +9,7 @@ type Props = {
 };
 
 export const BannersContainer: FunctionComponent<Props> = ({ banners }) => (
-  <div>
+  <div className="mx-4">
     <h1 className="mb-0 px-4 text-xl font-bold">🔥 Speсial offers</h1>
 
     <Carousel options={{ loop: true }} wrapperClassName="mb-4" autoplay>

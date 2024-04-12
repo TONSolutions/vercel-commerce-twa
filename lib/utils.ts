@@ -119,3 +119,7 @@ export const mapCustomAttributesToFormValues = (customAttributes: CustomAttribut
 
 export const mapFormValuesToCustomAttributes = (formValues: CheckoutForm) =>
   Object.entries(formValues).map<CustomAttribute>(([k, v]) => ({ key: k, value: v.value }));
+
+export function openLink(href: string, target = "_self"): void {
+  window.open(href, target, "noopener noreferrer");
+}

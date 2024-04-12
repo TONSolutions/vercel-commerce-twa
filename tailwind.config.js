@@ -14,6 +14,9 @@ module.exports = konstaConfig({
   ],
   theme: {
     extend: {
+      flex: {
+        carousel: "0 0 100%"
+      },
       colors: {
         bg_color: "#ffffff",
 
