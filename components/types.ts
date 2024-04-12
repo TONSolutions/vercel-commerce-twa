@@ -1,7 +1,15 @@
 import type { Telegram as TelegramInterface } from "@twa-dev/types";
 
+type TelegramWebviewProxy = {
+  postEvent(eventType: string, eventData: string): void;
+};
+
 declare global {
+  interface External {
+    notify: (message: string) => void;
+  }
   interface Window {
+    TelegramWebviewProxy?: TelegramWebviewProxy;
     Telegram: TelegramInterface;
   }
 }
