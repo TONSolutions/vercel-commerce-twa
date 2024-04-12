@@ -52,13 +52,24 @@ export const isIos = () => {
 
 export async function getValueFromTelegramCloudStorage(key: string) {
   return new Promise((resolve, reject) => {
-    window.Telegram.WebApp.CloudStorage.getItem(key, (error, value) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(value);
+    try {
+      if (window?.Telegram?.WebApp?.version === "6.0") {
+        console.error("Cloud storage is not available");
+
+        return;
       }
-    });
+
+      window.Telegram.WebApp.CloudStorage.getItem(key, (error, value) => {
+        if (error) {
+          return reject(error);
+        } else {
+          resolve(value);
+        }
+      });
+    } catch (error) {
+      console.error(error);
+      reject(error);
+    }
   });
 }
 
