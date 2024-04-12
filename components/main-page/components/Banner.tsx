@@ -33,12 +33,9 @@ export const Banner: FunctionComponent<Props> = ({
   const bgClass = generateBgColorClass(bgColorsList);
 
   return (
-    <div
-      className="flex-carousel m-4 max-h-24 min-w-0 rounded-xl"
-      style={{ backgroundImage: bgClass }}
-    >
+    <div className="flex-carousel m-4 min-w-0 rounded-xl" style={{ backgroundImage: bgClass }}>
       <div className="flex h-full w-full items-center justify-between">
-        <div className="max-w-[60%] py-4 pl-4">
+        <div className="max-w-[60%] p-4">
           <h2 className="text-regular font-semibold" style={{ color: titleColor ?? "" }}>
             {title}
           </h2>
@@ -58,14 +55,15 @@ export const Banner: FunctionComponent<Props> = ({
         </div>
 
         <div
-          className={classNames("relative h-full max-h-96 w-full max-w-[40%]", {
+          className={classNames("relative h-full w-full max-w-[40%]", {
             "overflow-hidden": isCropped
           })}
         >
           <img
             src={image.url}
             className={classNames("block object-cover", {
-              "absolute bottom-0 right-0": !isCropped
+              "absolute bottom-0 right-0": !isCropped,
+              "h-full w-full": isCropped
             })}
           />
         </div>
