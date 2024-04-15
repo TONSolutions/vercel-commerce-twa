@@ -29,7 +29,7 @@ export const OrdersList: FunctionComponent<Props> = ({ orders, type, locations }
         linkTitle="Go to catalog"
         linkAction={linkAction}
         animation={animation}
-        wrapperClassName="min-h-[unset]"
+        wrapperClassName="!min-h-[unset]" //TODO fix
       />
     );
   }

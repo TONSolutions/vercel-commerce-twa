@@ -17,16 +17,18 @@ import { revalidateTag } from "next/cache";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
+import { getCollectionsQuery } from "lib/shopify/storefront/queries/collection";
+
 import type {
-  Cart,
+  Cart, Collection,
   Connection,
   Image,
   Page,
   Product,
   ShopifyAddToCartOperation,
   ShopifyCart,
-  ShopifyCartOperation,
-  ShopifyCreateCartOperation,
+  ShopifyCartOperation, ShopifyCollection,
+  ShopifyCreateCartOperation, ShopifyGetCollectionsOperation,
   ShopifyLocation,
   ShopifyLocationsOperation,
   ShopifyPageOperation,
@@ -121,6 +123,12 @@ const reshapeProducts = (products: ShopifyProduct[]) => {
 
   return reshapedProducts;
 };
+
+const reshapeCollection = (collection: ShopifyCollection[]) =>
+  collection.map((item) => ({
+    ...item,
+    products: reshapeProducts(removeEdgesAndNodes(item.products))
+  }));
 
 export async function createCart(): Promise<Cart> {
   const res = await storefrontFetch<ShopifyCreateCartOperation>({
@@ -290,4 +298,16 @@ export async function getCompanyLocations({
   });
 
   return removeEdgesAndNodes(res.body.data.locations);
+}
+
+export async function getCollections({ first }: { first: number }): Promise<Collection[]> {
+  const res = await storefrontFetch<ShopifyGetCollectionsOperation>({
+    query: getCollectionsQuery,
+    variables: {
+      first
+    },
+    cache: "no-store"
+  });
+
+  return reshapeCollection(removeEdgesAndNodes(res.body.data.collections));
 }

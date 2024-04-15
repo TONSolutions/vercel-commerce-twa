@@ -1,4 +1,4 @@
-import { Carousel } from "components/common/components/Carousel";
+import { Carousel } from "components/common/components/Carousel/Carousel";
 import { Banner } from "components/main-page/components/Banner";
 
 import type { Banner as BannerType } from "components/main-page/types";

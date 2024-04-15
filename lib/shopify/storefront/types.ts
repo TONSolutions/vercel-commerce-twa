@@ -29,20 +29,11 @@ export type CartItem = {
   };
 };
 
-export type Collection = ShopifyCollection & {
-  path: string;
-};
-
 export type Image = {
   url: string;
   altText: string;
   width: number;
   height: number;
-};
-
-export type Menu = {
-  title: string;
-  path: string;
 };
 
 export type Money = {
@@ -100,18 +91,9 @@ export type ShopifyCart = {
   totalQuantity: number;
 };
 
-export type ShopifyCollection = {
-  handle: string;
-  title: string;
-  description: string;
-  seo: SEO;
-  updatedAt: string;
-};
-
 export type ShopifyProduct = {
   id: string;
   handle: string;
-  availableForSale: boolean;
   title: string;
   description: string;
   descriptionHtml: string;
@@ -185,48 +167,6 @@ export type ShopifyUpdateCartOperation = {
   };
 };
 
-export type ShopifyCollectionOperation = {
-  data: {
-    collection: ShopifyCollection;
-  };
-  variables: {
-    handle: string;
-  };
-};
-
-export type ShopifyCollectionProductsOperation = {
-  data: {
-    collection: {
-      products: Connection<ShopifyProduct>;
-    };
-  };
-  variables: {
-    handle: string;
-    reverse?: boolean;
-    sortKey?: string;
-  };
-};
-
-export type ShopifyCollectionsOperation = {
-  data: {
-    collections: Connection<ShopifyCollection>;
-  };
-};
-
-export type ShopifyMenuOperation = {
-  data: {
-    menu?: {
-      items: {
-        title: string;
-        url: string;
-      }[];
-    };
-  };
-  variables: {
-    handle: string;
-  };
-};
-
 export type ShopifyPageOperation = {
   data: { pageByHandle: Page };
   variables: { handle: string };
@@ -242,15 +182,6 @@ export type ShopifyProductOperation = {
   data: { product: ShopifyProduct };
   variables: {
     handle: string;
-  };
-};
-
-export type ShopifyProductRecommendationsOperation = {
-  data: {
-    productRecommendations: ShopifyProduct[];
-  };
-  variables: {
-    productId: string;
   };
 };
 
@@ -288,5 +219,24 @@ export type ShopifyLocationsOperation = {
   };
   variables: {
     first?: number;
+  };
+};
+
+export type ShopifyCollection = {
+  id: string;
+  title: string;
+  products: Connection<ShopifyProduct>;
+};
+
+export type Collection = Omit<ShopifyCollection, "products"> & {
+  products: Product[];
+};
+
+export type ShopifyGetCollectionsOperation = {
+  data: {
+    collections: Connection<ShopifyCollection>;
+  };
+  variables: {
+    first: number;
   };
 };
