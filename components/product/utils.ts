@@ -2,62 +2,41 @@
 import { HEX_CODE_HASH } from "components/product/constants";
 
 import type { Colors } from "components/product/constants";
+import type { ColorsAndSizes, MappedVariant, SelectedOptions } from "components/product/types";
 import type { ProductVariant } from "lib/shopify/storefront/types";
 
-export const mapColorsToHexCodex = (colors: string[]) =>
+export const mapColorsToHexCode = (colors: string[]) =>
   colors.map((color) => ({
     color,
     hex: HEX_CODE_HASH[color.toLowerCase() as Colors]
   }));
 
-//TODO make universal
-export const getSelectedVariantId = ({
-  variants,
-  size,
-  color
-}: {
-  variants: ProductVariant[];
-  size?: string;
-  color?: string;
-}) => {
-  // Iterate through the variants array
-  for (const variant of variants) {
-    let hasColor = false;
-    let hasSize = false;
+export const prepareVariants = (variants: ProductVariant[]) => {
+  const filteredVariants = variants?.filter(({ availableForSale }) => availableForSale);
 
-    // Check if the current variant matches the provided color (if any)
-    if (color !== undefined) {
-      for (const option of variant.selectedOptions) {
-        if (option.name === "Color" && option.value === color) {
-          hasColor = true;
-          break;
-        }
-      }
-    } else {
-      // If color is not provided, consider it as a match
-      hasColor = true;
+  const mappedVariants: MappedVariant[] = filteredVariants?.map((variant) => {
+    const selectedOptions = variant.selectedOptions.reduce<SelectedOptions>(
+      (acc, { name, value }) => ({ ...acc, [name.toLowerCase()]: value }),
+      {} as SelectedOptions
+    );
+
+    return { ...variant, selectedOptions };
+  });
+
+  return mappedVariants.reduce<ColorsAndSizes>((acc, curr) => {
+    const size = curr.selectedOptions.size;
+    const color = curr.selectedOptions.color;
+
+    if (!(size in acc)) {
+      return { ...acc, [size]: [color] };
     }
 
-    // Check if the current variant matches the provided size (if any)
-    if (size !== undefined) {
-      for (const option of variant.selectedOptions) {
-        if (option.name === "Size" && option.value === size) {
-          hasSize = true;
-          break;
-        }
-      }
-    } else {
-      // If size is not provided, consider it as a match
-      hasSize = true;
+    const sizes = acc[size];
+
+    if (!sizes.length) {
+      return acc;
     }
 
-    // If both color and size match (or if one of them is not provided),
-    // return the ID of the current variant
-    if (hasColor && hasSize) {
-      return variant.id;
-    }
-  }
-
-  // If no matching variant is found, return undefined
-  return;
+    return { ...acc, [size]: [...sizes, color] };
+  }, {});
 };

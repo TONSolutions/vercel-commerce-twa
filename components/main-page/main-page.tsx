@@ -16,7 +16,6 @@ import { MainPageProductItem } from "components/main-page/components/MainPagePro
 import { MenuButton } from "components/main-page/components/MenuButton";
 import { useCartDataConductor } from "contexts/CartContext";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
-import data from "data/tonRates.json";
 import { Button } from "konsta/react";
 import { redirectToWallet } from "lib/redirectToWallet";
 import { useRouter } from "next/navigation";
@@ -29,9 +28,10 @@ import type { Collection } from "lib/shopify/storefront/types";
 type Props = {
   banners: Banner[];
   collections: Collection[];
+  tonToUsdPrice: number;
 };
 
-export const MainPage: FunctionComponent<Props> = ({ banners, collections }) => {
+export const MainPage: FunctionComponent<Props> = ({ banners, collections, tonToUsdPrice }) => {
   const { MainButton, expand } = useWebAppDataConductor();
 
   const { itemsQuantity } = useCartDataConductor();
@@ -41,7 +41,6 @@ export const MainPage: FunctionComponent<Props> = ({ banners, collections }) => 
   const cartLink = itemsQuantity && itemsQuantity > 0 ? `/cart/items` : "/cart";
   const wallet = useTonWallet();
   const address = useTonAddress();
-  const tonUsdPrice = data.usd;
 
   const handleDisconnectWallet = () => {
     if (!tonConnect) {
@@ -116,18 +115,24 @@ export const MainPage: FunctionComponent<Props> = ({ banners, collections }) => 
           {collections.map(({ title, products }, index) => (
             <TabsContent key={index} value={title} className="!mt-0">
               <div className="grid grid-cols-2 gap-2 p-4">
-                {products.map(({ title, handle, images, priceRange }, index) => (
-                  <MainPageProductItem
-                    key={index}
-                    title={title}
-                    handle={handle}
-                    images={images}
-                    price={priceRange.minVariantPrice.amount}
-                    usdPrice={(
-                      Number(priceRange.minVariantPrice.amount) * Number(tonUsdPrice)
-                    ).toFixed(2)}
-                  />
-                ))}
+                {products.map(({ title, handle, images, priceRange }, index) => {
+                  const usdPrice = (
+                    Number(priceRange.minVariantPrice.amount) * tonToUsdPrice
+                  ).toFixed(2);
+
+                  const price = priceRange.minVariantPrice.amount;
+
+                  return (
+                    <MainPageProductItem
+                      key={index}
+                      title={title}
+                      handle={handle}
+                      images={images}
+                      price={price}
+                      usdPrice={usdPrice}
+                    />
+                  );
+                })}
               </div>
             </TabsContent>
           ))}
