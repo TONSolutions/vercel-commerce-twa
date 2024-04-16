@@ -9,6 +9,7 @@ import {
   removeFromCartMutation
 } from "lib/shopify/storefront/mutations/cart";
 import { getCartQuery } from "lib/shopify/storefront/queries/cart";
+import { getCollectionsQuery } from "lib/shopify/storefront/queries/collection";
 import { getLocationsQuery } from "lib/shopify/storefront/queries/locations";
 import { getPageQuery, getPagesQuery } from "lib/shopify/storefront/queries/page";
 import { getProductQuery, getProductsQuery } from "lib/shopify/storefront/queries/product";
@@ -17,18 +18,19 @@ import { revalidateTag } from "next/cache";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-import { getCollectionsQuery } from "lib/shopify/storefront/queries/collection";
-
 import type {
-  Cart, Collection,
+  Cart,
+  Collection,
   Connection,
   Image,
   Page,
   Product,
   ShopifyAddToCartOperation,
   ShopifyCart,
-  ShopifyCartOperation, ShopifyCollection,
-  ShopifyCreateCartOperation, ShopifyGetCollectionsOperation,
+  ShopifyCartOperation,
+  ShopifyCollection,
+  ShopifyCreateCartOperation,
+  ShopifyGetCollectionsOperation,
   ShopifyLocation,
   ShopifyLocationsOperation,
   ShopifyPageOperation,

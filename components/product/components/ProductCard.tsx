@@ -4,12 +4,10 @@ import { CardPriceBlock } from "components/product/components/CardPriceBlock";
 import { CardTitleBlock } from "components/product/components/CardTitleBlock";
 import { ColorsBlock } from "components/product/components/ColorsBlock";
 import { SizesBlock } from "components/product/components/SizesBlock";
-import { mapColorsToHexCodex } from "components/product/utils";
 import data from "data/tonRates.json"; //TODO replace on fetched;
 import { motion } from "framer-motion";
 import { type FunctionComponent } from "react";
 
-import type { MappedColor } from "components/product/types";
 import type { Money, ProductVariant } from "lib/shopify/storefront/types";
 
 type Props = {
@@ -42,11 +40,6 @@ export const ProductCard: FunctionComponent<Props> = ({
 
   const priceInUsd = (Number(priceInTon) * Number(tonUsdPrice)).toFixed(2);
 
-  const mappedColors: MappedColor[] = mapColorsToHexCodex(colors);
-
-  const showMappedColors = mappedColors.length > 0;
-  const showSizes = sizes.length > 0;
-
   return (
     <motion.div
       initial={{ opacity: 0.6, y: 150 }}
@@ -59,21 +52,17 @@ export const ProductCard: FunctionComponent<Props> = ({
 
           <CardTitleBlock title={title} description={description} />
 
-          {showSizes ? (
-            <SizesBlock
-              sizes={sizes}
-              selectedSize={selectedSize}
-              setSelectedSize={handleSizeChange}
-            />
-          ) : null}
+          <SizesBlock
+            sizes={sizes}
+            selectedSize={selectedSize}
+            setSelectedSize={handleSizeChange}
+          />
 
-          {showMappedColors ? (
-            <ColorsBlock
-              mappedColors={mappedColors}
-              selectedColor={selectedColor}
-              setSelectedColor={handleColorChange}
-            />
-          ) : null}
+          <ColorsBlock
+            colors={colors}
+            selectedColor={selectedColor}
+            setSelectedColor={handleColorChange}
+          />
         </div>
       </OverlayCard>
     </motion.div>

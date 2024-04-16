@@ -5,7 +5,7 @@ import { Routes } from "components/constants";
 import { addToCart } from "components/product/actions";
 import { ImageSection } from "components/product/components/ImageSection";
 import { ProductCard } from "components/product/components/ProductCard";
-import { getSelectedVariantId } from "components/product/utils";
+import { useVariants } from "components/product/hooks/useVariants";
 import { useCartDataConductor } from "contexts/CartContext";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
 import { useRouter } from "next/navigation";
@@ -23,16 +23,25 @@ export const ProductPage: FunctionComponent<Props> = ({ product }) => {
   //TODO useTransition for button disable
   //TODO show colors or sizes if available
   const [isPending, startTransition] = useTransition();
-  const { title, images, variants, priceRange, description, options } = product;
-  const sizes = options.find((item) => item.name === "Size")?.values ?? [];
-  const colors = options.find((item) => item.name === "Color")?.values ?? [];
+  const { title, images, variants, priceRange, description } = product;
+  const {
+    size = "",
+    sizes,
+    colors,
+    color = "",
+    handleColorChange,
+    handleSizeChange,
+    selectedVariantId
+  } = useVariants({
+    variants
+  });
+
+  console.log(product);
 
   const { MainButton } = useWebAppDataConductor();
   const { setCart } = useCartDataConductor();
 
   const [isAdded, setIsAdded] = useState(false);
-  const [selectedSize, setSelectedSize] = useState(sizes[0]);
-  const [selectedColor, setSelectedColor] = useState(colors[0]);
 
   const router = useRouter();
 
@@ -40,12 +49,6 @@ export const ProductPage: FunctionComponent<Props> = ({ product }) => {
 
   const handleAddToCart = () => {
     startTransition(() => {
-      const selectedVariantId = getSelectedVariantId({
-        variants,
-        size: selectedSize,
-        color: selectedColor
-      });
-
       addToCart({ selectedVariantId }).then(({ success, error, data }) => {
         if (success) {
           setCart(data);
@@ -85,7 +88,7 @@ export const ProductPage: FunctionComponent<Props> = ({ product }) => {
 
       return () => MainButton.offClick(handleAddToCart);
     }
-  }, [isAdded, isPending, selectedSize, selectedColor]);
+  }, [isAdded, isPending, selectedVariantId]);
 
   return (
     <>
@@ -100,10 +103,10 @@ export const ProductPage: FunctionComponent<Props> = ({ product }) => {
         price={price}
         sizes={sizes}
         colors={colors}
-        selectedSize={selectedSize}
-        selectedColor={selectedColor}
-        handleSizeChange={setSelectedSize}
-        handleColorChange={setSelectedColor}
+        selectedSize={size}
+        selectedColor={color}
+        handleSizeChange={handleSizeChange}
+        handleColorChange={handleColorChange}
       />
     </>
   );
