@@ -33,7 +33,7 @@ export const Banner: FunctionComponent<Props> = ({
   const bgClass = generateBgColorClass(bgColorsList);
 
   return (
-    <div className="flex-carousel m-4 min-w-0 rounded-xl" style={{ backgroundImage: bgClass }}>
+    <div className="m-4 min-w-0 flex-carousel rounded-xl" style={{ backgroundImage: bgClass }}>
       <div className="flex h-full w-full items-center justify-between">
         <div className="max-w-[60%] p-4">
           <h2 className="text-regular font-semibold" style={{ color: titleColor ?? "" }}>
