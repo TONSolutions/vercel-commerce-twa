@@ -4,7 +4,6 @@ import { CardPriceBlock } from "components/product/components/CardPriceBlock";
 import { CardTitleBlock } from "components/product/components/CardTitleBlock";
 import { ColorsBlock } from "components/product/components/ColorsBlock";
 import { SizesBlock } from "components/product/components/SizesBlock";
-import data from "data/tonRates.json"; //TODO replace on fetched;
 import { motion } from "framer-motion";
 import { type FunctionComponent } from "react";
 
@@ -19,6 +18,7 @@ type Props = {
   colors: string[];
   selectedSize: string;
   selectedColor: string;
+  tonToUsdPrice: number;
   handleSizeChange: (size: string) => void;
   handleColorChange: (color: string) => void;
 };
@@ -31,14 +31,13 @@ export const ProductCard: FunctionComponent<Props> = ({
   price,
   selectedSize,
   selectedColor,
+  tonToUsdPrice,
   handleSizeChange,
   handleColorChange
 }) => {
-  const tonUsdPrice = data.usd;
-
   const { amount: priceInTon } = price;
 
-  const priceInUsd = (Number(priceInTon) * Number(tonUsdPrice)).toFixed(2);
+  const priceInUsd = (Number(priceInTon) * tonToUsdPrice).toFixed(2);
 
   return (
     <motion.div

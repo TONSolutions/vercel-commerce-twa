@@ -15,13 +15,12 @@ import type { Product } from "lib/shopify/storefront/types";
 
 type Props = {
   product: Product;
+  tonToUsdPrice: number;
 };
 
 //TODO replace cart
 
-export const ProductPage: FunctionComponent<Props> = ({ product }) => {
-  //TODO useTransition for button disable
-  //TODO show colors or sizes if available
+export const ProductPage: FunctionComponent<Props> = ({ product, tonToUsdPrice }) => {
   const [isPending, startTransition] = useTransition();
   const { title, images, variants, priceRange, description } = product;
   const {
@@ -35,8 +34,6 @@ export const ProductPage: FunctionComponent<Props> = ({ product }) => {
   } = useVariants({
     variants
   });
-
-  console.log(product);
 
   const { MainButton } = useWebAppDataConductor();
   const { setCart } = useCartDataConductor();
@@ -71,6 +68,10 @@ export const ProductPage: FunctionComponent<Props> = ({ product }) => {
     MainButton.show();
     isPending ? MainButton.showProgress() : MainButton.hideProgress();
 
+    if (!sizes.length) {
+      MainButton.hide();
+    }
+
     if (isAdded) {
       MainButton.setText("Added.Go to cart");
       MainButton.color = "#e5f1ff";
@@ -88,7 +89,7 @@ export const ProductPage: FunctionComponent<Props> = ({ product }) => {
 
       return () => MainButton.offClick(handleAddToCart);
     }
-  }, [isAdded, isPending, selectedVariantId]);
+  }, [isAdded, isPending, selectedVariantId, sizes.length]);
 
   return (
     <>
@@ -105,6 +106,7 @@ export const ProductPage: FunctionComponent<Props> = ({ product }) => {
         colors={colors}
         selectedSize={size}
         selectedColor={color}
+        tonToUsdPrice={tonToUsdPrice}
         handleSizeChange={handleSizeChange}
         handleColorChange={handleColorChange}
       />

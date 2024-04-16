@@ -225,7 +225,8 @@ export async function getProduct(handle: string): Promise<Product | undefined> {
     tags: [TAGS.products],
     variables: {
       handle
-    }
+    },
+    cache: "no-store"
   });
 
   return reshapeProduct(res.body.data.product, false);
