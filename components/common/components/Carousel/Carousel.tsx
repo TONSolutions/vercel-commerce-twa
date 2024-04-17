@@ -14,6 +14,7 @@ type Props = {
   options?: EmblaOptionsType;
   autoplay?: boolean;
   withDots?: boolean;
+  dotsClassName?: string;
   wrapperClassName?: string;
 };
 
@@ -22,6 +23,7 @@ export const Carousel: FunctionComponent<Props> = ({
   options,
   autoplay,
   wrapperClassName,
+  dotsClassName,
   withDots = false
 }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [
@@ -51,7 +53,12 @@ export const Carousel: FunctionComponent<Props> = ({
       </div>
 
       {withDots ? (
-        <div className="absolute bottom-4 left-[50%] flex -translate-x-[50%] items-center justify-evenly gap-2 rounded-xl bg-[#FFFFFF26] px-2 py-1">
+        <div
+          className={classNames(
+            "absolute bottom-4 left-[50%] flex -translate-x-[50%] items-center justify-evenly gap-2 rounded-xl bg-[#FFFFFF26]",
+            dotsClassName
+          )}
+        >
           {scrollSnaps.map((_, index) => (
             <DotButton
               key={index}
