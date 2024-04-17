@@ -21,7 +21,7 @@ export const MainPageProductItem: FunctionComponent<Props> = ({
   usdPrice
 }) => (
   <Link href={`/${handle}`}>
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col justify-between gap-3">
       <ImagesCarousel images={images} />
 
       <div>
