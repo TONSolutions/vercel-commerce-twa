@@ -98,13 +98,14 @@ export const checkoutCart = async (input: DraftOrderInput, draftOrderId: string)
     const draftOrder = await getDraftOrder(draftOrderId);
 
     const { reserveInventoryUntil, customAttributes } = draftOrder;
-    const { lineItems: newLineItems } = input;
+    const { lineItems: newLineItems, poNumber } = input;
 
     if (isReserveValid(reserveInventoryUntil)) {
       //Update draft order content – just in case if user added new goods in cart
       const newInput: DraftOrderInput = {
         ...input,
         lineItems: newLineItems,
+        poNumber,
         reserveInventoryUntil
       };
 
@@ -118,6 +119,7 @@ export const checkoutCart = async (input: DraftOrderInput, draftOrderId: string)
 
       const newInput: DraftOrderInput = {
         ...input,
+        poNumber,
         lineItems: filteredNewLineItems,
         customAttributes: updatedCustomAttributes
       };
