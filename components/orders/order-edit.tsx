@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 "use client";
 import { BackButton } from "@twa-dev/sdk/react";
+import { CheckoutPageShimmer } from "components/checkout/components/Shimmer/CheckoutPageShimmer";
 import { OrderInformationEdit } from "components/common/components/OrderInformationEdit";
 import { DEFAULT_FORM_VALUES, Routes } from "components/constants";
 import { updateOrder } from "components/orders/actions";
@@ -83,7 +84,7 @@ export const EditOrderPage: FunctionComponent<Props> = ({
   }, [form.name.value, form.phone.value, form.shippingInformation.value]);
 
   if (isPending) {
-    return <h1>Loading...</h1>;
+    return <CheckoutPageShimmer title="" />;
   }
 
   return (
