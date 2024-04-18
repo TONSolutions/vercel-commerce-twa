@@ -1,5 +1,6 @@
 import { OverlayCard } from "components/common/ui/Card";
 import { Skeleton } from "components/common/ui/Skeleton";
+import { getShimmerElems } from "lib/getShimmerElems";
 
 import type { FunctionComponent } from "react";
 
@@ -50,7 +51,7 @@ const CategoriesShimmer: FunctionComponent<Props> = ({ elems }) => (
 );
 
 export const CardShimmer = () => {
-  const elems = [0, 1, 2, 3];
+  const elems = getShimmerElems(4);
 
   return (
     <OverlayCard>

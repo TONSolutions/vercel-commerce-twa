@@ -5,5 +5,5 @@ type Props = {
 };
 
 export const ScrollContainer: FunctionComponent<Props> = ({ children }) => (
-  <p className="flex gap-2 overflow-x-auto p-1 no-scrollbar">{children}</p>
+  <div className="flex gap-2 overflow-x-auto p-1 no-scrollbar">{children}</div>
 );
