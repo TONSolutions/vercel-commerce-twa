@@ -3,6 +3,7 @@
 
 import { BackButton } from "@twa-dev/sdk/react";
 import { getDraftOrderById, updateDraftOrder } from "components/checkout/actions";
+import { CheckoutPageShimmer } from "components/checkout/components/Shimmer/CheckoutPageShimmer";
 import { OrderInformationEdit } from "components/common/components/OrderInformationEdit";
 import { DEFAULT_FORM_VALUES, Routes } from "components/constants";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
@@ -93,7 +94,7 @@ export const CheckoutEditPage: FunctionComponent<Props> = ({ locations }) => {
   }, [form.name.value, form.phone.value, form.shippingInformation.value]);
 
   if (isPending) {
-    return <h1>Loading...</h1>;
+    return <CheckoutPageShimmer title="" />;
   }
 
   return (

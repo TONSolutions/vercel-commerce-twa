@@ -3,6 +3,7 @@ import DismissIcon from "components/assets/icons/DismissIcon";
 import { Popover } from "components/product/components/Popover";
 import { ScrollContainer } from "components/product/components/ScrollContainer";
 import { SizesTable } from "components/product/components/SizesTable";
+import { DEFAULT_SIZES } from "components/product/constants";
 import { motion } from "framer-motion";
 import { Link } from "konsta/react";
 import { useState, type FunctionComponent } from "react";
@@ -29,12 +30,13 @@ export const SizesBlock: FunctionComponent<Props> = ({ sizes, selectedSize, setS
       </div>
 
       <ScrollContainer>
-        {sizes.map((size, index) => (
+        {DEFAULT_SIZES.map((size, index) => (
           <span
             className={classNames(
               "ani cursor-pointer rounded-xl bg-[#74748014] text-base font-bold",
               {
-                "outline outline-2 outline-[#007AFF]": size === selectedSize
+                "outline outline-2 outline-[#007AFF]": size === selectedSize,
+                "pointer-events-none opacity-50": !sizes.includes(size)
               }
             )}
             key={index}

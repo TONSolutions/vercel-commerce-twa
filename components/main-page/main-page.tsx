@@ -9,27 +9,29 @@ import {
 import CartIcon from "components/assets/icons/CartIcon";
 import StoreLogo from "components/assets/StoreLogo";
 import { OverlayCard } from "components/common/ui/Card";
+import { TabsContent, TabsList, Tabs, TabsTrigger } from "components/common/ui/tabs";
 import { Routes } from "components/constants";
 import { BannersContainer } from "components/main-page/components/BannersContainer";
+import { MainPageProductItem } from "components/main-page/components/MainPageProductItem";
 import { MenuButton } from "components/main-page/components/MenuButton";
 import { useCartDataConductor } from "contexts/CartContext";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
 import { Button } from "konsta/react";
 import { redirectToWallet } from "lib/redirectToWallet";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, type FunctionComponent } from "react";
 
 import type { WalletInfoRemote } from "@tonconnect/ui-react";
 import type { Banner } from "components/main-page/types";
-import type { Product } from "lib/shopify/storefront/types";
+import type { Collection } from "lib/shopify/storefront/types";
 
 type Props = {
-  products: Product[];
   banners: Banner[];
+  collections: Collection[];
+  tonToUsdPrice: number;
 };
 
-export const MainPage: FunctionComponent<Props> = ({ products, banners }) => {
+export const MainPage: FunctionComponent<Props> = ({ banners, collections, tonToUsdPrice }) => {
   const { MainButton, expand } = useWebAppDataConductor();
 
   const { itemsQuantity } = useCartDataConductor();
@@ -95,17 +97,46 @@ export const MainPage: FunctionComponent<Props> = ({ products, banners }) => {
       <BannersContainer banners={banners} />
 
       <OverlayCard>
-        <div className="grid grid-cols-2 gap-2 px-4 pb-4">
-          {products.map((product, index) => (
-            <Link key={index} href={`/${product.handle}`}>
-              <div className="min-h-[279px] rounded-xl border">
-                <img src={product.images[0].url} />
+        <h2 className="mb-1 px-4 text-xl font-bold">Product catalog</h2>
 
-                <p className="px-2 py-4">{product.title}</p>
+        <Tabs defaultValue={collections[0].title}>
+          <div className="relative hairline-b">
+            <div className="w-full overflow-x-scroll pl-4  no-scrollbar">
+              <TabsList className="gap-2">
+                {collections.map(({ title }, index) => (
+                  <TabsTrigger value={title} key={index} variant="outlined">
+                    {title}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
+          </div>
+
+          {collections.map(({ title, products }, index) => (
+            <TabsContent key={index} value={title} className="!mt-0">
+              <div className="grid grid-cols-2 gap-2 p-4">
+                {products.map(({ title, handle, images, priceRange }, index) => {
+                  const usdPrice = (
+                    Number(priceRange.minVariantPrice.amount) * tonToUsdPrice
+                  ).toFixed(2);
+
+                  const price = priceRange.minVariantPrice.amount;
+
+                  return (
+                    <MainPageProductItem
+                      key={index}
+                      title={title}
+                      handle={handle}
+                      images={images}
+                      price={price}
+                      usdPrice={usdPrice}
+                    />
+                  );
+                })}
               </div>
-            </Link>
+            </TabsContent>
           ))}
-        </div>
+        </Tabs>
       </OverlayCard>
     </div>
   );

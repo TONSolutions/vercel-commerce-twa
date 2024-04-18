@@ -35,7 +35,7 @@ export const MenuButton: FunctionComponent<Props> = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="mr-2 flex w-max items-center gap-1 rounded-full bg-bg_color px-4 py-1">
-        <TonIcon className="w-full" />
+        <TonIcon className="h-8 w-8 w-full" />
 
         <span className="text-base font-semibold">{truncatedAddress}</span>
 

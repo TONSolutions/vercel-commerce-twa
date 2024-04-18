@@ -9,6 +9,7 @@ import {
   removeFromCartMutation
 } from "lib/shopify/storefront/mutations/cart";
 import { getCartQuery } from "lib/shopify/storefront/queries/cart";
+import { getCollectionsQuery } from "lib/shopify/storefront/queries/collection";
 import { getLocationsQuery } from "lib/shopify/storefront/queries/locations";
 import { getPageQuery, getPagesQuery } from "lib/shopify/storefront/queries/page";
 import { getProductQuery, getProductsQuery } from "lib/shopify/storefront/queries/product";
@@ -19,6 +20,7 @@ import { NextResponse } from "next/server";
 
 import type {
   Cart,
+  Collection,
   Connection,
   Image,
   Page,
@@ -26,7 +28,9 @@ import type {
   ShopifyAddToCartOperation,
   ShopifyCart,
   ShopifyCartOperation,
+  ShopifyCollection,
   ShopifyCreateCartOperation,
+  ShopifyGetCollectionsOperation,
   ShopifyLocation,
   ShopifyLocationsOperation,
   ShopifyPageOperation,
@@ -122,6 +126,12 @@ const reshapeProducts = (products: ShopifyProduct[]) => {
   return reshapedProducts;
 };
 
+const reshapeCollection = (collection: ShopifyCollection[]) =>
+  collection.map((item) => ({
+    ...item,
+    products: reshapeProducts(removeEdgesAndNodes(item.products))
+  }));
+
 export async function createCart(): Promise<Cart> {
   const res = await storefrontFetch<ShopifyCreateCartOperation>({
     query: createCartMutation,
@@ -215,7 +225,8 @@ export async function getProduct(handle: string): Promise<Product | undefined> {
     tags: [TAGS.products],
     variables: {
       handle
-    }
+    },
+    cache: "no-store"
   });
 
   return reshapeProduct(res.body.data.product, false);
@@ -290,4 +301,16 @@ export async function getCompanyLocations({
   });
 
   return removeEdgesAndNodes(res.body.data.locations);
+}
+
+export async function getCollections({ first }: { first: number }): Promise<Collection[]> {
+  const res = await storefrontFetch<ShopifyGetCollectionsOperation>({
+    query: getCollectionsQuery,
+    variables: {
+      first
+    },
+    cache: "no-store"
+  });
+
+  return reshapeCollection(removeEdgesAndNodes(res.body.data.collections));
 }

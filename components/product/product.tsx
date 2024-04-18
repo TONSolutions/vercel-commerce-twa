@@ -5,7 +5,7 @@ import { Routes } from "components/constants";
 import { addToCart } from "components/product/actions";
 import { ImageSection } from "components/product/components/ImageSection";
 import { ProductCard } from "components/product/components/ProductCard";
-import { getSelectedVariantId } from "components/product/utils";
+import { useVariants } from "components/product/hooks/useVariants";
 import { useCartDataConductor } from "contexts/CartContext";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
 import { useRouter } from "next/navigation";
@@ -15,57 +15,35 @@ import type { Product } from "lib/shopify/storefront/types";
 
 type Props = {
   product: Product;
+  tonToUsdPrice: number;
 };
 
-//TODO replace cart
-
-export const ProductPage: FunctionComponent<Props> = ({ product }) => {
-  //TODO useTransition for button disable
-  //TODO show colors or sizes if available
+export const ProductPage: FunctionComponent<Props> = ({ product, tonToUsdPrice }) => {
   const [isPending, startTransition] = useTransition();
-  const { title, images, variants, priceRange, description, options } = product;
-  const sizes = options.find((item) => item.name === "Size")?.values ?? [];
-  const colors = options.find((item) => item.name === "Color")?.values ?? [];
+  const { title, images, variants, priceRange, description } = product;
+  const {
+    size = "",
+    sizes,
+    colors,
+    color = "",
+    handleColorChange,
+    handleSizeChange,
+    selectedVariantId
+  } = useVariants({
+    variants
+  });
 
   const { MainButton } = useWebAppDataConductor();
   const { setCart } = useCartDataConductor();
 
   const [isAdded, setIsAdded] = useState(false);
-  const [selectedSize, setSelectedSize] = useState(sizes[0]);
-  const [selectedColor, setSelectedColor] = useState(colors[0]);
 
   const router = useRouter();
 
   const price = priceRange.minVariantPrice;
 
-  // const handleAddToCart = () => {
-  //   startTransition(() => {
-  //     const selectedVariantId = getSelectedVariantId({
-  //       variants,
-  //       size: selectedSize,
-  //       color: selectedColor
-  //     });
-
-  //     addToCart({ selectedVariantId }).then(({ success, error }) => {
-  //       if (success) {
-  //         setIsAdded(true);
-  //       }
-
-  //       if (error) {
-  //         // TODO error handling
-  //       }
-  //     });
-  //   });
-  // };
-
   const handleAddToCart = () => {
     startTransition(() => {
-      const selectedVariantId = getSelectedVariantId({
-        variants,
-        size: selectedSize,
-        color: selectedColor
-      });
-
       addToCart({ selectedVariantId }).then(({ success, error, data }) => {
         if (success) {
           setCart(data);
@@ -86,7 +64,15 @@ export const ProductPage: FunctionComponent<Props> = ({ product }) => {
 
   useEffect(() => {
     MainButton.show();
-    isPending ? MainButton.showProgress() : MainButton.hideProgress();
+    MainButton.hideProgress();
+
+    if (isPending) {
+      MainButton.showProgress();
+    }
+
+    if (!sizes.length) {
+      MainButton.hide();
+    }
 
     if (isAdded) {
       MainButton.setText("Added.Go to cart");
@@ -105,7 +91,7 @@ export const ProductPage: FunctionComponent<Props> = ({ product }) => {
 
       return () => MainButton.offClick(handleAddToCart);
     }
-  }, [isAdded, isPending, selectedSize, selectedColor]);
+  }, [isAdded, isPending, selectedVariantId, sizes.length]);
 
   return (
     <>
@@ -120,10 +106,11 @@ export const ProductPage: FunctionComponent<Props> = ({ product }) => {
         price={price}
         sizes={sizes}
         colors={colors}
-        selectedSize={selectedSize}
-        selectedColor={selectedColor}
-        handleSizeChange={setSelectedSize}
-        handleColorChange={setSelectedColor}
+        selectedSize={size}
+        selectedColor={color}
+        tonToUsdPrice={tonToUsdPrice}
+        handleSizeChange={handleSizeChange}
+        handleColorChange={handleColorChange}
       />
     </>
   );
