@@ -109,7 +109,7 @@ export const CartPage: FunctionComponent<Props> = ({ locations }) => {
 
       return () => MainButton.offClick(handleOpenWalletModal);
     }
-  }, [total, wallet, isPending]);
+  }, [total, wallet, isPending, address]);
 
   useEffect(() => {
     connectUI.onModalStateChange((state) => {
