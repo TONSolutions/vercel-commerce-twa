@@ -6,6 +6,7 @@ import { BackButton } from "@twa-dev/sdk/react";
 import { checkoutCart, clearCart } from "components/cart/actions";
 import { CartList } from "components/cart/components/CartList";
 import { CartTitleSection } from "components/cart/components/CartTitleSection";
+import { CartPageShimmer } from "components/cart/components/Shimmer/CartPageShimmer";
 import { Toaster } from "components/cart/components/Toaster";
 import { Routes } from "components/constants";
 import { useCartDataConductor } from "contexts/CartContext";
@@ -144,7 +145,7 @@ export const CartPage: FunctionComponent<Props> = ({ locations }) => {
   }, [cart?.lines.length]);
 
   if (isPending) {
-    return <h1>Loading....</h1>;
+    return <CartPageShimmer />;
   }
 
   return (
