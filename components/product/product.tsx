@@ -18,8 +18,6 @@ type Props = {
   tonToUsdPrice: number;
 };
 
-//TODO replace cart
-
 export const ProductPage: FunctionComponent<Props> = ({ product, tonToUsdPrice }) => {
   const [isPending, startTransition] = useTransition();
   const { title, images, variants, priceRange, description } = product;
@@ -66,7 +64,11 @@ export const ProductPage: FunctionComponent<Props> = ({ product, tonToUsdPrice }
 
   useEffect(() => {
     MainButton.show();
-    isPending ? MainButton.showProgress() : MainButton.hideProgress();
+    MainButton.hideProgress();
+
+    if (isPending) {
+      MainButton.showProgress();
+    }
 
     if (!sizes.length) {
       MainButton.hide();

@@ -3,6 +3,7 @@
 import { useTonConnectUI } from "@tonconnect/ui-react";
 import { BackButton } from "@twa-dev/sdk/react";
 import { getDraftOrderById } from "components/checkout/actions";
+import { CheckoutPageShimmer } from "components/checkout/components/Shimmer/CheckoutPageShimmer";
 import { OrderInformation } from "components/common/components/OrderInformation";
 import { FEE, NANOTONS_IN_TON, Routes } from "components/constants";
 import { useCartDataConductor } from "contexts/CartContext";
@@ -72,6 +73,12 @@ export const CheckoutPage: FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
+    if (!total) {
+      MainButton.hide();
+
+      return;
+    }
+
     MainButton.show();
     MainButton.setText(`Pay ${total} TON`);
     MainButton.color = "#007AFF";
@@ -79,14 +86,10 @@ export const CheckoutPage: FunctionComponent = () => {
     MainButton.onClick(handleCheckout);
 
     return () => MainButton.offClick(handleCheckout);
-  }, []);
+  }, [total]);
 
-  if (isPending) {
-    return <h1>Loading...</h1>;
-  }
-
-  if (!draftOrder || !total) {
-    return <h1>Loading</h1>;
+  if (isPending || !draftOrder || !total) {
+    return <CheckoutPageShimmer title="Checkout" />;
   }
 
   const { lineItems, customAttributes } = draftOrder ?? {};

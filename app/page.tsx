@@ -6,7 +6,6 @@ import { getMetaobjects } from "lib/shopify/admin";
 import { getProducts, getCollections } from "lib/shopify/storefront";
 import { mapMetaobjectsToBanner } from "lib/shopify/utils";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 
 export const metadata = {
   description: "High-performance ecommerce store built with Next.js, Vercel, and Shopify.", //TODO remove
@@ -25,17 +24,13 @@ export default async function HomePage() {
     return notFound();
   }
 
-  //TODO add Fallback
-
   const banners = mapMetaobjectsToBanner(metaobject);
 
   const shapedCollections = shapeCollections(collections);
 
   return (
     <>
-      <Suspense>
-        <MainPage banners={banners} collections={shapedCollections} tonToUsdPrice={tonToUsdPrice} />
-      </Suspense>
+      <MainPage banners={banners} collections={shapedCollections} tonToUsdPrice={tonToUsdPrice} />
     </>
   );
 }

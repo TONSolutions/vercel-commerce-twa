@@ -8,9 +8,9 @@ type Props = {
 };
 
 export const ImagesCarousel: FunctionComponent<Props> = ({ images }) => (
-  <Carousel options={{ loop: true }} withDots dotsClassName="px-2 py-1">
+  <Carousel withDots dotsClassName="px-2 py-1">
     {images.map(({ url, altText }, index) => (
-      <div className="max-h-[175px] min-w-0 max-w-[175px] flex-carousel px-3 py-2" key={index}>
+      <div className="h-[175px] w-[175px] flex-carousel" key={index}>
         <img src={url} alt={altText} className="h-full w-full rounded-xl object-cover" />
       </div>
     ))}

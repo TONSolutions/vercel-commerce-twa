@@ -7,5 +7,9 @@ export const revalidate = 43200; // 12 hours in seconds
 export default async function Page() {
   const locations = await getCompanyLocations({ first: 10 });
 
-  return <CartPage locations={locations} />;
+  return (
+    <>
+      <CartPage locations={locations} />
+    </>
+  );
 }

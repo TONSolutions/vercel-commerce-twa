@@ -24,7 +24,7 @@ export const ImageSection: FunctionComponent<Props> = ({ images }) => (
           src={url}
           alt={altText}
           key={index}
-          className="max-h-96 w-[100%] min-w-0 flex-carousel object-cover"
+          className="max-h-96 w-full min-w-0 flex-carousel object-cover"
         />
       ))}
     </Carousel>

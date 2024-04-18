@@ -6,6 +6,7 @@ import { BackButton } from "@twa-dev/sdk/react";
 import { checkoutCart, clearCart } from "components/cart/actions";
 import { CartList } from "components/cart/components/CartList";
 import { CartTitleSection } from "components/cart/components/CartTitleSection";
+import { CartPageShimmer } from "components/cart/components/Shimmer/CartPageShimmer";
 import { Toaster } from "components/cart/components/Toaster";
 import { Routes } from "components/constants";
 import { useCartDataConductor } from "contexts/CartContext";
@@ -30,7 +31,7 @@ export const CartPage: FunctionComponent<Props> = ({ locations }) => {
   const wallet = useTonWallet();
   const address = useTonAddress();
   const [isPending, startTransition] = useTransition();
-  const { cart, cartId, setCart, total } = useCartDataConductor();
+  const { cart, cartId, setCart, total, loading: cartLoading } = useCartDataConductor();
   const [isToastOpen, setIsToastOpen] = useState(false);
 
   const [connectUI] = useTonConnectUI();
@@ -93,11 +94,16 @@ export const CartPage: FunctionComponent<Props> = ({ locations }) => {
   };
 
   useEffect(() => {
+    if (!total) {
+      MainButton.hide();
+
+      return;
+    }
+
     MainButton.show();
     MainButton.setText(`Pay ${total} TON`);
     MainButton.color = "#007AFF";
     MainButton.textColor = "#FFF";
-    isPending ? MainButton.showProgress() : MainButton.hideProgress();
 
     if (wallet) {
       MainButton.onClick(handleCheckout);
@@ -108,7 +114,7 @@ export const CartPage: FunctionComponent<Props> = ({ locations }) => {
 
       return () => MainButton.offClick(handleOpenWalletModal);
     }
-  }, [total, wallet, isPending]);
+  }, [total, wallet, isPending, address]);
 
   useEffect(() => {
     connectUI.onModalStateChange((state) => {
@@ -143,8 +149,8 @@ export const CartPage: FunctionComponent<Props> = ({ locations }) => {
     });
   }, [cart?.lines.length]);
 
-  if (isPending) {
-    return <h1>Loading....</h1>;
+  if (isPending || cartLoading) {
+    return <CartPageShimmer />;
   }
 
   return (
