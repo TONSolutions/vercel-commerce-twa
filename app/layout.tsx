@@ -4,7 +4,6 @@ import "./globals.css";
 
 import { ensureStartsWith } from "lib/utils";
 import dynamic from "next/dynamic";
-import { Suspense } from "react";
 
 import type { ReactNode } from "react";
 
@@ -38,16 +37,12 @@ export const metadata = {
 
 const LazyProviders = dynamic(() => import("./providers/Providers"), { ssr: false });
 
-const Loading = () => <h2>🌀 Loading...</h2>;
-
 export default async function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className="text-black">
         <main className="mx-auto max-w-[430px] bg-[#EFEFF4]">
-          <Suspense fallback={<Loading />}>
-            <LazyProviders>{children}</LazyProviders>
-          </Suspense>
+          <LazyProviders>{children}</LazyProviders>
 
           <div id="popover-root"></div>
 

@@ -5,6 +5,7 @@ import { BackButton } from "@twa-dev/sdk/react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "components/common/ui/tabs";
 import { getOrdersByAddress } from "components/orders/actions";
 import { OrdersList } from "components/orders/components/OrdersList";
+import { OrdersPageShimmer } from "components/orders/components/Shimmer/OrdersPageShimmer";
 import { OrderType } from "components/orders/constants";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
 import { useEffect, useState, useTransition } from "react";
@@ -42,7 +43,7 @@ export const OrdersPage: FunctionComponent<Props> = ({ locations }) => {
   }, []);
 
   if (isPending || orders === null) {
-    return <h1>Loading...</h1>;
+    return <OrdersPageShimmer />;
   }
 
   return (
