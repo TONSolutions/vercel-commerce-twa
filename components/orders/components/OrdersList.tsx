@@ -4,6 +4,7 @@ import { Routes } from "components/constants";
 import { OrderListItem } from "components/orders/components/OrderListItem";
 import { OrderStatus, OrderType } from "components/orders/constants";
 import { getAddress } from "components/orders/utils";
+import { formatDateToLocalString } from "lib/utils";
 import { useRouter } from "next/navigation";
 
 import type { Order } from "lib/shopify/admin/types";
@@ -49,9 +50,10 @@ export const OrdersList: FunctionComponent<Props> = ({ orders, type, locations }
             lineItems
           } = order;
 
-          const deliveryEstimationDate = customAttributes.find(
-            (item) => item.key === "deliveryEstimation"
-          )?.value;
+          const rawDeliveryEstimationDate =
+            customAttributes.find((item) => item.key === "deliveryEstimation")?.value ?? "";
+
+          const deliveryEstimationDate = formatDateToLocalString(rawDeliveryEstimationDate);
 
           const address = getAddress({ type, locations, customAttributes });
 
@@ -62,11 +64,7 @@ export const OrdersList: FunctionComponent<Props> = ({ orders, type, locations }
 
           const images = lineItems.map(({ product }) => product?.featuredImage.url ?? "");
 
-          const deliveryDate = new Date(updatedAt).toLocaleDateString("en-GB", {
-            day: "numeric",
-            month: "short",
-            year: "numeric"
-          });
+          const deliveryDate = formatDateToLocalString(updatedAt);
 
           return (
             <OrderListItem

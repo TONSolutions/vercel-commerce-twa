@@ -134,3 +134,18 @@ export const mapFormValuesToCustomAttributes = (formValues: CheckoutForm) =>
 export function openLink(href: string, target = "_self"): void {
   window.open(href, target, "noopener noreferrer");
 }
+
+export const getDeliveryDate = () => {
+  const currentDateObj = new Date();
+
+  currentDateObj.setDate(currentDateObj.getDate() + 7);
+
+  return currentDateObj.toISOString();
+};
+
+export const formatDateToLocalString = (timestamp: string) =>
+  new Date(timestamp).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric"
+  });
