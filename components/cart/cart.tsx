@@ -13,6 +13,7 @@ import { useCartDataConductor } from "contexts/CartContext";
 import { useWebAppDataConductor } from "contexts/WebAppContext";
 import {
   createReserveTimestamp,
+  getDeliveryDate,
   getValueFromTelegramCloudStorage,
   prepareShopifyIdForRequest,
   setValueFromTelegramCloudStorage
@@ -54,7 +55,7 @@ export const CartPage: FunctionComponent<Props> = ({ locations }) => {
           value: `${locations[0].address.city}, ${locations[0].address.countryCode}`
         },
         { key: "name", value: `${user?.first_name} ${user?.last_name}` },
-        { key: "deliveryEstimation", value: String(new Date()) }
+        { key: "deliveryEstimation", value: getDeliveryDate() }
       ];
 
       const lineItems = cart?.lines.map(({ quantity, merchandise }) => ({
