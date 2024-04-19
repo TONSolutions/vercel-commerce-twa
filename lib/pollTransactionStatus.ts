@@ -50,8 +50,12 @@ interface EventsResponse {
 }
 
 const TRANSFER_ACTION = "TonTransfer";
-const domain =
-  process.env.NODE_ENV === "development" ? "https://testnet.tonapi.io" : "https://tonapi.io";
+
+//TODO uncomment before final deploy
+// const domain =
+//   process.env.NODE_ENV === "development" ? "https://testnet.tonapi.io" : "https://tonapi.io";
+
+const domain = "https://testnet.tonapi.io";
 
 export async function pollTransactionStatus(
   senderAddress: string,
