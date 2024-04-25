@@ -67,6 +67,7 @@ export const CartPage: FunctionComponent<Props> = ({ locations }) => {
         lineItems,
         reserveInventoryUntil: createReserveTimestamp(30),
         customAttributes,
+        note: user?.id,
         poNumber: address // This is workaround: we set wallet's address as Post Office Number as this data is shared among Draft Order Update Input, Draft Order and Order and can be used to fetch them
       };
 
