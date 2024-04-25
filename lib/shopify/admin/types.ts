@@ -16,6 +16,7 @@ export type DraftOrderInput = {
   phone?: string;
   reserveInventoryUntil?: string;
   poNumber?: string;
+  note?: number;
 };
 
 export type LineItem = {
