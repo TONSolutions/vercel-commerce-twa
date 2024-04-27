@@ -20,7 +20,7 @@ type Props = {
 
 export const ProductPage: FunctionComponent<Props> = ({ product, tonToUsdPrice }) => {
   const [isPending, startTransition] = useTransition();
-  const { title, images, variants, priceRange, description } = product;
+  const { title, images, variants, priceRange, description, id: productId } = product;
   const {
     size = "",
     sizes,
@@ -34,9 +34,12 @@ export const ProductPage: FunctionComponent<Props> = ({ product, tonToUsdPrice }
   });
 
   const { MainButton } = useWebAppDataConductor();
-  const { setCart } = useCartDataConductor();
+  const { setCart, cart } = useCartDataConductor();
 
   const [isAdded, setIsAdded] = useState(false);
+
+  const quantityInCart =
+    cart?.lines.find((line) => line.merchandise.product.id === productId)?.quantity ?? 0;
 
   const router = useRouter();
 
@@ -97,7 +100,7 @@ export const ProductPage: FunctionComponent<Props> = ({ product, tonToUsdPrice }
     <>
       <BackButton />
 
-      <ImageSection images={images} />
+      <ImageSection images={images} quantity={quantityInCart} />
 
       <ProductCard
         title={title}
