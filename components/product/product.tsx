@@ -39,7 +39,7 @@ export const ProductPage: FunctionComponent<Props> = ({ product, tonToUsdPrice }
   const [isAdded, setIsAdded] = useState(false);
 
   const quantityInCart =
-    cart?.lines.find((line) => line.merchandise.product.id === productId)?.quantity ?? 0;
+    cart?.lines?.find((line) => line.merchandise.product.id === productId)?.quantity ?? 0;
 
   const router = useRouter();
 
