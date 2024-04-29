@@ -1,5 +1,3 @@
-export type Maybe<T> = T | null;
-
 export type Connection<T> = {
   edges: Array<Edge<T>>;
 };
@@ -39,17 +37,6 @@ export type Image = {
 export type Money = {
   amount: string;
   currencyCode: string;
-};
-
-export type Page = {
-  id: string;
-  title: string;
-  handle: string;
-  body: string;
-  bodySummary: string;
-  seo?: SEO;
-  createdAt: string;
-  updatedAt: string;
 };
 
 export type Product = Omit<ShopifyProduct, "variants" | "images"> & {
@@ -164,17 +151,6 @@ export type ShopifyUpdateCartOperation = {
   variables: {
     cartId: string;
     lines: Line[];
-  };
-};
-
-export type ShopifyPageOperation = {
-  data: { pageByHandle: Page };
-  variables: { handle: string };
-};
-
-export type ShopifyPagesOperation = {
-  data: {
-    pages: Connection<Page>;
   };
 };
 

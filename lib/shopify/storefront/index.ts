@@ -11,7 +11,6 @@ import {
 import { getCartQuery } from "lib/shopify/storefront/queries/cart";
 import { getCollectionsQuery } from "lib/shopify/storefront/queries/collection";
 import { getLocationsQuery } from "lib/shopify/storefront/queries/locations";
-import { getPageQuery, getPagesQuery } from "lib/shopify/storefront/queries/page";
 import { getProductQuery, getProductsQuery } from "lib/shopify/storefront/queries/product";
 import { removeEdgesAndNodes, shopifyFetch } from "lib/shopify/utils";
 import { revalidateTag } from "next/cache";
@@ -23,7 +22,6 @@ import type {
   Collection,
   Connection,
   Image,
-  Page,
   Product,
   ShopifyAddToCartOperation,
   ShopifyCart,
@@ -33,8 +31,6 @@ import type {
   ShopifyGetCollectionsOperation,
   ShopifyLocation,
   ShopifyLocationsOperation,
-  ShopifyPageOperation,
-  ShopifyPagesOperation,
   ShopifyProduct,
   ShopifyProductOperation,
   ShopifyProductsOperation,
@@ -200,23 +196,6 @@ export async function getCart(cartId: string): Promise<Cart | undefined> {
   }
 
   return reshapeCart(res.body.data.cart);
-}
-
-export async function getPage(handle: string): Promise<Page> {
-  const res = await storefrontFetch<ShopifyPageOperation>({
-    query: getPageQuery,
-    variables: { handle }
-  });
-
-  return res.body.data.pageByHandle;
-}
-
-export async function getPages(): Promise<Page[]> {
-  const res = await storefrontFetch<ShopifyPagesOperation>({
-    query: getPagesQuery
-  });
-
-  return removeEdgesAndNodes(res.body.data.pages);
 }
 
 export async function getProduct(handle: string): Promise<Product | undefined> {
