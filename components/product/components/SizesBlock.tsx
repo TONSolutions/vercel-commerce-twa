@@ -8,6 +8,8 @@ import { motion } from "framer-motion";
 import { Link } from "konsta/react";
 import { useState, type FunctionComponent } from "react";
 
+import { useTheme } from "../../hooks/useTheme";
+
 type Props = {
   sizes: string[];
   selectedSize: string;
@@ -17,6 +19,8 @@ type Props = {
 export const SizesBlock: FunctionComponent<Props> = ({ sizes, selectedSize, setSelectedSize }) => {
   const [popupOpened, setPopupOpened] = useState(false);
 
+  const { hint_color } = useTheme();
+
   const togglePopover = () => {
     setPopupOpened(!popupOpened);
   };
@@ -24,7 +28,7 @@ export const SizesBlock: FunctionComponent<Props> = ({ sizes, selectedSize, setS
   return (
     <div>
       <div className="flex justify-between py-3">
-        <span className="text-[#6D6D72]">SIZE</span>
+        <span className={hint_color}>SIZE</span>
 
         <Link onClick={togglePopover}>SIZE GUIDE</Link>
       </div>

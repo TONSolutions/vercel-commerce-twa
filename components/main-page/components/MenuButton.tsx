@@ -1,5 +1,6 @@
 "use client";
 
+import classNames from "classnames";
 import BoxIcon from "components/assets/icons/BoxIcon";
 import ChevronDownIcon from "components/assets/icons/ChevronDownIcon";
 import IconPlus from "components/assets/icons/IconPlus";
@@ -12,6 +13,7 @@ import {
   DropdownMenuTrigger
 } from "components/common/ui/dropdown-menu";
 import { useGetUserBalance } from "components/hooks/useGetUserBalance";
+import { useTheme } from "components/hooks/useTheme";
 import { truncateMiddle } from "lib/utils";
 
 import type { FunctionComponent } from "react";
@@ -31,6 +33,7 @@ export const MenuButton: FunctionComponent<Props> = ({
 }) => {
   const truncatedAddress = truncateMiddle(address);
   const balance = useGetUserBalance({ address });
+  const { subtitle_text_color } = useTheme();
 
   return (
     <DropdownMenu>
@@ -50,7 +53,7 @@ export const MenuButton: FunctionComponent<Props> = ({
           <WalletIcon />
 
           <div className="flex w-[130px] flex-col">
-            <span className="text-sm text-[#8E8E93]">Balance</span>
+            <span className={classNames("text-sm", subtitle_text_color)}>Balance</span>
 
             <div className="flex items-center">
               <TonIcon className="mr-[2px] h-[22px] w-[22px]" />
