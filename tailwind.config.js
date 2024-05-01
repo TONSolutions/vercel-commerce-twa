@@ -16,7 +16,7 @@ module.exports = konstaConfig({
     extend: {
       flex: {
         carousel: "0 0 100%"
-      },
+      }
     }
   },
   future: {
