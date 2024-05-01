@@ -17,25 +17,6 @@ module.exports = konstaConfig({
       flex: {
         carousel: "0 0 100%"
       },
-      colors: {
-        bg_color: "#ffffff",
-
-        header_bg_color: "#ffffff",
-        secondary_bg_color: "#f4f4f5",
-
-        section_bg_color: "#ffffff",
-        section_header_text_color: "#3390ec",
-
-        accent_text_color: "#3390ec",
-        destructive_text_color: "#df3f40",
-        subtitle_text_color: "#707579",
-        text_color: "#000000",
-        hint_color: "#707579",
-
-        button_color: "#3390ec",
-        button_text_color: "#ffffff",
-        link_color: "#00488f"
-      }
     }
   },
   future: {
