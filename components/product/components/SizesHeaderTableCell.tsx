@@ -8,7 +8,7 @@ type Props = {
   className?: string;
 };
 export const SizesHeaderTableCell: FunctionComponent<Props> = ({ children, className }) => (
-  <TableHead className={classNames(className, "border-1 border bg-[#74748014] font-normal")}>
+  <TableHead className={classNames(className, "border-1 bg-contrast-color-10 border font-normal")}>
     {children}
   </TableHead>
 );

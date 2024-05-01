@@ -88,7 +88,7 @@ export const MainPage: FunctionComponent<Props> = ({ banners, collections, tonTo
             <TonConnectButton className="mr-4" />
           )}
 
-          <Button className="!h-10 !w-10 !rounded-full !bg-bg_color !p-2" href={cartLink}>
+          <Button className="!h-10 !w-10 !rounded-full !bg-color !p-2" href={cartLink}>
             <CartIcon />
           </Button>
         </div>

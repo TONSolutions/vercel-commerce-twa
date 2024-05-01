@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import { CheckoutItems } from "components/checkout/components/CheckoutItems";
 import { TotalSection } from "components/checkout/components/TotalSection";
-import { useTheme } from "components/hooks/useTheme";
 import { List, ListItem } from "konsta/react";
 import { truncateMiddle } from "lib/utils";
 
@@ -36,23 +35,22 @@ export const OrderInformation: FunctionComponent<Props> = ({
   disabledFields = { name: false, phone: false, shippingInformation: false }
 }) => {
   const disabledStyles = "pointer-events-none cursor-not-allowed opacity-50";
-  const { subtitle_text_color } = useTheme();
 
   return (
     <>
       <div className="flex justify-between">
         <h1 className="mb-3 px-4 text-xl font-bold">{title}</h1>
 
-        {orderDate ? <span className={subtitle_text_color}>{orderDate}</span> : null}
+        {orderDate ? <span className="text-subtitle-color">{orderDate}</span> : null}
       </div>
 
-      <div className="m-4 rounded-xl bg-bg_color">
+      <div className="bg-color m-4 rounded-xl">
         <CheckoutItems items={lineItems} />
 
         <TotalSection total={total} />
       </div>
 
-      <List className="m-4 rounded-xl bg-bg_color" strongIos>
+      <List className="bg-color m-4 rounded-xl" strongIos>
         <ListItem title="Payment Method" after={truncateMiddle(walletAddress)} />
 
         <ListItem

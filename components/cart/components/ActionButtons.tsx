@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import MinusIcon from "components/assets/icons/MinusIcon";
 import PlusIcon from "components/assets/icons/PlusIcon";
 import { useCartDataConductor } from "contexts/CartContext";
@@ -17,7 +16,7 @@ export const ActionButtons: FunctionComponent<Props> = ({ quantity, id }) => {
   const onMinusClick = () => handleUpdateQuantity({ id, quantity: quantity - 1 });
   const onPlusClick = () => handleUpdateQuantity({ id, quantity: quantity + 1 });
 
-  const iconStyles = classNames("rounded-full bg-[#e5f1ff] cursor-pointer", {});
+  const iconStyles = "rounded-full cursor-pointer bg-ton-button-color";
 
   return (
     <div className="flex gap-2 self-center">

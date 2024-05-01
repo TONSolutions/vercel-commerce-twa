@@ -9,7 +9,7 @@ export default function ChevronDownIcon(props: React.ComponentProps<"svg">) {
     >
       <path
         d="M2.5 10L7 15L11.5 10"
-        stroke="black"
+        stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"

@@ -1,7 +1,5 @@
-import classNames from "classnames";
 import CaretRightIcon from "components/assets/icons/CaretRightIcon";
 import { Routes } from "components/constants";
-import { useTheme } from "components/hooks/useTheme";
 import { ImageStack } from "components/orders/components/ImageStack";
 import { StatusBar } from "components/orders/components/StatusBar";
 import { OrderType } from "components/orders/constants";
@@ -37,7 +35,6 @@ export const OrderListItem: FunctionComponent<Props> = ({
   images
 }) => {
   const itemForm = quantity === 1 ? "item" : "items";
-  const { subtitle_text_color, hint_color } = useTheme();
 
   const headerText = `${name} ${String.fromCharCode(183)} ${quantity} ${itemForm}`;
 
@@ -52,7 +49,7 @@ export const OrderListItem: FunctionComponent<Props> = ({
   return (
     <Link href={Routes.Order.replace("/:id", prepareShopifyIdForUrl(id, "Order"))}>
       <Card className="mx-0">
-        <span className={classNames("text-sm", hint_color)}>{headerText}</span>
+        <span className="text-hint-color text-sm">{headerText}</span>
 
         <div className="flex justify-between py-2">
           <div className="flex">
@@ -62,7 +59,7 @@ export const OrderListItem: FunctionComponent<Props> = ({
               <div>
                 <p className="text-lg font-medium">{title}</p>
 
-                <span className={classNames("text-sm", subtitle_text_color)}>{subtitle}</span>
+                <span className="text-subtitle-color text-sm">{subtitle}</span>
               </div>
             ) : null}
           </div>

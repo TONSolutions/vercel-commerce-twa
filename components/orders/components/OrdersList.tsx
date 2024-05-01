@@ -1,8 +1,6 @@
-import classNames from "classnames";
 import animation from "components/assets/animations/duck_surprised.json";
 import { AnimationPage } from "components/common/components/AnimationPage";
 import { Routes } from "components/constants";
-import { useTheme } from "components/hooks/useTheme";
 import { OrderListItem } from "components/orders/components/OrderListItem";
 import { OrderStatus, OrderType } from "components/orders/constants";
 import { getAddress } from "components/orders/utils";
@@ -16,7 +14,6 @@ type Props = { orders: Order[]; type: OrderType; locations: ShopifyLocation[] };
 
 export const OrdersList: FunctionComponent<Props> = ({ orders, type, locations }) => {
   const router = useRouter();
-  const { hint_color } = useTheme();
 
   const linkAction = () => {
     router.push(Routes.Main);
@@ -89,7 +86,7 @@ export const OrdersList: FunctionComponent<Props> = ({ orders, type, locations }
       </div>
 
       {type === OrderType.Active ? (
-        <p className={classNames("text-sm", hint_color)}>
+        <p className="text-hint-color text-sm">
           When the order is ready for pickup, we will send a notification to you in chat.
         </p>
       ) : null}

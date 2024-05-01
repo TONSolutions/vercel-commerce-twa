@@ -3,51 +3,41 @@ import { Skeleton } from "components/common/ui/Skeleton";
 import { ScrollContainer } from "components/product/components/ScrollContainer";
 import { getShimmerElems } from "lib/getShimmerElems";
 
-import { useTheme } from "../../../hooks/useTheme";
-
 import type { FunctionComponent } from "react";
 
 type Props = {
   elems: number[];
 };
 
-const ColorsShimmer: FunctionComponent<Props> = ({ elems }) => {
-  const { hint_color } = useTheme();
-
-  return (
-    <div>
-      <div className="py-3">
-        <p className={hint_color}>COLOR</p>
-      </div>
-
-      <ScrollContainer>
-        {elems.map((_, index) => (
-          <Skeleton key={index} className="h-8 w-8 !rounded-full" />
-        ))}
-      </ScrollContainer>
+const ColorsShimmer: FunctionComponent<Props> = ({ elems }) => (
+  <div>
+    <div className="py-3">
+      <p className="text-hint-color">COLOR</p>
     </div>
-  );
-};
 
-const SizesShimmer: FunctionComponent<Props> = ({ elems }) => {
-  const { ton_accent_blue, hint_color } = useTheme();
+    <ScrollContainer>
+      {elems.map((_, index) => (
+        <Skeleton key={index} className="h-8 w-8 !rounded-full" />
+      ))}
+    </ScrollContainer>
+  </div>
+);
 
-  return (
-    <div>
-      <div className="flex justify-between py-3">
-        <span className={hint_color}>SIZE</span>
+const SizesShimmer: FunctionComponent<Props> = ({ elems }) => (
+  <div>
+    <div className="flex justify-between py-3">
+      <span className="text-hint-color">SIZE</span>
 
-        <span className={ton_accent_blue}>SIZE GUIDE</span>
-      </div>
-
-      <ScrollContainer>
-        {elems.map((_, index) => (
-          <Skeleton key={index} className="h-[40px] w-[48px] !rounded-md" />
-        ))}
-      </ScrollContainer>
+      <span className="text-ton-accent-blue">SIZE GUIDE</span>
     </div>
-  );
-};
+
+    <ScrollContainer>
+      {elems.map((_, index) => (
+        <Skeleton key={index} className="h-[40px] w-[48px] !rounded-md" />
+      ))}
+    </ScrollContainer>
+  </div>
+);
 
 const CardTitleShimmer = () => (
   <div className="flex flex-col gap-2">

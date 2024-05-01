@@ -1,5 +1,4 @@
 import classNames from "classnames";
-import { useTheme } from "components/hooks/useTheme";
 import { OrderStatus } from "components/orders/constants";
 
 import type { FunctionComponent } from "react";
@@ -14,13 +13,11 @@ export const StatusBar: FunctionComponent<Props> = ({ status }) => {
   const passedPointClassName =
     "before:absolute before:left-[2px] before:top-[2px] before:h-2 before:w-2 before:rounded-full before:bg-[#ffffff4D]";
 
-  const { hint_color } = useTheme();
-
   return (
     <>
-      <div className="relative my-1 h-3 w-full rounded-xl bg-[#74748014]">
+      <div className="bg-contrast-color-10 relative my-1 h-3 w-full rounded-xl">
         <span
-          className={classNames("absolute left-0 top-0 block h-3 rounded-xl bg-[#007AFF]", {
+          className={classNames("bg-ton-accent-blue absolute left-0 top-0 block h-3 rounded-xl", {
             [classNames("w-3", activePointClassName)]: status === OrderStatus.Created,
             [classNames("w-[50%]", activePointClassName, passedPointClassName)]:
               status === OrderStatus.Ready
@@ -31,11 +28,11 @@ export const StatusBar: FunctionComponent<Props> = ({ status }) => {
       <div className="flex justify-between text-sm">
         <span>Created</span>
 
-        <span className={classNames({ [hint_color]: status === OrderStatus.Created })}>
+        <span className={classNames({ "text-hint-color": status === OrderStatus.Created })}>
           Ready for pickup
         </span>
 
-        <span className={hint_color}>Delivered</span>
+        <span className="text-hint-color">Delivered</span>
       </div>
     </>
   );

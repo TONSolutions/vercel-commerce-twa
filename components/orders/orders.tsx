@@ -53,7 +53,7 @@ export const OrdersPage: FunctionComponent<Props> = ({ locations }) => {
       <h1 className="mb-3 px-4 text-xl font-bold">My orders</h1>
 
       <Tabs defaultValue={OrderType.Active}>
-        <TabsList className="grid w-full grid-cols-2 bg-[#74748014]">
+        <TabsList className="bg-contrast-color-10 grid w-full grid-cols-2">
           <TabsTrigger value={OrderType.Active}>Active</TabsTrigger>
 
           <TabsTrigger value={OrderType.Finished}>Finished</TabsTrigger>

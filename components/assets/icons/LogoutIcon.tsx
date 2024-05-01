@@ -11,7 +11,7 @@ export default function LogoutIcon(props: React.ComponentProps<"svg">) {
     >
       <path
         d="M4.13135 13.8041H21.6954M21.6954 13.8041L14.8923 7.00098M21.6954 13.8041L14.8923 20.6072M23.4436 7.00098V20.6072"
-        stroke="black"
+        stroke="currentColor"
         strokeWidth="1.8"
         strokeLinecap="round"
         strokeLinejoin="round"

@@ -1,5 +1,4 @@
 import classNames from "classnames";
-import { useTheme } from "components/hooks/useTheme";
 import { ScrollContainer } from "components/product/components/ScrollContainer";
 import { Colors, DEFAULT_COLORS } from "components/product/constants";
 import { mapColorsToHexCode } from "components/product/utils";
@@ -19,12 +18,11 @@ export const ColorsBlock: FunctionComponent<Props> = ({
   setSelectedColor
 }) => {
   const mappedColors: MappedColor[] = mapColorsToHexCode(DEFAULT_COLORS);
-  const { hint_color } = useTheme();
 
   return (
     <div>
       <div className="py-3">
-        <p className={hint_color}>{`COLOR: ${selectedColor.toUpperCase()}`}</p>
+        <p className="text-hint-color">{`COLOR: ${selectedColor.toUpperCase()}`}</p>
       </div>
 
       <ScrollContainer>

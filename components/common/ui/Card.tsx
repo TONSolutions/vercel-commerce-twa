@@ -11,7 +11,7 @@ export const OverlayCard: FunctionComponent<Props> = ({ children, className }) =
   <div
     className={classNames(
       className,
-      "before:width-full relative z-10 flex w-full flex-col justify-between bg-bg_color before:absolute before:left-0 before:top-[-15px] before:h-4 before:w-full before:rounded-t-xl before:bg-bg_color"
+      "before:bg-color bg-color before:width-full relative z-10 flex w-full flex-col justify-between before:absolute before:left-0 before:top-[-15px] before:h-4 before:w-full before:rounded-t-xl"
     )}
   >
     {children}

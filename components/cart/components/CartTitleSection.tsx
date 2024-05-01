@@ -13,10 +13,10 @@ export const CartTitleSection = () => {
       <div className="flex">
         <h1 className="mr-2 font-bold">Your cart</h1>
 
-        <span className="text-hint_color">{`${itemsQuantity} items`}</span>
+        <span className="text-hint-color">{`${itemsQuantity} items`}</span>
       </div>
 
-      <Link className="text-link_color" onClick={handleClearCart}>
+      <Link className="text-link-color" onClick={handleClearCart}>
         Clear all
       </Link>
     </div>
