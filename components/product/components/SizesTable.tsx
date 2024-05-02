@@ -32,7 +32,9 @@ export const SizesTable = () => (
 
       <TableBody>
         <TableRow>
-          <SizesTableBodyCell className="bg-[#74748014] font-normal">Shoulder</SizesTableBodyCell>
+          <SizesTableBodyCell className="bg-contrast-color-10 font-normal">
+            Shoulder
+          </SizesTableBodyCell>
 
           <SizesTableBodyCell>41.5</SizesTableBodyCell>
 
@@ -50,7 +52,7 @@ export const SizesTable = () => (
         </TableRow>
 
         <TableRow>
-          <SizesTableBodyCell className="bg-[#74748014] font-normal">Bust</SizesTableBodyCell>
+          <SizesTableBodyCell className="bg-contrast-color-10 font-normal">Bust</SizesTableBodyCell>
 
           <SizesTableBodyCell>88</SizesTableBodyCell>
 
@@ -68,7 +70,9 @@ export const SizesTable = () => (
         </TableRow>
 
         <TableRow>
-          <SizesTableBodyCell className="bg-[#74748014] font-normal">Waist</SizesTableBodyCell>
+          <SizesTableBodyCell className="bg-contrast-color-10 font-normal">
+            Waist
+          </SizesTableBodyCell>
 
           <SizesTableBodyCell>73</SizesTableBodyCell>
 
@@ -86,7 +90,7 @@ export const SizesTable = () => (
         </TableRow>
 
         <TableRow>
-          <SizesTableBodyCell className=" bg-[#74748014] font-normal">Hip</SizesTableBodyCell>
+          <SizesTableBodyCell className="bg-contrast-color-10 font-normal">Hip</SizesTableBodyCell>
 
           <SizesTableBodyCell>88</SizesTableBodyCell>
 

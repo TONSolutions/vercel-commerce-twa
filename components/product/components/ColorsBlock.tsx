@@ -22,7 +22,7 @@ export const ColorsBlock: FunctionComponent<Props> = ({
   return (
     <div>
       <div className="py-3">
-        <p className="text-[#6D6D72]">{`COLOR: ${selectedColor.toUpperCase()}`}</p>
+        <p className="text-hint-color">{`COLOR: ${selectedColor.toUpperCase()}`}</p>
       </div>
 
       <ScrollContainer>

@@ -38,7 +38,7 @@ export const CheckoutPageShimmer: FunctionComponent<Props> = ({ title, isOrderPa
         {isOrderPage ? <Skeleton className="h-5 w-[97px]" /> : null}
       </div>
 
-      <div className="m-4 rounded-xl bg-bg_color">
+      <div className="bg-color m-4 rounded-xl">
         <CheckoutListShimmer elems={elems} />
 
         <TotalSectionShimmer />

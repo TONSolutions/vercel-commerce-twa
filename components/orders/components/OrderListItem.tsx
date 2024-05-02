@@ -49,7 +49,7 @@ export const OrderListItem: FunctionComponent<Props> = ({
   return (
     <Link href={Routes.Order.replace("/:id", prepareShopifyIdForUrl(id, "Order"))}>
       <Card className="mx-0">
-        <span className="text-sm text-[#6D6D72]">{headerText}</span>
+        <span className="text-hint-color text-sm">{headerText}</span>
 
         <div className="flex justify-between py-2">
           <div className="flex">
@@ -59,7 +59,7 @@ export const OrderListItem: FunctionComponent<Props> = ({
               <div>
                 <p className="text-lg font-medium">{title}</p>
 
-                <span className="text-sm text-[#8E8E93]">{subtitle}</span>
+                <span className="text-subtitle-color text-sm">{subtitle}</span>
               </div>
             ) : null}
           </div>

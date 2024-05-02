@@ -84,7 +84,7 @@ export const OrdersList: FunctionComponent<Props> = ({ orders, type, locations }
       </div>
 
       {type === OrderType.Active ? (
-        <p className="text-sm text-[#6D6D72]">
+        <p className="text-hint-color text-sm">
           When the order is ready for pickup, we will send a notification to you in chat.
         </p>
       ) : null}

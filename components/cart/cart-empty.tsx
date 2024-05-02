@@ -25,7 +25,7 @@ export const EmptyCartPage = () => {
       animation={animationData}
       title="Your cart is empty"
       subtitle="Explore our new products and bestsellers in the catalog."
-      wrapperClassName="bg-bg_color"
+      wrapperClassName="bg-color"
     />
   );
 };

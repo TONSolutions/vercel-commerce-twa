@@ -93,7 +93,7 @@ export const CheckoutProcessingPage: FunctionComponent<Props> = ({ amount }) => 
 
   return (
     <AnimationPage
-      wrapperClassName="bg-bg_color"
+      wrapperClassName="bg-color"
       title={title}
       subtitle={subtitle}
       animation={animation}

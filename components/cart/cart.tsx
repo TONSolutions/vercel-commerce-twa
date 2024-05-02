@@ -157,7 +157,7 @@ export const CartPage: FunctionComponent<Props> = ({ locations }) => {
 
   return (
     <>
-      <div className="min-h-screen bg-bg_color px-4 py-6">
+      <div className="bg-color min-h-screen px-4 py-6">
         <div className="flex flex-col gap-4">
           <BackButton />
 

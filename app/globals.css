@@ -24,4 +24,74 @@
     scrollbar-width: none;
     /* Firefox */
   }
+
+  /* TG Theme Colors */
+
+  /* Background */
+
+  .bg-color {
+    background-color: var(--tg-theme-bg-color);
+  }
+
+  .bg-color-70 {
+    background-color: rgb(from var(--tg-theme-bg-color) r g b / 70%);
+  }
+
+  .bg-color-header {
+    background-color: var(--tg-theme-header-bg-color);
+  }
+
+  .bg-color-header-15 {
+    background-color: rgb(from var(--tg-theme-header-bg-color) r g b / 15%);
+  }
+
+  .bg-color-secondary {
+    background-color: var(--tg-theme-secondary-bg-color);
+  }
+
+  .bg-button-color {
+    background-color: var(--tg-theme-button-color);
+  }
+
+  /* Text */
+
+  .text-color {
+    color: var(--tg-theme-text-color);
+  }
+
+  .text-hint-color {
+    color: var(--tg-theme-hint-color);
+  }
+
+  .text-link-color {
+    color: var(--tg-theme-link-color);
+  }
+
+  .text-subtitle-color {
+    color: var(--tg-theme-subtitle-text-color);
+  }
+
+  /* Custom TON Colors */
+
+  .bg-ton-accent-blue {
+    background-color: #007AFF;
+  }
+
+  .bg-ton-button-color {
+    background-color: #E5F1FF;
+  }
+
+  .text-ton-accent-blue {
+    color: #007AFF;
+  }
+
+  .bg-contrast-color-10 {
+    background-color: rgb(from var(--tg-theme-hint-color) r g b / 10%);
+  };
+
+  .bg-contrast-color-15 {
+    background-color: rgb(from var(--tg-theme-hint-color) r g b / 15%);
+  }
+
+
 }

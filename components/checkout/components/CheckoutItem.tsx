@@ -15,10 +15,10 @@ export const CheckoutItem: FunctionComponent<Props> = ({ imageUrl, title, option
       <div className="flex w-full max-w-[85%] flex-col">
         <p className="truncate">{title}</p>
 
-        <span className="text-sm text-hint_color">{options}</span>
+        <span className="text-hint-color text-sm">{options}</span>
       </div>
     </div>
 
-    <span className="self-center text-hint_color">{`${price} TON`}</span>
+    <span className="text-hint-color self-center">{`${price} TON`}</span>
   </div>
 );

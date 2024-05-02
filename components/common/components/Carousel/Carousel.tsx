@@ -55,7 +55,7 @@ export const Carousel: FunctionComponent<Props> = ({
       {withDots ? (
         <div
           className={classNames(
-            "absolute bottom-4 left-[50%] flex -translate-x-[50%] items-center justify-evenly gap-2 rounded-xl bg-[#FFFFFF26]",
+            "bg-color-header-15 absolute bottom-4 left-[50%] flex -translate-x-[50%] items-center justify-evenly gap-2 rounded-xl",
             dotsClassName
           )}
         >
@@ -63,9 +63,9 @@ export const Carousel: FunctionComponent<Props> = ({
             <DotButton
               key={index}
               onClick={() => onDotButtonClick(index)}
-              className={classNames("h-2 w-2 rounded-full", {
-                "bg-[#FFFFFF4D]": index !== selectedIndex,
-                "bg-[#FFFFFF]": index === selectedIndex
+              className={classNames("bg-color-header h-2 w-2 rounded-full", {
+                "opacity-30": index !== selectedIndex,
+                "opacity-100": index === selectedIndex
               })}
             />
           ))}

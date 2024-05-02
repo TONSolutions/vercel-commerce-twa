@@ -15,9 +15,9 @@ export const StatusBar: FunctionComponent<Props> = ({ status }) => {
 
   return (
     <>
-      <div className="relative my-1 h-3 w-full rounded-xl bg-[#74748014]">
+      <div className="bg-contrast-color-10 relative my-1 h-3 w-full rounded-xl">
         <span
-          className={classNames("absolute left-0 top-0 block h-3 rounded-xl bg-[#007AFF]", {
+          className={classNames("bg-ton-accent-blue absolute left-0 top-0 block h-3 rounded-xl", {
             [classNames("w-3", activePointClassName)]: status === OrderStatus.Created,
             [classNames("w-[50%]", activePointClassName, passedPointClassName)]:
               status === OrderStatus.Ready
@@ -28,11 +28,11 @@ export const StatusBar: FunctionComponent<Props> = ({ status }) => {
       <div className="flex justify-between text-sm">
         <span>Created</span>
 
-        <span className={classNames({ "text-[#6D6D72]": status === OrderStatus.Created })}>
+        <span className={classNames({ "text-hint-color": status === OrderStatus.Created })}>
           Ready for pickup
         </span>
 
-        <span className="text-[#6D6D72]">Delivered</span>
+        <span className="text-hint-color">Delivered</span>
       </div>
     </>
   );

@@ -34,23 +34,23 @@ export const MenuButton: FunctionComponent<Props> = ({
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="mr-2 flex w-max items-center gap-1 rounded-full bg-bg_color px-4 py-1">
-        <TonIcon className="h-8 w-8 w-full" />
+      <DropdownMenuTrigger className="bg-color mr-2 flex w-max items-center gap-1 rounded-full px-4 py-1">
+        <TonIcon className="h-8 w-full" />
 
         <span className="text-base font-semibold">{truncatedAddress}</span>
 
-        <ChevronDownIcon className="h-6 w-3 w-full" />
+        <ChevronDownIcon className="h-6 w-full" />
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
-        className="w-[250px] rounded-xl border-none bg-bg_color/70 bg-blend-overlay backdrop-blur-md"
+        className="bg-color-70 w-[250px] rounded-xl border-none bg-blend-overlay backdrop-blur-md"
         align="end"
       >
         <div className="relative flex items-center gap-4 px-4 py-3 hairline-b">
           <WalletIcon />
 
           <div className="flex w-[130px] flex-col">
-            <span className="text-sm text-[#8E8E93]">Balance</span>
+            <span className="text-subtitle-color text-sm">Balance</span>
 
             <div className="flex items-center">
               <TonIcon className="mr-[2px] h-[22px] w-[22px]" />

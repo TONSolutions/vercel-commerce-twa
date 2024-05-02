@@ -12,7 +12,7 @@ type Props = {
 const ColorsShimmer: FunctionComponent<Props> = ({ elems }) => (
   <div>
     <div className="py-3">
-      <p className="text-[#6D6D72]">COLOR</p>
+      <p className="text-hint-color">COLOR</p>
     </div>
 
     <ScrollContainer>
@@ -26,9 +26,9 @@ const ColorsShimmer: FunctionComponent<Props> = ({ elems }) => (
 const SizesShimmer: FunctionComponent<Props> = ({ elems }) => (
   <div>
     <div className="flex justify-between py-3">
-      <span className="text-[#6D6D72]">SIZE</span>
+      <span className="text-hint-color">SIZE</span>
 
-      <span className="text-[#007AFF]">SIZE GUIDE</span>
+      <span className="text-ton-accent-blue">SIZE GUIDE</span>
     </div>
 
     <ScrollContainer>

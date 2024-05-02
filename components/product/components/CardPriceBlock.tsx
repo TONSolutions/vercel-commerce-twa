@@ -25,7 +25,7 @@ export const CardPriceBlock: FunctionComponent<Props> = ({
         <span className={classNames("font-bold", tonPriceClassName)}>{priceInTon}</span>
       </div>
 
-      <span className="self-end p-1 text-sm text-hint_color">~${priceInUsd}</span>
+      <span className="text-hint-color self-end p-1 text-sm">~${priceInUsd}</span>
     </div>
   </motion.div>
 );

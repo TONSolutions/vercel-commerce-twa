@@ -19,10 +19,8 @@ export const CartItem: FunctionComponent<Props> = ({
   imageUrl,
   id
 }) => (
-  //TODO replace width with buttons
-
   <div className="flex gap-4">
-    <img src={imageUrl} className="h-16 w-16 rounded-xl" />
+    <img src={imageUrl} className="h-16 w-16 rounded-xl" alt={title} />
 
     <div className="flex w-full max-w-[55%] flex-col">
       <div className="flex items-center">
@@ -33,7 +31,7 @@ export const CartItem: FunctionComponent<Props> = ({
 
       <p className="truncate text-sm">{title}</p>
 
-      <span className="text-sm text-hint_color">{options}</span>
+      <span className="text-hint-color text-sm">{options}</span>
     </div>
 
     <ActionButtons quantity={quantity} id={id} />
